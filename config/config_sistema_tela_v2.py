@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version(namespace='Gtk', version='4.0')
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, Gio
 
 from geral.geral import Geral
 
@@ -19,6 +19,7 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         self.gr.meu_logger.info("inicio")
         self.set_title(title="Configuração")
         self.set_resizable(resizable=True)
+        self.montagem_headerbar()
 
         # self.set_decorated(setting=True)
         # self.set_modal(modal=True)
@@ -27,6 +28,29 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         self.montar_layout()
 
         self.present()
+
+    def montagem_headerbar(self):
+        # self.a.info("Montagem do header do menu principal")
+        self.gr.meu_logger.info("inicio")
+        headerbar = Gtk.HeaderBar.new()
+        headerbar.set_show_title_buttons(setting=True)
+        self.set_titlebar(titlebar=headerbar)
+
+        button1 = Gtk.Button.new_with_label(label='Salvar')
+        button1.set_icon_name(icon_name='document-save-symbolic')
+        button1.get_style_context().add_class(class_name='circular')
+        # Adicionando o menu no botão.
+        # menu_button.set_menu_model(menu)
+        headerbar.pack_start(child=button1)
+
+        button2 = Gtk.Button.new_with_label(label="Limpar")
+        button2.set_icon_name(icon_name='edit-clear-all-symbolic')
+        button2.get_style_context().add_class(class_name='circular')
+        # Adicionando o menu no botão.
+        # menu_button.set_menu_model(menu)
+        headerbar.pack_start(child=button2)
+
+        return headerbar
 
     def montar_layout(self):
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
