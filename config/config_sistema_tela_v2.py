@@ -54,9 +54,9 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
     def on_bt_ajudar_clicked(self, widget):
 
-        mensagem = "Altera as configurações do sistema"
+        menssage = "Altera as configurações do sistema"
 
-        PopoverHelp.open(self, pai=widget, mensagem=mensagem)
+        PopoverHelp.open(self, pai=widget,menssage = menssage)
 
     def montar_layout(self):
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
