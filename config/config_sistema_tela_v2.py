@@ -40,18 +40,19 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         self.set_child(child=vbox)
 
-    def montar_campos(self):
-        vbox1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        # vbox1.get_style_context().add_class(class_name='linked')
+    def _log_handler(self):
+        vbox_lh = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         checkbutton1 = Gtk.CheckButton.new_with_label(label='Mostrar log no Terminal')
         checkbutton1.set_active(setting=True)
-        vbox1.append(child=checkbutton1)
+        vbox_lh.append(child=checkbutton1)
 
         checkbutton2 = Gtk.CheckButton.new_with_label(label='Salvar log no Arquivo')
         checkbutton2.set_active(setting=True)
-        vbox1.append(child=checkbutton2)
+        vbox_lh.append(child=checkbutton2)
+        return vbox_lh
 
+    def _log_options(self):
         hboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         hboxf1.set_homogeneous(True)
         hboxf1.get_style_context().add_class(class_name='linked')
@@ -87,8 +88,9 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         frame1 = Gtk.Frame.new(label="Opções de log")
         frame1.set_child(hboxf1)
-        vbox1.append(child=frame1)
+        return frame1
 
+    def _log_entries(self):
         vboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         vboxf1.get_style_context().add_class(class_name='linked')
         vboxf1.set_margin_top(margin=12)
@@ -110,7 +112,15 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         entry2.get_style_context().add_class(class_name='regular')
         vboxf1.append(child=entry2)
 
-        vbox1.append(child=vboxf1)
+        return vboxf1
+
+    def montar_campos(self):
+        vbox1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        # vbox1.get_style_context().add_class(class_name='linked')
+
+        vbox1.append(self._log_handler())
+        vbox1.append(child=self._log_options())
+        vbox1.append(child=self._log_entries())
 
         return vbox1
         # vbox.append(child=vbox1)
