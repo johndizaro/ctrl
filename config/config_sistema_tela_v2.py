@@ -4,6 +4,7 @@ gi.require_version(namespace='Gtk', version='4.0')
 from gi.repository import Gtk, Gdk, Gio
 
 from geral.geral import Geral
+from widgets.popover_help.popover_help import PopoverHelp
 
 
 class ConfigSistemaScreen(Gtk.ApplicationWindow):
@@ -36,21 +37,26 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         headerbar.set_show_title_buttons(setting=True)
         self.set_titlebar(titlebar=headerbar)
 
-        button1 = Gtk.Button.new_with_label(label='Salvar')
-        button1.set_icon_name(icon_name='document-save-symbolic')
-        button1.get_style_context().add_class(class_name='circular')
-        # Adicionando o menu no botão.
-        # menu_button.set_menu_model(menu)
-        headerbar.pack_start(child=button1)
+        bt_salvar = Gtk.Button.new_with_label(label='Salvar')
+        bt_salvar.set_icon_name(icon_name='document-save-symbolic')
+        bt_salvar.get_style_context().add_class(class_name='suggested-action')
+        bt_salvar.set_tooltip_text(text="Salvar alterações")
+        headerbar.pack_start(child=bt_salvar)
 
-        button2 = Gtk.Button.new_with_label(label="Limpar")
-        button2.set_icon_name(icon_name='edit-clear-all-symbolic')
-        button2.get_style_context().add_class(class_name='circular')
-        # Adicionando o menu no botão.
-        # menu_button.set_menu_model(menu)
-        headerbar.pack_start(child=button2)
+        bt_ajudar = Gtk.Button.new_with_label(label='Ajudar')
+        bt_ajudar.set_icon_name(icon_name='help-browser-symbolic')
+        bt_ajudar.get_style_context().add_class(class_name='')
+        bt_ajudar.set_tooltip_text(text="Uma preve explicação sobre a tela")
+        bt_ajudar.connect('clicked', self.on_bt_ajudar_clicked)
+        headerbar.pack_end(child=bt_ajudar)
 
         return headerbar
+
+    def on_bt_ajudar_clicked(self, widget):
+
+        mensagem = "Altera as configurações do sistema"
+
+        PopoverHelp.open(self, pai=widget, mensagem=mensagem)
 
     def montar_layout(self):
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
