@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
+<cambalache-project version="0.10.3" target_tk="gtk-4.0">
+  <ui>
+	(1,None,"ctrl.ui","ctrl.ui",None,None,None,None,None,None),
+	(2,None,None,None,None,None,None,None,None,None)
+  </ui>
+  <object>
+	(1,1,"GtkWindow",None,None,None,None,None,None),
+	(1,2,"GtkBox",None,1,None,None,None,-1),
+	(1,3,"GtkStatusbar",None,2,None,None,None,2),
+	(1,4,"GtkHeaderBar",None,2,None,None,None,None),
+	(1,5,"GtkNotebook",None,2,None,None,None,1)
+  </object>
+  <object_property>
+	(1,1,"GtkWindow","icon-name","emblem-favorite",None,None,None,None,None),
+	(1,1,"GtkWindow","maximized","True",None,None,None,None,None),
+	(1,1,"GtkWindow","title","TITULO DA JANELA",None,None,None,None,None),
+	(1,2,"GtkOrientable","orientation","vertical",None,None,None,None,None),
+	(1,4,"GtkHeaderBar","show-title-buttons","False",None,None,None,None,None)
+  </object_property>
+</cambalache-project>

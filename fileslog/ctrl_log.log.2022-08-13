@@ -1,0 +1,66 @@
+INFO        logger:ctrl.desktop    2022-08-13 14:01:22,612   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:01:22,666   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:01:22,666   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:01:59,639   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:01:59,685   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:01:59,685   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:02:00,073   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:02:00,073   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:02:00,092   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:02:00,092   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:32,565   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:32,592   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:32,592   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:32,829   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:32,829   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:32,843   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:32,843   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:52,204   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:52,238   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:52,238   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:52,331   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:52,331   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:52,346   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:03:52,346   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:32,206   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:32,242   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:32,242   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:32,507   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:32,507   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:32,518   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:32,518   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:44,960   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:44,990   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:44,990   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:45,092   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:45,092   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:45,103   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:04:45,103   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:06:07,767   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:06:07,804   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:06:07,804   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:06:07,934   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:06:07,934   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:06:07,944   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:06:07,944   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:07:42,226   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:07:42,256   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:07:42,256   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:07:42,358   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:07:42,358   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:07:42,367   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:07:42,367   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:03,698   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:03,725   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:03,725   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:03,834   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:03,834   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:03,845   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:03,845   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:17,474   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:17,501   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:17,501   filename:menu_principal.py  módulo:menu_principal       função:__init__              mensagem:inicio da montagem da tela do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:17,617   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:17,617   filename:menu_principal.py  módulo:menu_principal       função:montagem_headerbar    mensagem:Montagem do header do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:17,627   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
+INFO        logger:ctrl.desktop    2022-08-13 14:08:17,627   filename:menu_principal.py  módulo:menu_principal       função:montagem_menu         mensagem:Montagem do menu principal
