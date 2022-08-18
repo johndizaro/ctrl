@@ -33,7 +33,6 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         # # desenha a janela
         self.montagem_janela()
         # # Criando headerbar.
-        self.montagem_headerbar()
 
     def on_dialog_question_response(self, widget, response_id):
         self.gr.meu_logger.info("inicio")
@@ -59,10 +58,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.maximize()
         self.set_resizable(resizable=False)
 
-        vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        vbox.set_homogeneous(homogeneous=True)
-        # Adicionando o box na janela principal.
-        self.set_child(child=vbox)
+        self.montagem_headerbar()
 
         self.present()
 
@@ -71,14 +67,15 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.gr.meu_logger.info("inicio")
         headerbar = Gtk.HeaderBar.new()
         headerbar.set_show_title_buttons(setting=True)
-
         self.set_titlebar(titlebar=headerbar)
-        self.montagem_menu(headerbar=headerbar)
+        menu_button = self.montagem_menu()
+        headerbar.pack_start(child=menu_button)
 
-    def montagem_menu(self, headerbar):
-        # self.ls.logger.info("Montagem do menu")
-        # self.a.info("Montagem do menu principal")
+        return headerbar
+
+    def montagem_menu(self):
         # Criando o menu principal.
+        self.gr.meu_logger.info("inicio")
         self.gr.meu_logger.info("inicio")
         menu = Gio.Menu.new()
         menu.append(label='Cadastro de Produto', detailed_action='win.cadastroprodudo')
@@ -128,7 +125,8 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         # Adicionando o menu no botão.
         menu_button.set_menu_model(menu)
         # Adicionando o botão no headerbar.
-        headerbar.pack_start(child=menu_button)
+        return menu_button
+        # headerbar.pack_start(child=menu_button)
 
     def on_configuracaosistema_clicked(self, widget, parameter):
         self.gr.meu_logger.info("inicio")
