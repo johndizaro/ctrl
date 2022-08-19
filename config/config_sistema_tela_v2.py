@@ -5,9 +5,13 @@ from gi.repository import Gtk, Gdk, Gio
 
 from geral.geral import Geral
 from widgets.popover_help.popover_help import PopoverHelp
+from widgets.dialogs.dialog_filechooser import DialogFilechooser
+from pathlib import Path
 
 
 class ConfigSistemaScreen(Gtk.ApplicationWindow):
+    home = Path.home()
+
     def __init__(self, pai):
         super(ConfigSistemaScreen, self).__init__()
         self.pai = pai
@@ -39,9 +43,15 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         bt_salvar = Gtk.Button.new_with_label(label='Salvar')
         bt_salvar.set_icon_name(icon_name='document-save-symbolic')
-        bt_salvar.get_style_context().add_class(class_name='suggested-action')
+        bt_salvar.get_style_context().add_class(class_name='destructive')
         bt_salvar.set_tooltip_text(text="Salvar alterações")
         headerbar.pack_start(child=bt_salvar)
+
+        bt_undor = Gtk.Button.new_with_label(label='Desfazer')
+        bt_undor.set_icon_name(icon_name='edit-undo')
+        bt_undor.get_style_context().add_class(class_name='suggested-action')
+        bt_undor.set_tooltip_text(text="Restaurar configuração na tela")
+        headerbar.pack_start(child=bt_undor)
 
         bt_ajudar = Gtk.Button.new_with_label(label='Ajudar')
         bt_ajudar.set_icon_name(icon_name='help-browser-symbolic')
@@ -54,9 +64,8 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
     def on_bt_ajudar_clicked(self, widget):
 
-        menssage = "Altera as configurações do sistema"
-
-        PopoverHelp.open(self, pai=widget,menssage = menssage)
+        message = "Altera as configurações do sistema"
+        PopoverHelp.open(self, pai=widget, message=message)
 
     def montar_layout(self):
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -71,6 +80,7 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         self.set_child(child=vbox)
 
     def _log_handler(self):
+
         vbox_lh = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         checkbutton1 = Gtk.CheckButton.new_with_label(label='Mostrar log no Terminal')
@@ -123,30 +133,39 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
     def _log_entries(self):
         vboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         vboxf1.get_style_context().add_class(class_name='linked')
-        vboxf1.set_margin_top(margin=12)
-        # vboxf1.set_margin_end(margin=12)
-        # vboxf1.set_margin_bottom(margin=12)
-        # vboxf1.set_margin_start(margin=12)
 
-        entry1 = Gtk.Entry.new()
-        entry1.set_text(text='Caminho para guardar os arquivos de logs')
-        entry1.get_style_context().add_class(class_name='regular')
-        entry1.set_icon_from_icon_name(
+        self.e_log_caminho_arquivo = Gtk.Entry.new()
+        self.e_log_caminho_arquivo.set_text(text='Caminho para guardar os arquivos de logs')
+        self.e_log_caminho_arquivo.get_style_context().add_class(class_name='regular')
+        self.e_log_caminho_arquivo.set_icon_from_icon_name(
             icon_pos=Gtk.EntryIconPosition.SECONDARY,
             icon_name='system-search-symbolic',
         )
-        vboxf1.append(child=entry1)
+        self.e_log_caminho_arquivo.connect('icon-press', self.on_e_log_caminho_arquivo_icon_press)
+        vboxf1.append(child=self.e_log_caminho_arquivo)
 
-        entry2 = Gtk.Entry.new()
-        entry2.set_text(text='Nome do aquivo de log')
-        entry2.get_style_context().add_class(class_name='regular')
-        vboxf1.append(child=entry2)
+        self.entry2 = Gtk.Entry.new()
+        self.entry2.set_text(text='Nome do aquivo de log')
+        self.entry2.get_style_context().add_class(class_name='regular')
+        vboxf1.append(child=self.entry2)
 
         return vboxf1
 
+    def on_e_log_caminho_arquivo_icon_press(self, Entry, EntryIconPosition):
+
+        print(f'Valor digitado no entry: {Entry.get_text()}')
+        if EntryIconPosition == Gtk.EntryIconPosition.SECONDARY:
+            self.dfc = DialogFilechooser(parent=self, titulo="Caminho para o Log")
+            self.dfc.connect('response', self.on_resposta_dialogfilechooser)
+        elif EntryIconPosition == Gtk.EntryIconPosition.PRIMARY:
+            print("primario")
+
+    def on_resposta_dialogfilechooser(self, widget, response_id):
+        caminho_selecionado = self.dfc.caminho_selecionado
+        self.e_log_caminho_arquivo.set_text(caminho_selecionado)
+
     def montar_campos(self):
-        vbox1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        # vbox1.get_style_context().add_class(class_name='linked')
+        vbox1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
 
         vbox1.append(self._log_handler())
         vbox1.append(child=self._log_options())
