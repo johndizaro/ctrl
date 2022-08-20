@@ -1,11 +1,13 @@
 import gi
 
 gi.require_version(namespace='Gtk', version='4.0')
-from gi.repository import Gtk,Gdk
+from gi.repository import Gtk, Gdk
 
 from geral.geral import Geral
 from widgets.popover_help.popover_help import PopoverHelp
 from widgets.dialogs.dialog_filechooser import DialogFilechooser
+from widgets.dialogs.dialog_informativ_v2 import DialogInformativ
+from config.config_sistema_v3 import ConfigSistema
 
 
 class ConfigSistemaScreen(Gtk.ApplicationWindow):
@@ -105,17 +107,35 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         # todo: salvar dados da tela no arquivo ini
         # validar campos
         # salvar dados
-        if self.validar_campos():
-            print("ok")
+        campos_validados_log_dic = self.validar_campos_log()
+        if not len(campos_validados_log_dic) == 0:
+            self.salvar_dados(campos_validados_dic=campos_validados_log_dic)
+            # todo: limpar tela
+            DialogInformativ(parent=self,titulo="Config.ini",titulo_mensagem="Gravação feita com sucesso",mensagem="Todas as informações estão ok")
         else:
-            print("nok")
+            DialogInformativ(parent=self, titulo="Config.ini", titulo_mensagem="Gravação não realizada",
+                             mensagem="Verifique os campos e tente de novo")
+    def salvar_dados(self, campos_validados_dic):
 
-    def validar_campos(self):
+        cs = ConfigSistema()
+
+        self.gr.meu_logger.info(f"loop para gravar dados do campos_validados_dic:{campos_validados_dic}")
+        for key,item in campos_validados_dic.items():
+            self.gr.meu_logger.info(f"indo gravar secao=LOG opcao={key},valor={item}")
+            cs.gravar_option(secao="LOG",opcao=key,valor=str(item))
+
+
+    def validar_campos_log(self):
         """
-        valida os campos se tudo estiver correto retornará True senão False
-        :return: Boolean
+        valida os campos se tudo estiver correto retornará um dicionario
+        com os dados caso contrario retornará um dicionario vazio
+        :return: dictionary
         """
         campos_ok = True
+        campos_validados_log_dic = dict()
+
+        campos_validados_log_dic['log_no_terminal'] = self._cb_log_terminal.get_active()
+        campos_validados_log_dic['log_no_arquivo'] = self._cb_log_arquivo.get_active()
 
         if len(str(self._e_log_caminho_arquivo.get_text())) == 0:
             self._e_log_caminho_arquivo.get_style_context().remove_class(class_name='regular')
@@ -124,25 +144,40 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         else:
             self._e_log_caminho_arquivo.get_style_context().remove_class(class_name='error')
             self._e_log_caminho_arquivo.get_style_context().add_class(class_name='regular')
+            campos_validados_log_dic['log_caminho_arquivo'] = self._e_log_caminho_arquivo.get_text()
 
         if len(str(self._e_log_nome_arquivo.get_text())) == 0:
             self._e_log_nome_arquivo.get_style_context().remove_class(class_name='regular')
-            self._e_log_nome_arquivo.get_style_context().add_class(class_name='warning')
+            self._e_log_nome_arquivo.get_style_context().add_class(class_name='error')
             campos_ok = False
         else:
-            self._e_log_nome_arquivo.get_style_context().remove_class(class_name='warning')
+            self._e_log_nome_arquivo.get_style_context().remove_class(class_name='error')
             self._e_log_nome_arquivo.get_style_context().add_class(class_name='regular')
+            campos_validados_log_dic['log_nome_arquivo'] = self._e_log_nome_arquivo.get_text()
 
-        # if campos_ok:
-        #     self._bt_salvar.set_sensitive(sensitive=True)
-        # else:
-        #     self._bt_salvar.set_sensitive(sensitive=False)
-        return  campos_ok
+        if self._tb_log_info.get_active():
+            campos_validados_log_dic['log_tipo'] = "INFO"
+        elif self._tb_log_debug.get_active():
+            campos_validados_log_dic['log_tipo'] = "DEBUG"
+        elif self._tb_log_error.get_active():
+            campos_validados_log_dic['log_tipo'] = "ERROR"
+        elif self._tb_log_warning.get_active():
+            campos_validados_log_dic['log_tipo'] = "WARNING"
+        elif self._tb_log_critical.get_active():
+            campos_validados_log_dic['log_tipo'] = "CRITICAL"
+
+        if not campos_ok:
+            campos_validados_log_dic = dict()
+
+        self.gr.meu_logger.info(f"Terminei - campos_validados_log_dic:{campos_validados_log_dic}")
+
+        return campos_validados_log_dic
+
 
     def on_bt_ajudar_clicked(self, widget):
-
         message = "Altera as configurações do sistema"
         PopoverHelp.open(self, pai=widget, message=message)
+
 
     def montar_layout(self):
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -156,8 +191,8 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         self.set_child(child=vbox)
 
-    def _log_handler(self):
 
+    def _log_handler(self):
         vbox_lh = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 
         self._cb_log_terminal = Gtk.CheckButton.new_with_label(label='Mostrar log no Terminal')
@@ -168,6 +203,7 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         self._cb_log_arquivo.set_active(setting=True)
         vbox_lh.append(child=self._cb_log_arquivo)
         return vbox_lh
+
 
     def _log_options(self):
         hboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -207,12 +243,25 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         frame1.set_child(hboxf1)
         return frame1
 
+
     def _log_entries(self):
         vboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        vboxf1.get_style_context().add_class(class_name='linked')
+        vboxf1.get_style_context().add_class(class_name='card')
+
+        lbe_log_caminho = Gtk.Label.new()
+        lbe_log_caminho.set_margin_top(margin=12)
+        lbe_log_caminho.set_margin_end(margin=12)
+        lbe_log_caminho.set_margin_start(margin=12)
+        lbe_log_caminho.set_xalign(0)
+        lbe_log_caminho.get_style_context().add_class(class_name='caption')
+        # lbe_log_caminho.get_style_context().add_class(class_name='linked')
+        lbe_log_caminho.set_markup(str="Caminho para guardar os arquivos de logs")
+        vboxf1.append(child=lbe_log_caminho)
 
         self._e_log_caminho_arquivo = Gtk.Entry.new()
-        self._e_log_caminho_arquivo.set_text(text='Caminho para guardar os arquivos de logs')
+        self._e_log_caminho_arquivo.set_margin_end(margin=12)
+        self._e_log_caminho_arquivo.set_margin_start(margin=12)
+        self._e_log_caminho_arquivo.set_text(text='')
         self._e_log_caminho_arquivo.get_style_context().add_class(class_name='regular')
         self._e_log_caminho_arquivo.set_icon_from_icon_name(
             icon_pos=Gtk.EntryIconPosition.SECONDARY,
@@ -221,15 +270,28 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         self._e_log_caminho_arquivo.connect('icon-press', self.on_e_log_caminho_arquivo_icon_press)
         vboxf1.append(child=self._e_log_caminho_arquivo)
 
+        lbe_e_log_nome_arquivo = Gtk.Label.new()
+        lbe_e_log_nome_arquivo.set_margin_top(margin=12)
+        lbe_e_log_nome_arquivo.set_margin_end(margin=12)
+        lbe_e_log_nome_arquivo.set_margin_start(margin=12)
+        lbe_e_log_nome_arquivo.set_xalign(0)
+        lbe_e_log_nome_arquivo.get_style_context().add_class(class_name='caption')
+        # lbe_e_log_nome_arquivo.get_style_context().add_class(class_name='linked')
+        lbe_e_log_nome_arquivo.set_markup(str="nome do aquivo de log")
+        vboxf1.append(child=lbe_e_log_nome_arquivo)
+
         self._e_log_nome_arquivo = Gtk.Entry.new()
-        self._e_log_nome_arquivo.set_text(text='Nome do aquivo de log')
+        self._e_log_nome_arquivo.set_margin_start(margin=12)
+        self._e_log_nome_arquivo.set_margin_end(margin=12)
+        self._e_log_nome_arquivo.set_margin_bottom(margin=12)
+        self._e_log_nome_arquivo.set_text(text='')
         self._e_log_nome_arquivo.get_style_context().add_class(class_name='regular')
         vboxf1.append(child=self._e_log_nome_arquivo)
 
         return vboxf1
 
-    def on_e_log_caminho_arquivo_icon_press(self, Entry, EntryIconPosition):
 
+    def on_e_log_caminho_arquivo_icon_press(self, Entry, EntryIconPosition):
         print(f'Valor digitado no entry: {Entry.get_text()}')
         if EntryIconPosition == Gtk.EntryIconPosition.SECONDARY:
             self._dfc = DialogFilechooser(parent=self, titulo="Caminho para o Log")
@@ -237,13 +299,14 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         elif EntryIconPosition == Gtk.EntryIconPosition.PRIMARY:
             print("primario")
 
-    def on_resposta_dialogfilechooser(self, widget, response_id):
 
+    def on_resposta_dialogfilechooser(self, widget, response_id):
         if self._dfc.caminho_selecionado:
             caminho_selecionado = self._dfc.caminho_selecionado
         else:
             caminho_selecionado = ""
         self._e_log_caminho_arquivo.set_text(caminho_selecionado)
+
 
     def montar_campos(self):
         vbox1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
