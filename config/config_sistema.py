@@ -1,7 +1,6 @@
 import os
-import sys
 import configparser
-
+from geral.geral import Geral
 
 class ConfigSistema:
     def __init__(self, config_nome="config.ini"):
@@ -18,9 +17,9 @@ class ConfigSistema:
         self._caminho_config = self.root_project
         self._config_caminho_nome = os.path.join(self._caminho_config, self._config_nome)
 
-        self._log_nome = "ctrl_log.log"
+        self._log_nome_arquivo = "ctrl_log.log"
         self._log_caminho = os.path.join(self.root_project, "fileslog")
-        self._log_caminho_nome = os.path.join(self._log_caminho, self._log_nome)
+        self._log_caminho_nome = os.path.join(self._log_caminho, self._log_nome_arquivo)
         self._log_format = '%%(levelname)-10s  logger:%%(name)-15s %%(asctime)s filename:%%(filename)s  módulo:%%(module)-20s função:%%(funcName)-20s  mensagem:%%(message)s'
         self._log_tipo_opts = """
 ##############################################################################
@@ -112,15 +111,15 @@ class ConfigSistema:
             self.dic_log['log_caminho'] = self._log_caminho
             self.gravar_option(secao='LOG', opcao='log_caminho', valor=self._log_caminho)
 
-        # log_nome = ctrl_log.log
+        # log_nome_arquivo = ctrl_log.log
         try:
-            log_nome = config.get(section='LOG', option='log_nome')
-            self.dic_log['log_nome'] = log_nome
-            self._log_nome = log_nome
+            log_nome_arquivo = config.get(section='LOG', option='log_nome_arquivo')
+            self.dic_log['log_nome_arquivo'] = log_nome_arquivo
+            self._log_nome_arquivo = log_nome_arquivo
         except:
-            config.set(section='LOG', option='log_nome', value=self._log_nome)
-            self.dic_log['log_nome'] = self._log_nome
-            self.gravar_option(secao='LOG', opcao='log_nome', valor=self._log_nome)
+            config.set(section='LOG', option='log_nome_arquivo', value=self._log_nome)
+            self.dic_log['log_nome_arquivo'] = self._log_nome_arquivo
+            self.gravar_option(secao='LOG', opcao='log_nome_arquivo', valor=self._log_nome)
 
         # log_tipo = WARNING
         try:
@@ -148,6 +147,8 @@ class ConfigSistema:
             self._config.write(configfile)
             # configfile.flush()
             configfile.close()
+
+
 
     def _carregar_paths(self):
 

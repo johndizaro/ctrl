@@ -1,7 +1,7 @@
 import sys
 
 from menu_principal import MenuPrincipal
-from config.config_sistema_v2 import ConfigSistema
+
 class Ctrl:
     def __init__(self):
         self.pode_entrar = False

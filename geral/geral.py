@@ -25,7 +25,10 @@ class Geral:
         :param log_dic: dicionario do log
         :return:
         """
-        cls.log_dic = log_dic
+        if len(cls.log_dic) == 0:
+            cls.log_dic = log_dic
+        else:
+            cls.log_dic.update(log_dic)
 
     @classmethod
     def salva_logger(cls,meu_logger):

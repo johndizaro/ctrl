@@ -2,10 +2,10 @@
 import os
 import gi
 
-from log.log_sistema_v2 import LogSistema
-from widgets.dialogs.dialog_informativ_v2 import DialogInformativ
-from config.config_sistema_tela_v2 import ConfigSistemaScreen
-from config.config_sistema_v3 import ConfigSistema
+from log.log_sistema import LogSistema
+from widgets.dialogs.dialog_informativ import DialogInformativ
+from config.config_sistema_tela import ConfigSistemaScreen
+from config.config_sistema import ConfigSistema
 # from config.config_sistema_v2 import ConfigSistema
 
 from gi.repository import Gio, Gtk

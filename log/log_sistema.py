@@ -24,7 +24,7 @@ class LogSistema:
                         log_ativar: True,
                         log_separar_por_data: True,
                         log_caminho: aa/aa/aa,
-                        log_nome: ctrllog.log,
+                        log_nome_arquivo: ctrllog.log,
                         log_format: %(asctime)s %(name)-12s %(levelname)-15s  módulo:%(module)-20s função:%(funcName)s  mensagem:%(message)s,
                         log_tipo: INFO
                         }
@@ -65,7 +65,7 @@ CRITICAL---->Erro sério, indicando que o probrama poderá não conseguir contin
         """
 
         file_handler = TimedRotatingFileHandler(filename=os.path.join(self._dic_log['log_caminho'],
-                                                                      self._dic_log['log_nome']),
+                                                                      self._dic_log['log_nome_arquivo']),
                                                 backupCount=5,
                                                 when='midnight')
 
