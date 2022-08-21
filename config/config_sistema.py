@@ -4,7 +4,7 @@ from geral.geral import Geral
 
 class ConfigSistema:
     def __init__(self, config_nome="config.ini"):
-        print("executei ConfigSistema __init__")
+        # print("executei ConfigSistema __init__")
         self.root_project = os.path.abspath(os.curdir)
         self.dic_log = dict()
         self.dic_paths = dict()

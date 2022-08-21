@@ -74,14 +74,13 @@ class DialogQuestionYesNo(Gtk.Dialog):
         if response == Gtk.ResponseType.YES:
             self.get_resposta1(valor=Gtk.ResponseType.YES)
             self.resposta1 = Gtk.ResponseType.YES
-            print('Botão YES pressionado')
-            print("response:" + str(response))
-
+            # print('Botão YES pressionado')
+            # print("response:" + str(response))
         elif response == Gtk.ResponseType.NO:
             self.resposta1 = Gtk.ResponseType.NO
             self.get_resposta1(valor=Gtk.ResponseType.NO)
-            print('Botão NO pressionado')
-            print("dialog_response -response:" + str(response))
+            # print('Botão NO pressionado')
+            # print("dialog_response -response:" + str(response))
 
         # widget.close()
         self.destroy()

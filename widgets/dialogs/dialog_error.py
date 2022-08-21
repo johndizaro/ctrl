@@ -57,7 +57,7 @@ class DialogError(Gtk.Dialog):
 
     def dialog_response(self, widget, response):
         # Verificando qual botão foi pressionado.
-        if response == Gtk.ResponseType.OK:
-            print('Botão OK pressionado')
+        # if response == Gtk.ResponseType.OK:
+        #     print('Botão OK pressionado')
             # self.resposta = response
         widget.close()

@@ -295,12 +295,12 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         return vboxf1
 
     def on_e_log_caminho_arquivo_icon_press(self, Entry, EntryIconPosition):
-        print(f'Valor digitado no entry: {Entry.get_text()}')
+        # print(f'Valor digitado no entry: {Entry.get_text()}')
         if EntryIconPosition == Gtk.EntryIconPosition.SECONDARY:
             self._dfc = DialogFilechooser(parent=self, titulo="Caminho para o Log")
             self._dfc.connect('response', self.on_resposta_dialogfilechooser)
-        elif EntryIconPosition == Gtk.EntryIconPosition.PRIMARY:
-            print("primario")
+        # elif EntryIconPosition == Gtk.EntryIconPosition.PRIMARY:
+        #     print("primario")
 
     def on_resposta_dialogfilechooser(self, widget, response_id):
         if self._dfc.caminho_selecionado:
