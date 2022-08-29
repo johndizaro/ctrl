@@ -53,7 +53,7 @@ class ConfigSistema:
         self._carregar_config()
 
     def _carregar_config(self):
-        self._carregar_paths()
+        # self._carregar_paths()
         self._carregar_log()
 
     def _carregar_log(self):
@@ -117,9 +117,9 @@ class ConfigSistema:
             self.dic_log['log_nome_arquivo'] = log_nome_arquivo
             self._log_nome_arquivo = log_nome_arquivo
         except:
-            config.set(section='LOG', option='log_nome_arquivo', value=self._log_nome)
+            config.set(section='LOG', option='log_nome_arquivo', value=self._log_nome_arquivo)
             self.dic_log['log_nome_arquivo'] = self._log_nome_arquivo
-            self.gravar_option(secao='LOG', opcao='log_nome_arquivo', valor=self._log_nome)
+            self.gravar_option(secao='LOG', opcao='log_nome_arquivo', valor=self._log_nome_arquivo)
 
         # log_tipo = WARNING
         try:
@@ -180,7 +180,7 @@ class ConfigSistema:
             # config.set(section='LOG', option='log_ativar', value='True')
             # config.set(section='LOG', option='log_separar_por_data', value='True')
             config.set(section='LOG', option='log_caminho', value=self._log_caminho)
-            config.set(section='LOG', option='log_nome', value='ctrl_log.log')
+            config.set(section='LOG', option='log_nome_arquivo', value='ctrl_log.log')
             config.set(section='LOG', option='log_format', value=self._log_format)
             config.set(section='LOG', option='log_tipo', value='WARNING')
             config.set(section='LOG', option=self._log_tipo_opts)
