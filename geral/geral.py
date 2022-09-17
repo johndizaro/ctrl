@@ -1,23 +1,26 @@
-
 class Geral:
     """
-    Esta classe é usada para quealgumas informações possa ser
+    Esta classe é usada para que algumas informações possa ser
     enchergado no projeto inteiro\n
 
     from geral.geral import Geral\n
     ...\n
     self.cf = ConfigSistema(pai=self)\n
     gr = Geral()\n
-    gr.salva_dic_log(self.cf.traz_dicionario_log())\n
+    gr.salva_dic_log(self.cf.dic_log())\n
     ...\n
     print(f"geral:{Geral.dic_log}")\n
     """
     log_dic = dict()
-    meu_logger = None
 
+    sistema_path = ""
+    config_nome = "config.ini"
+
+    meu_logger = None
 
     def __init__(self):
         pass
+
     @classmethod
     def salva_dic_log(cls, log_dic):
         """
@@ -25,16 +28,27 @@ class Geral:
         :param log_dic: dicionario do log
         :return:
         """
+
         if len(cls.log_dic) == 0:
             cls.log_dic = log_dic
         else:
             cls.log_dic.update(log_dic)
 
     @classmethod
-    def salva_logger(cls,meu_logger):
+    def salvar_sistema_path(cls, self, caminho):
+        """
+        Este methodo e um classmethod e deverá recever o caminho do config.ini
+        :param self:
+        :param caminho:
+        :return:
+        """
+        cls.sistema_path = caminho
+
+    @classmethod
+    def salva_logger(cls, meu_logger):
         """
         Este methodo e um classmethod  e deverá recebero logger do log
         :param meu_logger:
         :return:
         """
-        cls.meu_logger=meu_logger
+        cls.meu_logger = meu_logger

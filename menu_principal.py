@@ -1,4 +1,3 @@
-# import logging
 import os
 import gi
 
@@ -6,7 +5,6 @@ from log.log_sistema import LogSistema
 from widgets.dialogs.dialog_informativ import DialogInformativ
 from config.config_sistema_tela import ConfigSistemaScreen
 from config.config_sistema import ConfigSistema
-# from config.config_sistema_v2 import ConfigSistema
 
 from gi.repository import Gio, Gtk
 
@@ -154,15 +152,18 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 class MenuPrincipal(Gtk.Application):
 
     def __init__(self):
-        super().__init__(application_id='br.natorsc.Exemplo',
+        super().__init__(application_id='br.ctrl.johndizaro',
                          flags=Gio.ApplicationFlags.FLAGS_NONE)
 
-        self.cf = ConfigSistema(config_nome='config.ini')
+        # self.cf = ConfigSistema()
 
         self.gr = Geral()
-        self._ls = LogSistema(dic_log=self.cf.dic_log)
-        self.gr.salva_logger(meu_logger=self._ls.meu_logger(logger_name="ctrl.desktop"))
-        self.gr.salva_dic_log(self.cf.traz_dicionario_log())
+        # self.gr.salva_dic_log(self.cf.dic_log)
+
+        # self._ls = LogSistema(dic_log=self.cf.dic_log)
+
+
+        # self.gr.salva_logger(meu_logger=self._ls.meu_logger(logger_name="ctrl.desktop"))
 
         self.gr.meu_logger.info("inicio")
         self.gr.meu_logger.info(f"dicionario gr.log_dic:{self.gr.log_dic}")

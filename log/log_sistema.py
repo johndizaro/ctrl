@@ -3,7 +3,7 @@ import sys
 import logging
 import logging.config
 from logging.handlers import TimedRotatingFileHandler
-
+from pathlib import Path
 
 class LogSistema:
     """
@@ -63,8 +63,8 @@ CRITICAL---->Erro sério, indicando que o probrama poderá não conseguir contin
         Prepara um arquivo para receber a log
         :return:
         """
-
-        file_handler = TimedRotatingFileHandler(filename=os.path.join(self._dic_log['log_caminho'],
+        Path(self._dic_log['log_caminho_arquivo']).mkdir(parents=True, exist_ok=True)
+        file_handler = TimedRotatingFileHandler(filename=os.path.join(self._dic_log['log_caminho_arquivo'],
                                                                       self._dic_log['log_nome_arquivo']),
                                                 backupCount=5,
                                                 when='midnight')

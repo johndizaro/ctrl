@@ -41,11 +41,11 @@ class DialogFilechooser(Gtk.FileChooserDialog):
 
     def dialog_response(self, widget, response):
 
-        caminho = self.get_file()
-        self.arquivo_selecionado = caminho.get_basename()
-        self.caminho_selecionado = caminho.get_path()
-
         if response == Gtk.ResponseType.ACCEPT:
+            caminho = self.get_file()
+            self.arquivo_selecionado = caminho.get_basename()
+            self.caminho_selecionado = caminho.get_path()
+
             self.resposta = Gtk.ResponseType.ACCEPT
         elif response == Gtk.ResponseType.CANCEL:
             self.resposta = Gtk.ResponseType.CANCEL
