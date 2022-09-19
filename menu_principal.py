@@ -1,15 +1,15 @@
 import os
 import gi
 
-from log.log_sistema import LogSistema
+# from log.log_sistema import LogSistema
 from widgets.dialogs.dialog_informativ import DialogInformativ
 from config.config_sistema_tela import ConfigSistemaMain
-from config.config_sistema import ConfigSistema
+from widgets.sobre_sistema.sobre_sistema import SobreSistema
+from geral.geral import Geral
+# from config.config_sistema import ConfigSistema
 
 from gi.repository import Gio, Gtk
 
-from widgets.sobre_sistema.sobre_sistema import SobreSistema
-from geral.geral import Geral
 
 gi.require_version(namespace='Gtk', version='4.0')
 
@@ -44,6 +44,8 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         # self.ls.logger.info("saindo do sistema via do_shutdown")
         self.gr.meu_logger.info("inicio")
         Gtk.Application.do_shutdown(self)
+        Gtk.ApplicationWindow.register_window()
+        self.gr.meu_logger.info("finalizou")
 
     def do_startup(self):
         self.gr.meu_logger.info("inicio")
@@ -178,16 +180,19 @@ class MenuPrincipal(Gtk.Application):
         self.gr.meu_logger.info(f"dicionario gr.log_dic:{self.gr.log_dic}")
 
     def do_activate(self):
-        self.gr.meu_logger.info("executei do_activate")
+        self.gr.meu_logger.info("inicio")
 
         win = self.props.active_window
         if not win:
             win = MenuPrincipalScreen(application=self)
         win.present()
 
+        self.gr.meu_logger.info("executei")
+
     def do_startup(self):
-        self.gr.meu_logger.info("executei do_startup")
+        self.gr.meu_logger.info("inicio")
         Gtk.Application.do_startup(self)
+        self.gr.meu_logger.info("executei")
 
     def do_shutdown(self):
         """When shutdown, finalize database and logging systems."""
@@ -199,5 +204,6 @@ class MenuPrincipal(Gtk.Application):
         #
         # self.logger.info('Application quit normally.')
         # logging.shutdown()
-        self.gr.meu_logger.info("executei do_shutdown")
-        Gtk.Application.do_shutdown(self)
+        self.gr.meu_logger.info("inicio")
+        Gtk.ApplicationWindow.do_destroy()
+        self.gr.meu_logger.info("executei")
