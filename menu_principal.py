@@ -3,7 +3,7 @@ import gi
 
 from log.log_sistema import LogSistema
 from widgets.dialogs.dialog_informativ import DialogInformativ
-from config.config_sistema_tela import ConfigSistemaScreen
+from config.config_sistema_tela import ConfigSistemaMain
 from config.config_sistema import ConfigSistema
 
 from gi.repository import Gio, Gtk
@@ -54,7 +54,10 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
         self.set_title(title='Montagem de Preço')
         self.maximize()
-        self.set_resizable(resizable=False)
+
+
+
+        # self.set_resizable(resizable=False)
 
         self.montagem_headerbar()
 
@@ -65,7 +68,12 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.gr.meu_logger.info("inicio")
         headerbar = Gtk.HeaderBar.new()
         headerbar.set_show_title_buttons(setting=True)
+
+
+        # headerbar.get_style_context().add_class(class_name='windowtitle')
         self.set_titlebar(titlebar=headerbar)
+        # self.set_subtitle("AAAAA")
+
         menu_button = self.montagem_menu()
         headerbar.pack_start(child=menu_button)
 
@@ -73,7 +81,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
     def montagem_menu(self):
         # Criando o menu principal.
-        self.gr.meu_logger.info("inicio")
+
         self.gr.meu_logger.info("inicio")
         menu = Gio.Menu.new()
         menu.append(label='Cadastro de Produto', detailed_action='win.cadastroprodudo')
@@ -128,7 +136,8 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
     def on_configuracaosistema_clicked(self, widget, parameter):
         self.gr.meu_logger.info("inicio")
-        ConfigSistemaScreen(pai=self)
+        # ConfigSistemaScreen(pai=self)
+        ConfigSistemaMain(pai=self)
 
     def on_menu_sobreosistema_clicked(self, widget, parameter):
         SobreSistema(parent=self)

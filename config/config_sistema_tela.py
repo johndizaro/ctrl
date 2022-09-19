@@ -1,14 +1,16 @@
-from config.data_config_novo import DataConfig
+import gi
+
 from config.config_sistema import ConfigSistema
+from config.data_config_novo import DataConfig
 from geral.geral import Geral
 from widgets.dialogs.dialog_filechooser import DialogFilechooser
 from widgets.popover_help.popover_help import PopoverHelp
 
-import gi
-
 gi.require_version(namespace='Gtk', version='4.0')
-from gi.repository import Gtk
+gi.require_version(namespace='Adw', version='1')
+from gi.repository import Gtk, Adw
 
+Adw.init()
 
 class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
@@ -72,6 +74,7 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         # self.set_decorated(setting=True)
         # self.set_modal(modal=True)
+
         self.set_destroy_with_parent(setting=True)
         self.set_transient_for(parent=self._pai)
         self.set_resizable(resizable=False)
@@ -283,6 +286,9 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         # self._e_log_caminho_arquivo.connect('icon-press', self.on_e_log_caminho_arquivo_icon_press)
         # vboxf1.append(child=self._e_log_caminho_arquivo)
 
+        self.x = Adw.EntryRow()
+        vboxf1.append(child=self.x)
+
         self._l_log_caminho_arquivo = Gtk.Label(label=self._dc.get_log_caminho_arquivo_title(),
                                                 margin_top=10,
                                                 margin_end=10,
@@ -350,6 +356,25 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         return vbox1
         # vbox.append(child=vbox1)
+
+
+class ConfigSistemaMain(ConfigSistemaScreen):
+    def __init__(self, pai):
+        super().__init__(pai)
+
+        self._pai = pai
+
+    def do_activate(self):
+        win = self.props.active_window
+        if not win:
+            win = ConfigSistemaScreen(pai=self._pai)
+        win.present()
+
+    def do_startup(self):
+        Gtk.Application.do_startup(self)
+
+    def do_shutdown(self):
+        Gtk.Application.do_shutdown(self)
 
 # class ConfigSistemaTela(Gtk.Application):
 #     def __init__(self):
