@@ -7,10 +7,10 @@ from widgets.dialogs.dialog_filechooser import DialogFilechooser
 from widgets.popover_help.popover_help import PopoverHelp
 
 gi.require_version(namespace='Gtk', version='4.0')
-gi.require_version(namespace='Adw', version='1')
-from gi.repository import Gtk, Adw
-
-Adw.init()
+# gi.require_version(namespace='Adw', version='1')
+from gi.repository import Gtk
+#
+# Adw.init()
 
 class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
@@ -125,6 +125,8 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
     def on_bt_salvar_clicked(self, widget):
 
         campos_validados_log_dic = self.validar_campos_log()
+        self._gr.log_dic = campos_validados_log_dic
+
         if not len(campos_validados_log_dic) == 0:
             self._salvar_dados(campos_validados_dic=campos_validados_log_dic)
 
@@ -153,12 +155,16 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         :return: dictionary
         """
         campos_ok = True
+        dic_campos_log_validos = dic()
 
-        self._dc.log_no_terminal = self._cb_log_terminal.get_active()
-        self._dc.log_no_arquivo = self._cb_log_terminal.get_active()
+        # self._dc.log_no_terminal = self._cb_log_terminal.get_active()
+        # self._dc.log_no_arquivo = self._cb_log_arquivo.get_active()
+        dic_campos_log_validos['log_no_terminal'] = self._cb_log_terminal.get_active()
+        dic_campos_log_validos['log_no_arquivo'] = self._cb_log_arquivo.get_active()
 
         try:
-            self._dc.log_caminho_arquivo = str(self._e_log_caminho_arquivo.get_text())
+            dic_campos_log_validos['log_caminho_arquivo'] = str(self._e_log_caminho_arquivo.get_text())
+            # self._dc.log_caminho_arquivo = str(self._e_log_caminho_arquivo.get_text())
             self._l_log_caminho_arquivo.get_style_context().remove_class(class_name='error')
             self._e_log_caminho_arquivo.get_style_context().remove_class(class_name='error')
         except ValueError:
@@ -168,7 +174,8 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
             campos_ok = False
 
         try:
-            self._dc.log_nome_arquivo = str(self._e_log_caminho_arquivo.get_text())
+            dic_campos_log_validos['log_nome_arquivo'] = str(self._e_log_nome_arquivo.get_text())
+            self._dc.log_nome_arquivo = str(self._e_log_nome_arquivo.get_text())
             self._l_log_nome_arquivo.get_style_context().remove_class(class_name='error')
             self._e_log_nome_arquivo.get_style_context().remove_class(class_name='error')
         except ValueError:
@@ -178,19 +185,24 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
             campos_ok = False
 
         if self._tb_log_info.get_active():
-            self._dc.log_tipo = str("INFO")
+            # self._dc.log_tipo = str("INFO")
+            dic_campos_log_validos['log_tipo'] = str("INFO")
         elif self._tb_log_debug.get_active():
-            self._dc.log_tipo = str("DEBUG")
+            # self._dc.log_tipo = str("DEBUG")
+            dic_campos_log_validos['log_tipo'] = str("DEBUG")
         elif self._tb_log_error.get_active():
-            self._dc.log_tipo = str("ERROR")
+            # self._dc.log_tipo = str("ERROR")
+            dic_campos_log_validos['log_tipo'] = str("ERROR")
         elif self._tb_log_warning.get_active():
-            self._dc.log_tipo = str("WARNING")
+            # self._dc.log_tipo = str("WARNING")
+            dic_campos_log_validos['log_tipo'] = str("WARNING")
         elif self._tb_log_critical.get_active():
-            self._dc.log_tipo = str("CRITICAL")
+            # self._dc.log_tipo = str("CRITICAL")
+            dic_campos_log_validos['log_tipo'] = str("CRITICAL")
 
-        self._gr.meu_logger.info(f"Terminei - campos_validados_log_dic:{campos_validados_log_dic}")
+        self._gr.meu_logger.info(f"campos validados - campos_validados_log_dic:{self._dc.traz_dicionario_log()}")
 
-        if not campos_ok:
+        if campos_ok:
             return self._dc.traz_dicionario_log()
 
     def on_bt_ajudar_clicked(self, widget):
@@ -286,8 +298,7 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         # self._e_log_caminho_arquivo.connect('icon-press', self.on_e_log_caminho_arquivo_icon_press)
         # vboxf1.append(child=self._e_log_caminho_arquivo)
 
-        self.x = Adw.EntryRow()
-        vboxf1.append(child=self.x)
+
 
         self._l_log_caminho_arquivo = Gtk.Label(label=self._dc.get_log_caminho_arquivo_title(),
                                                 margin_top=10,

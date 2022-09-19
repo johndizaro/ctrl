@@ -1,4 +1,6 @@
 import os
+import sys
+
 import gi
 
 # from log.log_sistema import LogSistema
@@ -205,5 +207,5 @@ class MenuPrincipal(Gtk.Application):
         # self.logger.info('Application quit normally.')
         # logging.shutdown()
         self.gr.meu_logger.info("inicio")
-        Gtk.ApplicationWindow.do_destroy()
-        self.gr.meu_logger.info("executei")
+        sys.exit()
+        self.gr.meu_logger.error("executei após o sys.exit() e não deveria")
