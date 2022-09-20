@@ -1,19 +1,14 @@
 import os
-import sys
 
 import gi
-
-# from log.log_sistema import LogSistema
-from widgets.dialogs.dialog_informativ import DialogInformativ
-from config.config_sistema_tela import ConfigSistemaMain
-from widgets.sobre_sistema.sobre_sistema import SobreSistema
-from geral.geral import Geral
-# from config.config_sistema import ConfigSistema
-
+gi.require_version(namespace='Gtk', version='4.0')
 from gi.repository import Gio, Gtk
 
+from config.config_sistema_tela import ConfigSistemaMain
+from geral.geral import Geral
+from widgets.dialogs.dialog_informativ import DialogInformativ
+from widgets.sobre_sistema.sobre_sistema import SobreSistema
 
-gi.require_version(namespace='Gtk', version='4.0')
 
 
 # gi.require_version(namespace='Adw', version='1.0')
@@ -51,15 +46,14 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
     def do_startup(self):
         self.gr.meu_logger.info("inicio")
-        Gtk.Application.do_startup(self)
+        print("blablabla")
+        # Gtk.Application.do_startup(self)
 
     def montagem_janela(self):
         self.gr.meu_logger.info("inicio")
 
         self.set_title(title='Montagem de Preço')
         self.maximize()
-
-
 
         # self.set_resizable(resizable=False)
 
@@ -72,7 +66,6 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.gr.meu_logger.info("inicio")
         headerbar = Gtk.HeaderBar.new()
         headerbar.set_show_title_buttons(setting=True)
-
 
         # headerbar.get_style_context().add_class(class_name='windowtitle')
         self.set_titlebar(titlebar=headerbar)
@@ -129,7 +122,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.add_action(action=action_sobreosistema)
 
         # Botão que irá conter o menu.
-        menu_button = Gtk.MenuButton.new()
+        menu_button = Gtk.MenuButton()
         menu_button.set_icon_name(icon_name='open-menu-symbolic')
 
         # Adicionando o menu no botão.
@@ -175,7 +168,6 @@ class MenuPrincipal(Gtk.Application):
 
         # self._ls = LogSistema(dic_log=self.cf.dic_log)
 
-
         # self.gr.salva_logger(meu_logger=self._ls.meu_logger(logger_name="ctrl.desktop"))
 
         self.gr.meu_logger.info("inicio")
@@ -207,5 +199,6 @@ class MenuPrincipal(Gtk.Application):
         # self.logger.info('Application quit normally.')
         # logging.shutdown()
         self.gr.meu_logger.info("inicio")
-        sys.exit()
-        self.gr.meu_logger.error("executei após o sys.exit() e não deveria")
+        Gtk.Application.do_shutdown(self)
+        # sys.exit()
+        # self.gr.meu_logger.error("executei após o sys.exit() e não deveria")
