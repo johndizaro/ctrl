@@ -10,6 +10,8 @@ pip install vext
 pip install vext.gi
 pip install sqlalchemy
 pip istall mysql-connector-python
+pip install pandas
+#panda é um data frame muito poderoso
 
 pip install pydantic[email]
 # or
@@ -45,6 +47,8 @@ SHOW GRANTS;
 
 mysql -u johndizaro -p ---->johndizaro@localhost psw ao[D]t1snnMYSQL
 CREATE DATABASE orca;
+SHOW DATABASES;
+USE orca ---> orca é nome do banco de dados que vc quer usar
 exit
 
 

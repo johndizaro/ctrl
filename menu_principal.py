@@ -1,4 +1,5 @@
 import os
+import sys
 
 import gi
 gi.require_version(namespace='Gtk', version='4.0')
@@ -94,6 +95,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         utilitarios = Gio.Menu.new()
         utilitarios.append('Configuração do Sistema', 'win.configuracaosistema')
         utilitarios.append('Sobre o Sistema', 'win.sobreosistema')
+        utilitarios.append('Exit', 'win.exitsistema')
         menu.append_section(label='Utilitários', section=utilitarios)
 
         # Acões que serão realizadas pelos itens do menu.
@@ -121,6 +123,13 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         action_sobreosistema.connect('activate', self.on_menu_sobreosistema_clicked)
         self.add_action(action=action_sobreosistema)
 
+
+
+        action_exitsistema = Gio.SimpleAction.new(name='exitsistema', parameter_type=None)
+        action_exitsistema.connect('activate', self.on_menu_exitsistema_clicked)
+        self.add_action(action=action_exitsistema)
+
+
         # Botão que irá conter o menu.
         menu_button = Gtk.MenuButton()
         menu_button.set_icon_name(icon_name='open-menu-symbolic')
@@ -138,6 +147,14 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
     def on_menu_sobreosistema_clicked(self, widget, parameter):
         SobreSistema(parent=self)
+
+    def on_menu_exitsistema_clicked(self, widget, parameter):
+        # close the full system
+        sys.exit()
+
+
+
+
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,
@@ -189,7 +206,21 @@ class MenuPrincipal(Gtk.Application):
         self.gr.meu_logger.info("executei")
 
     def do_shutdown(self):
-        """When shutdown, finalize database and logging systems."""
+
+        """
+                Handler for the "quit" signal.
+                Destroys all application windows.
+                In consequence, GTK will terminate the application.
+                """
+        for win in self.get_windows():
+            win.emit("close-request")
+
+        # as proximas linhas são usada para fechar uma(1) tela
+        # close the window
+        # app = self.get_application()
+        # app.remove_window(self)
+
+        # """When shutdown, finalize database and logging systems."""
         # self.logger.info('Shutting down database...')
         # SQLSession.commit()
         # SQLSession.close()
@@ -198,7 +229,7 @@ class MenuPrincipal(Gtk.Application):
         #
         # self.logger.info('Application quit normally.')
         # logging.shutdown()
-        self.gr.meu_logger.info("inicio")
-        Gtk.Application.do_shutdown(self)
+        # self.gr.meu_logger.info("inicio")
+        # Gtk.Application.do_shutdown(self)
         # sys.exit()
         # self.gr.meu_logger.error("executei após o sys.exit() e não deveria")
