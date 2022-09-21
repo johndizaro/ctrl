@@ -13,6 +13,9 @@ pip istall mysql-connector-python
 pip install pandas
 #panda é um data frame muito poderoso
 
+pip install pymysql # driver do banco mysql
+
+
 pip install pydantic[email]
 # or
 pip install pydantic[dotenv]

@@ -2,6 +2,7 @@ import os
 import sys
 
 import gi
+
 gi.require_version(namespace='Gtk', version='4.0')
 from gi.repository import Gio, Gtk
 
@@ -9,7 +10,6 @@ from config.config_sistema_tela import ConfigSistemaMain
 from geral.geral import Geral
 from widgets.dialogs.dialog_informativ import DialogInformativ
 from widgets.sobre_sistema.sobre_sistema import SobreSistema
-
 
 
 # gi.require_version(namespace='Adw', version='1.0')
@@ -123,12 +123,9 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         action_sobreosistema.connect('activate', self.on_menu_sobreosistema_clicked)
         self.add_action(action=action_sobreosistema)
 
-
-
         action_exitsistema = Gio.SimpleAction.new(name='exitsistema', parameter_type=None)
         action_exitsistema.connect('activate', self.on_menu_exitsistema_clicked)
         self.add_action(action=action_exitsistema)
-
 
         # Botão que irá conter o menu.
         menu_button = Gtk.MenuButton()
@@ -151,10 +148,6 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
     def on_menu_exitsistema_clicked(self, widget, parameter):
         # close the full system
         sys.exit()
-
-
-
-
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,
