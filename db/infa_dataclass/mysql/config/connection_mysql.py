@@ -10,7 +10,6 @@ class DBConnectionHandler:
         self.__database = 'orca'
         self.__port = 3306
 
-
         self.__conn = None
         self.__dic_cur = dict()
         # self.__connection_string = 'mysql+pymysql://root:aoDt1snnMYSQL@localhost:3306/orca'
@@ -49,9 +48,8 @@ class DBConnectionHandler:
         # #     self.__open_connection()
         # else:
         self.__open_connection()
-            # if not self.__conn.is_connected:
+        # if not self.__conn.is_connected:
         self.__dic_cur = self.__conn.cursor(buffered=True, dictionary=True)
-
 
         self.__dic_cur.execute(query)
 
@@ -63,11 +61,9 @@ class DBConnectionHandler:
         if self.__conn.is_connected():
             self.__conn.close()
 
-
     # def __exit__(self, exc_type, exc_val, exc_tb):
     #     print("exit")
     #     self.__conn.close()
-
 
 # if __name__ == '__main__':
 #     x = DBConnectionHandler()

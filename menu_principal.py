@@ -3,6 +3,8 @@ import sys
 
 import gi
 
+from db.infa_dataclass.mysql.entities.unidade_medida import UnidadeMedida
+
 gi.require_version(namespace='Gtk', version='4.0')
 from gi.repository import Gio, Gtk
 
@@ -108,7 +110,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.add_action(action=action_cadastrodeitensdoproduto)
 
         action_unidadedemedida = Gio.SimpleAction.new(name='unidadedemedida', parameter_type=None)
-        action_unidadedemedida.connect('activate', self.on_menu_item_clicked)
+        action_unidadedemedida.connect('activate', self.on_menu_unidadedemedida_clicked)
         self.add_action(action=action_unidadedemedida)
 
         action_convercaodeunidadedemedida = Gio.SimpleAction.new(name='convercaodeunidadedemedida', parameter_type=None)
@@ -148,6 +150,11 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
     def on_menu_exitsistema_clicked(self, widget, parameter):
         # close the full system
         sys.exit()
+
+    def on_menu_unidadedemedida_clicked(self,widget, parameter):
+
+        um1 = UnidadeMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
+        print(um1)
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,
