@@ -4,6 +4,7 @@ import sqlite3
 from dataclasses import dataclass, field, astuple, asdict
 
 
+
 @dataclass(order=True)
 class UnidadeMedidaData:
     """
