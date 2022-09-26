@@ -267,8 +267,6 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         return vbox_lh
 
-
-
     def _log_options(self):
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         vbox.get_style_context().add_class(class_name='card')
@@ -279,34 +277,31 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         vbox.append(child=listbox)
 
         self._tb_log_debug = Gtk.CheckButton()
-        self._tb_log_debug.set_group(self._tb_log_debug)
+        self._tb_log_debug.set_group(group=None)
         self._tb_log_debug.set_active(True)
-        # vbox.append(child=self._tb_log_debug)
 
         _tb_log_debug = Adw.ActionRow.new()
         _tb_log_debug.set_icon_name(icon_name='computer-fail')
         _tb_log_debug.set_title(title="DEBUG")
-        _tb_log_debug.set_subtitle(subtitle='Informações detalhadas, interece tipicamente somente quando for diagnosticar problemas')
+        _tb_log_debug.set_subtitle(
+            subtitle='Informações detalhadas, interece tipicamente somente quando for diagnosticar problemas')
         _tb_log_debug.add_suffix(widget=self._tb_log_debug)
         listbox.append(child=_tb_log_debug)
 
-
         self._tb_log_warning = Gtk.CheckButton()
-        self._tb_log_warning.set_group(self._tb_log_debug)
-        self._tb_log_warning.set_active(False)
-        # vbox.append(child=self._tb_log_debug)
+        self._tb_log_warning.set_group(group=self._tb_log_debug)
+
 
         _tb_log_warning = Adw.ActionRow.new()
         _tb_log_warning.set_icon_name(icon_name='dialog-warning-symbolic')
         _tb_log_warning.set_title(title="WARNING")
-        _tb_log_warning.set_subtitle(subtitle='Uma indicação que alguma coisa inesperada aconteceu\n indicativo que de algum problema num furuto próximo')
+        _tb_log_warning.set_subtitle(
+            subtitle='Uma indicação que alguma coisa inesperada aconteceu\n indicativo que de algum problema num furuto próximo')
         _tb_log_warning.add_suffix(widget=self._tb_log_warning)
         listbox.append(child=_tb_log_warning)
 
-
         self._tb_log_info = Gtk.CheckButton()
-        self._tb_log_info.set_group(self._tb_log_debug)
-        # self._tb_log_info.set_active(is_active=True)
+        self._tb_log_info.set_group(group=self._tb_log_debug)
 
         _tb_log_info = Adw.ActionRow.new()
         _tb_log_info.set_icon_name(icon_name='dialog-information-symbolic')
@@ -315,33 +310,29 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         _tb_log_info.add_suffix(widget=self._tb_log_info)
         listbox.append(child=_tb_log_info)
 
-
         self._tb_log_error = Gtk.CheckButton()
-        self._tb_log_error.set_group(self._tb_log_debug)
-        # self._tb_log_info.set_active(is_active=True)
+        self._tb_log_error.set_group(group=self._tb_log_debug)
 
         _tb_log_error = Adw.ActionRow.new()
         _tb_log_error.set_icon_name(icon_name='dialog-error-symbolic')
         _tb_log_error.set_title(title="ERROR")
-        _tb_log_error.set_subtitle(subtitle='Por causa de problemas mais sérios, o software não é capas de executar algumas funções')
+        _tb_log_error.set_subtitle(
+            subtitle='Por causa de problemas mais sérios, o software não é capas de executar algumas funções')
         _tb_log_error.add_suffix(widget=self._tb_log_error)
         listbox.append(child=_tb_log_error)
 
         self._tb_log_critical = Gtk.CheckButton()
-        self._tb_log_critical.set_group(self._tb_log_debug)
-        # self._tb_log_info.set_active(is_active=True)
+        self._tb_log_critical.set_group(group=self._tb_log_debug)
 
         _tb_log_critical = Adw.ActionRow.new()
         _tb_log_critical.set_icon_name(icon_name='face-worried')
         _tb_log_critical.set_title(title="CRÍTICO")
-        _tb_log_critical.set_subtitle(subtitle='Erro sério, indicando que o probrama poderá não conseguir continuar executando')
+        _tb_log_critical.set_subtitle(
+            subtitle='Erro sério, indicando que o probrama poderá não conseguir continuar executando')
         _tb_log_critical.add_suffix(widget=self._tb_log_critical)
         listbox.append(child=_tb_log_critical)
 
         return vbox
-
-
-
 
     #
     # def _log_options(self):
