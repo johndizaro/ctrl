@@ -18,7 +18,7 @@ class SobreSistema:
 
     def __init__(self, parent):
 
-        print(f"geral sobre o sistema :{Geral.dic_log}")
+
         self.x = Gtk.AboutDialog()
 
         self.parent = parent
@@ -32,17 +32,17 @@ class SobreSistema:
         self.x.set_comments("Sistema de montagem de preço")
 
         # colocar logo no aboutdialog
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file(
-            "/home/john/Documentos/sistemas/python/desktop/gtk4/ctrl/icons/mensagem_informativo_mod1.png")
-        texture = Gdk.Texture.new_for_pixbuf(pixbuf)
-        self.x.set_logo(texture)
+        # pixbuf = GdkPixbuf.Pixbuf.new_from_file(
+        #     "/home/john/Documentos/sistemas/python/desktop/gtk4/ctrl/icons/mensagem_informativo_mod1.png")
+        # texture = Gdk.Texture.new_for_pixbuf(pixbuf)
+        # self.x.set_logo(texture)
         # --------------------------
 
         version = '{}.{}.{}'.format("ALPHA", "0", 1)
         self.x.set_version(version)
 
         # dlg.set_website(common.HOMEPAGE)
-        self.x.set_authors(["John Evan Dizaro (Desenvolvedor) <johndizarociz@gmail.com>", ])
+        self.x.set_authors(["John Evan Dizaro (Desenvolvedor) <johndizaro@gmail.com>", ])
 
         self.x.show()
 

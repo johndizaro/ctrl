@@ -5,7 +5,7 @@ from geral.geral import Geral
 
 
 @dataclass
-class UnidadeMedida:
+class EntityUnidaMedida:
     """ classe para guardar unidades de medida"""
 
     um_id: int
@@ -76,7 +76,7 @@ class UnidadeMedida:
         else:
             raise ValueError(f'{key}: {value} não é um arquivo válido')
 
-# um1 = UnidadeMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
+# um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
 # print(um1)
-# um2 = UnidadeMedida(um_id=1)
+# um2 = EntityUnidaMedida(um_id=1)
 # print(um1)

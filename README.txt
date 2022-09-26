@@ -55,3 +55,14 @@ USE orca ---> orca é nome do banco de dados que vc quer usar
 exit
 
 
+Como ativar o Gtk inspector
+
+Para poder utilizar o Gtk inspector com aplicativos que utilizam um sistema de empacotamento tradicional (deb, rpm, etc), abra um terminal e digite o seguinte comando:
+
+gsettings set org.gtk.Settings.Debug enable-inspector-keybinding true
+
+Para utilizar a depuração interativa, abra um aplicativo GTK e pressione as telas de atalho
+
+Ctrl + Shift + d ou Ctrl + Shift + i.
+
+

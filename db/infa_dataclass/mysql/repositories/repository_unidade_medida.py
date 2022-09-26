@@ -1,7 +1,7 @@
 from db.infa_dataclass.mysql.config.connection_mysql import DBConnectionHandler
 
 
-class UnidaMedidaRepository:
+class RepositoryUnidaMedida:
 
     def select_one(self, id):
         cnx = DBConnectionHandler()
@@ -60,7 +60,7 @@ class UnidaMedidaRepository:
         return qt_registros
 
 
-umr = UnidaMedidaRepository()
+umr = RepositoryUnidaMedida()
 # registros = umr.select_one(id=1)
 # if registros:
 #     for registro in registros:
