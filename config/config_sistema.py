@@ -1,6 +1,6 @@
 from pathlib import Path,PurePosixPath
 import configparser
-from config.data_config_novo import DataConfig
+from config.data_config import DataConfig
 from geral.geral import Geral
 
 
@@ -13,10 +13,7 @@ class ConfigSistema:
         self._dic_log = self._dc.traz_dicionario_log()
         self._dic_paths = dict()
 
-        self._dc.config_caminho = Geral.sistema_path
-        self._caminho_config = Geral.sistema_path
-        self._config_nome_arquivo = Geral.config_nome
-        self._config_caminho_nome_arquivo = PurePosixPath(self._caminho_config).joinpath(self._config_nome_arquivo)
+        self._config_caminho_nome_arquivo = Geral.monta_caminho_e_nome_config()
 
         #         self._log_tipo_opts = """
         # ##############################################################################
@@ -32,21 +29,10 @@ class ConfigSistema:
         # """
         self._ler_config()
 
-    # def traz_dicionario_log(self):
-    #     return self.dic_log
-
     def _ler_config(self):
-        self._tem_arquivo_config()
-
-    def _tem_arquivo_config(self):
 
         if not Path(self._config_caminho_nome_arquivo).exists():
             self._criar_arquivo_config()
-
-        # self._config = configparser.ConfigParser(interpolation=None)
-        # self._config.read(filenames=self._config_caminho_nome_arquivo)
-
-        self._carregar_paths()
         self._carregar_log()
 
     def _carregar_log(self):
@@ -104,9 +90,6 @@ class ConfigSistema:
             config.write(configfile)
             # configfile.flush()
             configfile.close()
-
-    def _carregar_paths(self):
-        pass
 
     def _criar_arquivo_config(self):
         config = configparser.ConfigParser(allow_no_value=True, interpolation=None)

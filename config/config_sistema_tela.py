@@ -1,9 +1,11 @@
+import configparser
+
 import gi
 
-from config.config_sistema import ConfigSistema
-from config.data_config_novo import DataConfig
+from config.data_config import DataConfig
 from geral.geral import Geral
 from widgets.dialogs.dialog_filechooser import DialogFilechooser
+from widgets.dialogs.dialog_informativ import DialogInformativ
 from widgets.popover_help.popover_help import PopoverHelp
 
 gi.require_version(namespace='Gtk', version='4.0')
@@ -30,6 +32,9 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         self._colocar_dados_tela()
 
     def _colocar_dados_tela(self):
+
+        self._dc = DataConfig()
+
 
         if 'log_no_terminal' in self._gr.log_dic.keys():
             self._cb_log_terminal.set_active(self._gr.log_dic['log_no_terminal'])
@@ -126,6 +131,8 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
     def on_bt_salvar_clicked(self, widget):
 
         campos_validados_log_dic = self.validar_campos_log()
+        self._gr.meu_logger.info(f"campos_validados_log_dic:{campos_validados_log_dic}")
+
         self._gr.log_dic = campos_validados_log_dic
 
         if not len(campos_validados_log_dic) == 0:
@@ -136,18 +143,23 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
             self._limpar_tela()
             DialogInformativ(parent=self, titulo="Config.ini", titulo_mensagem="Gravação feita com sucesso",
                              mensagem="Todas as informações estão ok")
+            self._colocar_dados_tela()
         else:
             DialogInformativ(parent=self, titulo="Config.ini", titulo_mensagem="Gravação não realizada",
                              mensagem="Verifique os campos e tente de novo")
 
     def _salvar_dados(self, campos_validados_dic):
 
-        cs = ConfigSistema()
+        # cs = ConfigSistema()
 
-        self._gr.meu_logger.info(f"loop para gravar dados do campos_validados_dic:{campos_validados_dic}")
-        for key, item in campos_validados_dic.items():
-            self._gr.meu_logger.info(f"indo gravar secao=LOG opcao={key},valor={item}")
-            cs.gravar_option(secao="LOG", opcao=key, valor=str(item))
+        config = configparser.ConfigParser(interpolation=None)
+        config.read(filenames=self._gr.monta_caminho_e_nome_config())
+        for key, value in campos_validados_dic.items():
+            config.set(section="LOG", option=key, value=str(value))
+        with open(self._gr.monta_caminho_e_nome_config(), 'w') as configfile:
+            config.write(configfile)
+            # configfile.flush()
+            configfile.close()
 
     def validar_campos_log(self):
         """
@@ -156,15 +168,19 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         :return: dictionary
         """
         campos_ok = True
-        dic_campos_log_validos = dic()
+        # dic_campos_log_validos = dict()
 
-        # self._dc.log_no_terminal = self._cb_log_terminal.get_active()
-        # self._dc.log_no_arquivo = self._cb_log_arquivo.get_active()
-        dic_campos_log_validos['log_no_terminal'] = self._cb_log_terminal.get_active()
-        dic_campos_log_validos['log_no_arquivo'] = self._cb_log_arquivo.get_active()
+        original_DataConfig = self._dc
+
+        # dic_campos_log_validos['log_no_terminal'] = self._cb_log_terminal.get_active()
+        # dic_campos_log_validos['log_no_arquivo'] = self._cb_log_arquivo.get_active()
+
+        self._dc.log_no_terminal = self._cb_log_terminal.get_active()
+        self._dc.log_no_arquivo = self._cb_log_arquivo.get_active()
 
         try:
-            dic_campos_log_validos['log_caminho_arquivo'] = str(self._e_log_caminho_arquivo.get_text())
+            # dic_campos_log_validos['log_caminho_arquivo'] = str(self._e_log_caminho_arquivo.get_text())
+            self._dc.log_caminho_arquivo = str(self._e_log_caminho_arquivo.get_text())
             # self._dc.log_caminho_arquivo = str(self._e_log_caminho_arquivo.get_text())
             self._l_log_caminho_arquivo.get_style_context().remove_class(class_name='error')
             self._e_log_caminho_arquivo.get_style_context().remove_class(class_name='error')
@@ -175,7 +191,7 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
             campos_ok = False
 
         try:
-            dic_campos_log_validos['log_nome_arquivo'] = str(self._e_log_nome_arquivo.get_text())
+            # dic_campos_log_validos['log_nome_arquivo'] = str(self._e_log_nome_arquivo.get_text())
             self._dc.log_nome_arquivo = str(self._e_log_nome_arquivo.get_text())
             self._l_log_nome_arquivo.get_style_context().remove_class(class_name='error')
             self._e_log_nome_arquivo.get_style_context().remove_class(class_name='error')
@@ -187,24 +203,31 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         if self._tb_log_info.get_active():
             # self._dc.log_tipo = str("INFO")
-            dic_campos_log_validos['log_tipo'] = str("INFO")
+            # dic_campos_log_validos['log_tipo'] = str("INFO")
+            self._dc.log_tipo = str("INFO")
         elif self._tb_log_debug.get_active():
             # self._dc.log_tipo = str("DEBUG")
-            dic_campos_log_validos['log_tipo'] = str("DEBUG")
+            # dic_campos_log_validos['log_tipo'] = str("DEBUG")
+            self._dc.log_tipo = str("DEBUG")
         elif self._tb_log_error.get_active():
             # self._dc.log_tipo = str("ERROR")
-            dic_campos_log_validos['log_tipo'] = str("ERROR")
+            # dic_campos_log_validos['log_tipo'] = str("ERROR")
+            self._dc.log_tipo = str("ERROR")
         elif self._tb_log_warning.get_active():
             # self._dc.log_tipo = str("WARNING")
-            dic_campos_log_validos['log_tipo'] = str("WARNING")
+            # dic_campos_log_validos['log_tipo'] = str("WARNING")
+            self._dc.log_tipo = str("WARNING")
         elif self._tb_log_critical.get_active():
             # self._dc.log_tipo = str("CRITICAL")
-            dic_campos_log_validos['log_tipo'] = str("CRITICAL")
+            # dic_campos_log_validos['log_tipo'] = str("CRITICAL")
+            self._dc.log_tipo = str("CRITICAL")
 
         self._gr.meu_logger.info(f"campos validados - campos_validados_log_dic:{self._dc.traz_dicionario_log()}")
 
         if campos_ok:
             return self._dc.traz_dicionario_log()
+        else:
+            return dict()
 
     def on_bt_ajudar_clicked(self, widget):
         message = "Altera as configurações do sistema"
@@ -222,17 +245,6 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         self.set_child(child=vbox)
 
-    # def _log_handler(self):
-    #     vbox_lh = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-    #
-    #     self._cb_log_terminal = Gtk.CheckButton.new_with_label(label=self._dc.get_log_no_terminal_title())
-    #     self._cb_log_terminal.set_active(setting=True)
-    #     vbox_lh.append(child=self._cb_log_terminal)
-    #
-    #     self._cb_log_arquivo = Gtk.CheckButton.new_with_label(label=self._dc.get_log_no_arquivo_title())
-    #     self._cb_log_arquivo.set_active(setting=True)
-    #     vbox_lh.append(child=self._cb_log_arquivo)
-    #     return vbox_lh
     def _log_handler(self):
         vbox_lh = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
 

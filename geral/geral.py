@@ -1,3 +1,6 @@
+from pathlib import PurePosixPath
+
+
 class Geral:
     """
     Esta classe é usada para que algumas informações possa ser
@@ -20,6 +23,10 @@ class Geral:
 
     def __init__(self):
         pass
+
+    @classmethod
+    def monta_caminho_e_nome_config(cls):
+        return PurePosixPath(cls.sistema_path).joinpath(cls.config_nome)
 
     @classmethod
     def salva_dic_log(cls, log_dic):

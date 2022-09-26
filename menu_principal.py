@@ -155,6 +155,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
         um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
         print(um1)
+        self.gr.meu_logger.info(f"{self.gr.log_dic}")
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,
