@@ -291,7 +291,6 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         self._tb_log_warning = Gtk.CheckButton()
         self._tb_log_warning.set_group(group=self._tb_log_debug)
 
-
         _tb_log_warning = Adw.ActionRow.new()
         _tb_log_warning.set_icon_name(icon_name='dialog-warning-symbolic')
         _tb_log_warning.set_title(title="WARNING")
@@ -334,45 +333,6 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         return vbox
 
-    #
-    # def _log_options(self):
-    #     hboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
-    #     hboxf1.set_homogeneous(True)
-    #     hboxf1.get_style_context().add_class(class_name='linked')
-    #     hboxf1.set_margin_top(margin=12)
-    #     hboxf1.set_margin_end(margin=12)
-    #     hboxf1.set_margin_bottom(margin=12)
-    #     hboxf1.set_margin_start(margin=12)
-    #
-    #     self._tb_log_debug = Gtk.ToggleButton.new_with_label(label="Debug")
-    #     # self._tb_log_debug.set_group(self._tb_log_debug)
-    #     self._tb_log_debug.set_active(is_active=False)
-    #     hboxf1.append(child=self._tb_log_debug)
-    #
-    #     self._tb_log_info = Gtk.ToggleButton.new_with_label(label="Info")
-    #     self._tb_log_info.set_group(self._tb_log_debug)
-    #     self._tb_log_info.set_active(is_active=True)
-    #     hboxf1.append(child=self._tb_log_info)
-    #
-    #     self._tb_log_warning = Gtk.ToggleButton.new_with_label(label="Warning")
-    #     self._tb_log_warning.set_group(self._tb_log_debug)
-    #     self._tb_log_warning.set_active(is_active=False)
-    #     hboxf1.append(child=self._tb_log_warning)
-    #
-    #     self._tb_log_error = Gtk.ToggleButton.new_with_label(label="Error")
-    #     self._tb_log_error.set_group(self._tb_log_debug)
-    #     self._tb_log_error.set_active(is_active=False)
-    #     hboxf1.append(child=self._tb_log_error)
-    #
-    #     self._tb_log_critical = Gtk.ToggleButton.new_with_label(label="Critical")
-    #     self._tb_log_critical.set_group(self._tb_log_debug)
-    #     self._tb_log_critical.set_active(is_active=False)
-    #     hboxf1.append(child=self._tb_log_critical)
-    #
-    #     frame1 = Gtk.Frame.new(label="Opções de log")
-    #     frame1.set_child(hboxf1)
-    #     return frame1
-
     def _log_entries(self):
         vboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         vboxf1.get_style_context().add_class(class_name='card')
@@ -381,36 +341,6 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         listbox.set_selection_mode(mode=Gtk.SelectionMode.NONE)
         listbox.get_style_context().add_class(class_name='boxed-list')
         vboxf1.append(child=listbox)
-
-        # _cb_log_terminal = Adw.EntryBox.new()
-        # _cb_log_terminal.set_icon_name(icon_name='utilities-terminal-symbolic')
-        # _cb_log_terminal.set_title(title=self._dc.get_log_no_terminal_title())
-        # _cb_log_terminal.set_subtitle(subtitle=self._dc.get_log_no_terminal_description())
-        # _cb_log_terminal.add_suffix(widget=self._cb_log_terminal)
-        # listbox.append(child=_cb_log_terminal)
-
-        # lbe_log_caminho = Gtk.Label.new()
-        # lbe_log_caminho.set_margin_top(margin=12)
-        # lbe_log_caminho.set_margin_end(margin=12)
-        # lbe_log_caminho.set_margin_start(margin=12)
-        # lbe_log_caminho.set_xalign(0)
-        # lbe_log_caminho.get_style_context().add_class(class_name='caption')
-        # # lbe_log_caminho.get_style_context().add_class(class_name='linked')
-        # # lbe_log_caminho.set_markup(str="Caminho para guardar os arquivos de logs")
-        # lbe_log_caminho.set_markup(str=self._dc.get_log_caminho_title())
-        # vboxf1.append(child=lbe_log_caminho)
-        #
-        # self._e_log_caminho_arquivo = Gtk.Entry.new()
-        # self._e_log_caminho_arquivo.set_margin_end(margin=12)
-        # self._e_log_caminho_arquivo.set_margin_start(margin=12)
-        # self._e_log_caminho_arquivo.set_text(text='')
-        # self._e_log_caminho_arquivo.get_style_context().add_class(class_name='regular')
-        # self._e_log_caminho_arquivo.set_icon_from_icon_name(
-        #     icon_pos=Gtk.EntryIconPosition.SECONDARY,
-        #     icon_name='system-search-symbolic',
-        # )
-        # self._e_log_caminho_arquivo.connect('icon-press', self.on_e_log_caminho_arquivo_icon_press)
-        # vboxf1.append(child=self._e_log_caminho_arquivo)
 
         self._l_log_caminho_arquivo = Gtk.Label(label=self._dc.get_log_caminho_arquivo_title(),
                                                 margin_top=10,
