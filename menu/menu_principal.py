@@ -4,6 +4,7 @@ import sys
 import gi
 
 from db.infa_dataclass.mysql.entities.entity_unidade_medida import EntityUnidaMedida
+from menu.cadastros_auxiliares.unidade_medida import UnidadeMedida
 
 gi.require_version(namespace='Gtk', version='4.0')
 from gi.repository import Gio, Gtk
@@ -153,9 +154,13 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
     def on_menu_unidadedemedida_clicked(self,widget, parameter):
 
-        um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
-        print(um1)
-        self.gr.meu_logger.info(f"{self.gr.log_dic}")
+        self.gr.meu_logger.info("inicio")
+        # ConfigSistemaScreen(pai=self)
+        UnidadeMedida(pai=self)
+
+        # um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
+        # print(um1)
+        
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,

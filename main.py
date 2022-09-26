@@ -4,7 +4,7 @@ from pathlib import Path
 from config.config_sistema import ConfigSistema
 from geral.geral import Geral
 from log.log_sistema import LogSistema
-from menu_principal import MenuPrincipal
+from menu.menu_principal import MenuPrincipal
 # from config.data_config_novo import DataConfig
 
 # Adw.init()
