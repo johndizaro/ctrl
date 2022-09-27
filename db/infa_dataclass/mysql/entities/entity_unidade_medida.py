@@ -8,16 +8,18 @@ from geral.geral import Geral
 class EntityUnidaMedida:
     """ classe para guardar unidades de medida"""
 
-    um_id: int
-    um_sigla: str
-    um_descricao: str
+    um_id: int = field(init=False)
+    um_sigla: str = field(init=False,
+        metadata={'default': None, 'title': 'Sigla', 'description': 'abreviatura da unidade de medida'})
+    um_descricao: str = field(init=False,
+        metadata={'default': None, 'title': 'Descrição', 'description': 'Nome da unidade de medida'})
 
     reg_valido: bool = field(init=False, default=False, metadata={'options': [True, False]})
     tp_registro: bool = field(init=False, default='CONSULTAR',
                               metadata={'options': ['INCLUIR', 'ALTERAR', 'CONSULTAR', 'DELETAR']})
 
-    def __repr__(self):
-        return f"um_id:{self.um_id}\t um_sigla:{self.um_sigla}\t um_descricao:{self.um_descricao}"
+    # def __repr__(self):
+    #     return f"um_id:{self.um_id}\t um_sigla:{self.um_sigla}\t um_descricao:{self.um_descricao}"
 
     def __post_init__(self):
         Geral.meu_logger.info(f"inicio {self.tp_registro}")
@@ -60,6 +62,18 @@ class EntityUnidaMedida:
             TipoRegistro.ALTERAR
 
     #      todo: rotina para alretar um registro
+
+    def get_um_sigla_title(self):
+        return self.__dataclass_fields__['um_sigla'].metadata['title']
+
+    def get_um_sigla_description(self):
+        return self.__dataclass_fields__['um_sigla'].metadata['description']
+
+    def get_title(self,name_field):
+        return self.__dataclass_fields__[name_field].metadata['title']
+
+    def get_description(self,name_field):
+        return self.__dataclass_fields__[name_field].metadata['description']
 
     def _validade_um_sigla(self, key, value):
         if len(value) > 0:

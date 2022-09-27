@@ -14,7 +14,7 @@ class RepositoryUnidaMedida:
     def select_all(self):
         cnx = DBConnectionHandler()
         registros = cnx.execute(f"""
-        select  * from unidade_medida;
+        select  * from unidade_medida order by sigla;
         """)
         return registros
 
@@ -60,16 +60,16 @@ class RepositoryUnidaMedida:
         return qt_registros
 
 
-umr = RepositoryUnidaMedida()
-# registros = umr.select_one(id=1)
+# umr = RepositoryUnidaMedida()
+# registros = umr.select_all()
 # if registros:
 #     for registro in registros:
 #         print(registro)
-a = {'id': 1, 'sigla': 'kg', 'descricao': 'kilograma'}
+# a = {'id': 1, 'sigla': 'kg', 'descricao': 'kilograma'}
 
-print(f"a:{a}")
+# print(f"a:{a}")
 # umr.incluir(dicionario=a)
-umr.alterar(dicionario=a)
+# umr.alterar(dicionario=a)
 # umr.deletar(id=87)
 # registros = umr.select_all()
 # if registros:

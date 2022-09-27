@@ -156,11 +156,19 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
         self.gr.meu_logger.info("inicio")
         # ConfigSistemaScreen(pai=self)
+        # um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
+        # um1 = EntityUnidaMedida()
+        # print()
+        # print(um1.get_um_sigla_title())
+        # print(um1.get_um_sigla_description())
+        # print(um1.get_title('um_sigla'))
+        # print(um1.get_description('um_sigla'))
+        # print(um1.get_title('um_descricao'))
+        # print(um1.get_description('um_descricao'))
+
         UnidadeMedida(pai=self)
 
-        # um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
-        # print(um1)
-        
+
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,

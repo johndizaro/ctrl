@@ -55,7 +55,7 @@ class DBConnectionHandler:
 
         self.__conn.commit()
         self.__close_connection()
-        return self.__dic_cur.rowcount
+        return self.__dic_cur
 
     def __close_connection(self):
         if self.__conn.is_connected():
