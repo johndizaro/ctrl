@@ -229,6 +229,8 @@ class MenuPrincipal(Gtk.Application):
         for win in self.get_windows():
             win.emit("close-request")
 
+        sys.exit()
+
         # as proximas linhas são usada para fechar uma(1) tela
         # close the window
         # app = self.get_application()

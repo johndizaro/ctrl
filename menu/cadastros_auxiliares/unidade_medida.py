@@ -148,9 +148,11 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
 
         # Adicionando os dados no `Gtk.ListStore()`.
         for registro in self._dict_eum:
-            self.list_store.append(registro.values())
+            # self.list_store.append(registro.values())
+            self.list_store.append([registro['id'], registro['sigla'], registro['descricao']])
 
-        # Criando um `Gtk.TreeView()`.
+
+            # Criando um `Gtk.TreeView()`.
         tree_view = Gtk.TreeView.new_with_model(model=self.list_store)
         tree_view.set_vexpand(expand=True)
 
@@ -167,6 +169,27 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                 self._eum.get_title("um_sigla"),
                 self._eum.get_title("um_descricao")
                 )
+
+        # cell_render_id = Gtk.CellRendererText.new()
+        # cell_render_id.set_property('alignment', Pango.Alignment.RIGHT)
+        # cell_render_id.set_property('weight_set', True)
+        # cell_render_id.set_property('weight', Pango.Weight.BOLD)
+        # column_id = Gtk.TreeViewColumn(title="ID",cell_renderer=cell_render_id,text=0)
+        # tree_view.append_column(column_id)
+        #
+        # cell_render_sigla = Gtk.CellRendererText.new()
+        # cell_render_sigla.set_property('foreground', '#698B22')
+        # cell_render_sigla.set_property('weight', Pango.Weight.BOLD)
+        # column_sigla = Gtk.TreeViewColumn(title=self._eum.get_title("um_sigla"),cell_renderer=cell_render_sigla,text=1)
+        # tree_view.append_column(column_sigla)
+        #
+        # cell_render_descricao = Gtk.CellRendererText.new()
+        # cell_render_descricao.set_property('foreground', '#698B22')
+        # cell_render_descricao.set_property('weight', Pango.Weight.BOLD)
+        # column_descrocao = Gtk.TreeViewColumn(title=self._eum.get_title("um_descricao"),cell_renderer=cell_render_descricao,text=2)
+        # tree_view.append_column(column_descrocao)
+
+
 
         for column_index, title in enumerate(cols):
             # Criando um rederizador do tipo texto.
@@ -197,7 +220,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             )
 
             if column_index == 0:
-                tree_view_column.set_fixed_width(-1)
+                tree_view_column.set_visible(visible=False)
 
             # Definindo que a coluna pode ordenar o conteúdo.
             tree_view_column.set_sort_column_id(sort_column_id=column_index)
