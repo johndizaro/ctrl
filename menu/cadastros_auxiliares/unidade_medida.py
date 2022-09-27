@@ -24,20 +24,6 @@ Adw.init()
 
 
 class UnidadeMediaScreen(Gtk.ApplicationWindow):
-    brazilian_states = [
-        (1, 'Acre', 'Matheus'), (2, 'Alagoas', 'Priscila'), (3, 'Amapá', 'Priscila'), (4, 'Amazonas', 'Ricardo'),
-        (5, 'Bahia', 'Axel'), (6, 'Ceará', 'Aparecido'), (7, 'Distrito Federal', 'Oliveira'),
-        (8, 'Espírito Santo', 'campo1'),
-        (9, 'Goiás', 'campo1'), (10, 'Maranhão', 'campo1'),
-        (11, 'Mato Grosso', 'campo1'), (12, 'Mato Grosso do Sul', 'campo1'),
-        (13, 'Minas Gerais', 'campo1'), (14, 'Pará', 'campo1'), (15, 'Paraíba', 'campo1'), (16, 'Paraná', 'campo1'),
-        (17, 'Pernambuco', 'campo1'), (18, 'Piauí', 'campo1'), (19, 'Rio de Janeiro', 'campo1'),
-        (20, 'Rio Grande do Norte', 'campo1'), (21, 'Rio Grande do Sul', 'campo1'), (22, 'Rondônia', 'campo1'),
-        (23, 'Roraima', 'campo1'), (24, 'Santa Catarina', 'campo1'), (25, 'São Paulo', 'campo1'),
-        (26, 'Sergipe', 'campo1'),
-        (27, 'Tocantins', 'campo1'),
-    ]
-
     def __init__(self, pai):
         super(UnidadeMediaScreen, self).__init__()
         self._pai = pai
@@ -47,14 +33,11 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
 
         self._rum = RepositoryUnidaMedida()
         self._dict_eum = self._rum.select_all()
-        # self._gr.meu_logger.info(f"self._dict_eum:{self._dict_eum}")
-        # if self._dict_eum:
-        #     for self.registro in self._dict_eum:
-        #         print(self.registro)
 
         self._montagem_janela()
 
     def _montagem_janela(self):
+        self._gr.meu_logger.info("Inicio da montagem da janela")
 
         self.set_title(title="Unidade de Medida")
         self.set_default_size(width=-1, height=400)
@@ -70,8 +53,8 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         self.present()
 
     def _montagem_headerbar(self):
-        # self.a.info("Montagem do header do menu principal")
-        self._gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("Montagem do header do menu principal")
+
         headerbar = Gtk.HeaderBar.new()
         headerbar.set_show_title_buttons(setting=True)
         self.set_titlebar(titlebar=headerbar)
@@ -100,6 +83,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         return headerbar
 
     def _montar_layout(self):
+        self._gr.meu_logger.info("inicio da montagem")
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         vbox.set_margin_top(margin=10)
         vbox.set_margin_end(margin=10)
@@ -112,6 +96,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         self.set_child(child=vbox)
 
     def _montar_campos(self):
+        self._gr.meu_logger.info("inicio da montagem")
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
 
         vbox.append(child=self._fields_entries())
@@ -120,9 +105,9 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         return vbox
 
     def _treeview(self):
+        self._gr.meu_logger.info("inicio da montagem")
 
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        # vbox.get_style_context().add_class(class_name='frame')
         vbox.get_style_context().add_class(class_name='card')
 
         # Janela com rolagem onde será adicionado o Gtk.TreeView().
@@ -150,7 +135,6 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         for registro in self._dict_eum:
             # self.list_store.append(registro.values())
             self.list_store.append([registro['id'], registro['sigla'], registro['descricao']])
-
 
             # Criando um `Gtk.TreeView()`.
         tree_view = Gtk.TreeView.new_with_model(model=self.list_store)
@@ -189,26 +173,24 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         # column_descrocao = Gtk.TreeViewColumn(title=self._eum.get_title("um_descricao"),cell_renderer=cell_render_descricao,text=2)
         # tree_view.append_column(column_descrocao)
 
-
-
         for column_index, title in enumerate(cols):
             # Criando um rederizador do tipo texto.
             cell_render = Gtk.CellRendererText.new()
 
-            # Configurando o rederizador da primeira coluna.
-            if column_index == 0:
-                cell_render.set_property('alignment', Pango.Alignment.RIGHT)
-                cell_render.set_property('weight_set', True)
-                cell_render.set_property('weight', Pango.Weight.BOLD)
+            # Configurando o rederizador da primeira coluna apenas.
+            # if column_index == 0:
+            #     cell_render.set_property('alignment', Pango.Alignment.RIGHT)
+            #     cell_render.set_property('weight_set', True)
+                # cell_render.set_property('weight', Pango.Weight.BOLD)
                 # cell_render.set_visible(False)
 
             if column_index == 1:
-                cell_render.set_property('foreground', '#698B22')
+                # cell_render.set_property('foreground', '#698B22')
                 cell_render.set_property('weight', Pango.Weight.BOLD)
 
-            if column_index == 2:
-                cell_render.set_property('foreground', '#698B22')
-                cell_render.set_property('weight', Pango.Weight.BOLD)
+            # if column_index == 2:
+            #     cell_render.set_property('foreground', '#698B22')
+            #     cell_render.set_property('weight', Pango.Weight.BOLD)
 
             # Criando a coluna.
             tree_view_column = Gtk.TreeViewColumn(
@@ -231,6 +213,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         return vbox
 
     def _fields_entries(self):
+        self._gr.meu_logger.info("inicio da montagem")
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         vbox.get_style_context().add_class(class_name='card')
 
