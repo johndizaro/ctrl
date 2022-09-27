@@ -108,7 +108,11 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
     def _treeview(self):
 
         vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        # vbox.get_style_context().add_class(class_name='frame')
         vbox.get_style_context().add_class(class_name='card')
+
+
+
 
 
         # Janela com rolagem onde será adicionado o Gtk.TreeView().
@@ -134,16 +138,23 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         tree_view = Gtk.TreeView.new_with_model(model=self.list_store)
         tree_view.set_vexpand(expand=True)
 
+        tree_view.set_margin_start(margin=10)
+        tree_view.set_margin_end(margin=10)
+        tree_view.set_margin_top(margin=10)
+        tree_view.set_margin_bottom(margin=10)
+
         scrolledwindow.set_child(child=tree_view)
 
         # Nome das colunas (title).
         cols = ('ID', 'Estados')
+
         for column_index, title in enumerate(cols):
             # Criando um rederizador do tipo texto.
             cell_render = Gtk.CellRendererText.new()
 
             # Configurando o rederizador da primeira coluna.
             if column_index == 0:
+                cell_render.set_property('alignment', Pango.Alignment.RIGHT)
                 cell_render.set_property('weight_set', True)
                 cell_render.set_property('weight', Pango.Weight.BOLD)
 
