@@ -138,6 +138,8 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
 
             # Criando um `Gtk.TreeView()`.
         tree_view = Gtk.TreeView.new_with_model(model=self.list_store)
+        tree_view.connect('row_activated', self.on_row_activated)
+        tree_view.set_activate_on_single_click(True)
         tree_view.set_vexpand(expand=True)
 
         tree_view.set_margin_start(margin=10)
@@ -211,6 +213,12 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             tree_view.append_column(column=tree_view_column)
 
         return vbox
+    def on_row_activated(self, path, column,user_data):
+        # self.list_store[path][0] = not self.list_store[path][0]
+        campo1 = int(self.list_store[path][0])
+        print("john evan dizaro")
+        print(column)
+        print(campo1)
 
     def _fields_entries(self):
         self._gr.meu_logger.info("inicio da montagem")
