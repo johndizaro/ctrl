@@ -1,3 +1,5 @@
+from enum import Enum
+
 import gi
 from dacite import from_dict
 
@@ -10,8 +12,6 @@ gi.require_version(namespace='Adw', version='1')
 from gi.repository import Gtk, Adw, GObject, Pango
 
 Adw.init()
-
-from enum import Enum
 
 
 class TVUnidaMedida(Enum):
@@ -45,8 +45,13 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         self._eum = EntityUnidaMedida()
 
         self._rum = RepositoryUnidaMedida()
-        self._dict_eum = self._rum.select_all()
 
+        try:
+            self._dict_eum = self._rum.select_all()
+        except Exception as e:
+            self._gr.meu_logger.error(f"{e}")
+            print(f'{e}')
+            return
         self._montagem_janela()
 
     def _montagem_janela(self):
@@ -205,12 +210,18 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             return
         selected = int(model.get_value(node, TVUnidaMedida.um_id.value))
         self._gr.meu_logger.info(f"id selecionado:{selected}")
-        registro = self._rum.select_one(id=selected)
-        self._gr.meu_logger.info(f"registro do id selecionado:{registro}")
-        self._eum = from_dict(data_class=EntityUnidaMedida, data=registro)
 
-        self._inserir_dados_na_tela(self._eum)
-        print(registro)
+        try:
+            registro = self._rum.select_one(id=selected)
+        except Exception as e:
+            self._gr.meu_logger.error(f"{e}")
+            print(f'{e}')
+            return
+        else:
+            self._eum = from_dict(data_class=EntityUnidaMedida, data=registro)
+            self._inserir_dados_na_tela(self._eum)
+
+        self._gr.meu_logger.info(f"registro do id selecionado:{registro}")
 
     # def on_cursor_changed(self,widget):
     #     campo = ""

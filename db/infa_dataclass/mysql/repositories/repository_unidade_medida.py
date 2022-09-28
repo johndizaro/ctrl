@@ -5,20 +5,31 @@ class RepositoryUnidaMedida:
 
     def select_one(self, id):
         cnx = DBConnectionHandler()
-        registro = cnx.execute(f"""
-        select  * from unidade_medida
-        where um_id = {id};
-        """)
-        row = registro.fetchone()
+        try:
+            registro = cnx.execute(f"""
+            select  * from unidade_medida
+            where um_id = {id};
+            """)
+        except Exception as e:
+            raise ValueError(f"{e}")
+            return
+        else:
+            row = registro.fetchone()
 
         return row
 
     def select_all(self):
+
         cnx = DBConnectionHandler()
-        registros = cnx.execute(f"""
-        select  * from unidade_medida order by um_sigla;
-        """)
-        rows = registros.fetchall()
+        try:
+            registros = cnx.execute(f"""
+            select  * from unidade_medida order by un_sigla;
+            """)
+        except Exception as e:
+            raise ValueError(f"{e}")
+            return
+        else:
+            rows = registros.fetchall()
         return rows
 
     def incluir(self, dicionario):
@@ -34,7 +45,6 @@ class RepositoryUnidaMedida:
         cnx = DBConnectionHandler()
         qt_registros = cnx.execute(sqli)
         return qt_registros
-        
 
     def alterar(self, dicionario):
         id = dicionario["id"]
@@ -52,29 +62,17 @@ class RepositoryUnidaMedida:
         cnx = DBConnectionHandler()
         qt_registros = cnx.execute(sqli)
         return qt_registros
-        
 
     def deletar(self, id):
         sqli = """
         DELETE FROM unidade_medida WHERE um_id = {id};
          """.format(id=id)
+
         cnx = DBConnectionHandler()
-        qt_registros = cnx.execute(sqli)
+        try:
+            qt_registros = cnx.execute(sqli)
+        except Exception as e:
+            raise ValueError(f"{e}")
+            return
+
         return qt_registros
-
-
-# umr = RepositoryUnidaMedida()
-# registros = umr.select_all()
-# if registros:
-#     for registro in registros:
-#         print(registro)
-# a = {'id': 1, 'sigla': 'kg', 'descricao': 'kilograma'}
-
-# print(f"a:{a}")
-# umr.incluir(dicionario=a)
-# umr.alterar(dicionario=a)
-# umr.deletar(id=87)
-# registros = umr.select_all()
-# if registros:
-#     for registro in registros:
-#         print(registro)

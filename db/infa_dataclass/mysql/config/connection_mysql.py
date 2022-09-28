@@ -1,5 +1,5 @@
 import mysql
-from mysql.connector import connect, Error
+from mysql.connector import connect
 
 
 class DBConnectionHandler:
@@ -33,10 +33,10 @@ class DBConnectionHandler:
             #     # INFO_LOG("DB init fail")
             #     pass
 
-        except Error:
-            print(Error)
+        except Exception as e:
+            raise ValueError(f"{e}")
             self.flagConnOpen = False
-            return Error
+            return
 
         return self.__conn
 
@@ -46,7 +46,7 @@ class DBConnectionHandler:
         #     self.__open_connection()
         # # if not self.__conn.is_connected:
         # #     self.__open_connection()
-        # else:
+
         self.__open_connection()
         # if not self.__conn.is_connected:
         self.__dic_cur = self.__conn.cursor(buffered=True, dictionary=True)
@@ -60,14 +60,3 @@ class DBConnectionHandler:
     def __close_connection(self):
         if self.__conn.is_connected():
             self.__conn.close()
-
-    # def __exit__(self, exc_type, exc_val, exc_tb):
-    #     print("exit")
-    #     self.__conn.close()
-
-# if __name__ == '__main__':
-#     x = DBConnectionHandler()
-#     registros = x.execute("select * from unidade_medida;")
-#     if registros:
-#         for i in registros:
-#             print(i)
