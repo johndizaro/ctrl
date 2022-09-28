@@ -24,6 +24,8 @@ pip install pydantic[email,dotenv]
 
 pip install datamodel-code-generator
 
+pip install dacite
+
 para testar
 python3 -c "import gi"
 

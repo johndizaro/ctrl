@@ -3,12 +3,12 @@ CREATE DATABASE IF NOT EXISTS orca;
 USE orca;
 
 CREATE TABLE  IF NOT EXISTS unidade_medida (
-  id int AUTO_INCREMENT,
-  sigla varchar(10) NOT NULL COMMENT 'sigla da unidade de mendida',
-  descricao varchar(50) NOT NULL COMMENT 'descrição da unidade de medida',
-  PRIMARY KEY (id),
-  UNIQUE KEY uc_sigla (sigla),
-  UNIQUE KEY uc_descricao (descricao)
+  um_id int AUTO_INCREMENT,
+  um_sigla varchar(10) NOT NULL COMMENT 'sigla da unidade de mendida',
+  um_descricao varchar(50) NOT NULL COMMENT 'descrição da unidade de medida',
+  um_PRIMARY KEY (um_id),
+  UNIQUE KEY uc_sigla (um_sigla),
+  UNIQUE KEY uc_descricao (um_descricao)
 ) COMMENT='unidade de medida';
 
 

@@ -14,31 +14,31 @@ class EntityUnidaMedida:
     um_descricao: str = field(init=False,
         metadata={'default': None, 'title': 'Descrição', 'description': 'Nome da unidade de medida'})
 
-    reg_valido: bool = field(init=False, default=False, metadata={'options': [True, False]})
-    tp_registro: bool = field(init=False, default='CONSULTAR',
-                              metadata={'options': ['INCLUIR', 'ALTERAR', 'CONSULTAR', 'DELETAR']})
+    # reg_valido: bool = field(init=False, default=False, metadata={'options': [True, False]})
+    # tp_registro: bool = field(init=False, default='CONSULTAR',
+    #                           metadata={'options': ['INCLUIR', 'ALTERAR', 'CONSULTAR', 'DELETAR']})
 
     # def __repr__(self):
     #     return f"um_id:{self.um_id}\t um_sigla:{self.um_sigla}\t um_descricao:{self.um_descricao}"
 
-    def __post_init__(self):
-        Geral.meu_logger.info(f"inicio {self.tp_registro}")
-        match self.tp_registro:
-            case "CONSULTAR":
-                # todo: rotina de consulta
-                pass
-            case "INCLUIR":
-                # todo: rotina de incluir
-                pass
-            case "ALTERAR":
-                # todo: rotina de alterar
-                pass
-            case "DELETAR":
-                # todo: rotina de delete
-                pass
-            case _:
-                Geral.meu_logger.error(f"{self.tp_registro} Erro:Opção inválida")
-                raise ValueError(f"Tipo de registro invalido:{self.tp_registro}")
+    # def __post_init__(self):
+    #     Geral.meu_logger.info(f"inicio {self.tp_registro}")
+    #     match self.tp_registro:
+    #         case "CONSULTAR":
+    #             # todo: rotina de consulta
+    #             pass
+    #         case "INCLUIR":
+    #             # todo: rotina de incluir
+    #             pass
+    #         case "ALTERAR":
+    #             # todo: rotina de alterar
+    #             pass
+    #         case "DELETAR":
+    #             # todo: rotina de delete
+    #             pass
+    #         case _:
+    #             Geral.meu_logger.error(f"{self.tp_registro} Erro:Opção inválida")
+    #             raise ValueError(f"Tipo de registro invalido:{self.tp_registro}")
 
     def __setattr__(self, key, value):
         Geral.meu_logger.info(f"{key}:{value}")
@@ -80,7 +80,7 @@ class EntityUnidaMedida:
             # todo: consultar se já existe esta sigla no banco de dados
             self.__dict__[key] = value
         else:
-            self.reg_valido = False
+            # self.reg_valido = False
             raise ValueError(f'{key}: {value} não é um arquivo válido')
 
     def _validade_um_descricao(self, key, value):
@@ -88,6 +88,7 @@ class EntityUnidaMedida:
             # todo: consulta se já existe uma descrição no banco de dados
             self.__dict__[key] = value
         else:
+            # self.reg_valido = False
             raise ValueError(f'{key}: {value} não é um arquivo válido')
 
 # um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')

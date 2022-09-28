@@ -7,16 +7,19 @@ class RepositoryUnidaMedida:
         cnx = DBConnectionHandler()
         registro = cnx.execute(f"""
         select  * from unidade_medida
-        where id = {id};
+        where um_id = {id};
         """)
-        return registro
+        row = registro.fetchone()
+
+        return row
 
     def select_all(self):
         cnx = DBConnectionHandler()
         registros = cnx.execute(f"""
-        select  * from unidade_medida order by sigla;
+        select  * from unidade_medida order by um_sigla;
         """)
-        return registros
+        rows = registros.fetchall()
+        return rows
 
     def incluir(self, dicionario):
         key = ", ".join(dicionario.keys())
@@ -43,7 +46,7 @@ class RepositoryUnidaMedida:
         sqli = """
         UPDATE unidade_medida SET
               {dados}
-              WHERE  id = {id};
+              WHERE  um_id = {id};
          """.format(dados=dados, id=id)
 
         cnx = DBConnectionHandler()
@@ -53,7 +56,7 @@ class RepositoryUnidaMedida:
 
     def deletar(self, id):
         sqli = """
-        DELETE FROM unidade_medida WHERE id = {id};
+        DELETE FROM unidade_medida WHERE um_id = {id};
          """.format(id=id)
         cnx = DBConnectionHandler()
         qt_registros = cnx.execute(sqli)

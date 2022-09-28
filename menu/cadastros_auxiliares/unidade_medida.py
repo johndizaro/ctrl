@@ -1,4 +1,5 @@
 import gi
+from dacite import from_dict
 
 from db.infa_dataclass.mysql.entities.entity_unidade_medida import EntityUnidaMedida
 from db.infa_dataclass.mysql.repositories.repository_unidade_medida import RepositoryUnidaMedida
@@ -9,6 +10,14 @@ gi.require_version(namespace='Adw', version='1')
 from gi.repository import Gtk, Adw, GObject, Pango
 
 Adw.init()
+
+from enum import Enum
+
+
+class TVUnidaMedida(Enum):
+    um_id = 0
+    um_sigla = 1
+    um_descricao = 2
 
 
 # class Pai(object):
@@ -28,6 +37,10 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         super(UnidadeMediaScreen, self).__init__()
         self._pai = pai
         self._gr = Geral()
+
+        self.__COL_UM_ID = 0
+        self.__COL_UM_SIGLA = 1
+        self.__COL_UM_DESCRICAO = 2
 
         self._eum = EntityUnidaMedida()
 
@@ -121,24 +134,15 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         self.list_store = Gtk.ListStore.new(
             [GObject.TYPE_INT, GObject.TYPE_STRING, GObject.TYPE_STRING],
         )
-
-        # Misturando os dados.
-        # random.shuffle(self.brazilian_states)
-
-        # Adicionando os dados no `Gtk.ListStore()`.
-        # for state in self.brazilian_states:
-        # print(state[0], state[1])
-        # self.list_store.insert_with_values(state[0], (0, 1, 2), state)
-        # self.list_store.append([state[0], state[1], state[2]])
-
         # Adicionando os dados no `Gtk.ListStore()`.
         for registro in self._dict_eum:
             # self.list_store.append(registro.values())
-            self.list_store.append([registro['id'], registro['sigla'], registro['descricao']])
+            self.list_store.append([registro['um_id'], registro['um_sigla'], registro['um_descricao']])
 
             # Criando um `Gtk.TreeView()`.
         tree_view = Gtk.TreeView.new_with_model(model=self.list_store)
         tree_view.connect('row_activated', self.on_row_activated)
+        # tree_view.connect('cursor_changed', self.on_cursor_changed)
         tree_view.set_activate_on_single_click(True)
         tree_view.set_vexpand(expand=True)
 
@@ -156,25 +160,6 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                 self._eum.get_title("um_descricao")
                 )
 
-        # cell_render_id = Gtk.CellRendererText.new()
-        # cell_render_id.set_property('alignment', Pango.Alignment.RIGHT)
-        # cell_render_id.set_property('weight_set', True)
-        # cell_render_id.set_property('weight', Pango.Weight.BOLD)
-        # column_id = Gtk.TreeViewColumn(title="ID",cell_renderer=cell_render_id,text=0)
-        # tree_view.append_column(column_id)
-        #
-        # cell_render_sigla = Gtk.CellRendererText.new()
-        # cell_render_sigla.set_property('foreground', '#698B22')
-        # cell_render_sigla.set_property('weight', Pango.Weight.BOLD)
-        # column_sigla = Gtk.TreeViewColumn(title=self._eum.get_title("um_sigla"),cell_renderer=cell_render_sigla,text=1)
-        # tree_view.append_column(column_sigla)
-        #
-        # cell_render_descricao = Gtk.CellRendererText.new()
-        # cell_render_descricao.set_property('foreground', '#698B22')
-        # cell_render_descricao.set_property('weight', Pango.Weight.BOLD)
-        # column_descrocao = Gtk.TreeViewColumn(title=self._eum.get_title("um_descricao"),cell_renderer=cell_render_descricao,text=2)
-        # tree_view.append_column(column_descrocao)
-
         for column_index, title in enumerate(cols):
             # Criando um rederizador do tipo texto.
             cell_render = Gtk.CellRendererText.new()
@@ -183,27 +168,23 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             # if column_index == 0:
             #     cell_render.set_property('alignment', Pango.Alignment.RIGHT)
             #     cell_render.set_property('weight_set', True)
-                # cell_render.set_property('weight', Pango.Weight.BOLD)
-                # cell_render.set_visible(False)
+            # cell_render.set_property('weight', Pango.Weight.BOLD)
+            # cell_render.set_visible(False)
 
-            if column_index == 1:
+            if column_index == TVUnidaMedida.um_sigla.value:
                 # cell_render.set_property('foreground', '#698B22')
                 cell_render.set_property('weight', Pango.Weight.BOLD)
-
-            # if column_index == 2:
-            #     cell_render.set_property('foreground', '#698B22')
-            #     cell_render.set_property('weight', Pango.Weight.BOLD)
 
             # Criando a coluna.
             tree_view_column = Gtk.TreeViewColumn(
                 title=title,
                 cell_renderer=cell_render,
                 # Posição (Coluna 0, coluna 1) em que o CellRendererText
-                # e o titulo serão inseridos.
+                # sera inseridos.
                 text=column_index,
             )
 
-            if column_index == 0:
+            if column_index == TVUnidaMedida.um_id.value:
                 tree_view_column.set_visible(visible=False)
 
             # Definindo que a coluna pode ordenar o conteúdo.
@@ -213,12 +194,33 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             tree_view.append_column(column=tree_view_column)
 
         return vbox
-    def on_row_activated(self, path, column,user_data):
-        # self.list_store[path][0] = not self.list_store[path][0]
-        campo1 = int(self.list_store[path][0])
-        print("john evan dizaro")
-        print(column)
-        print(campo1)
+
+    def _inserir_dados_na_tela(self, dic):
+        self._e_um_sigla.set_text(dic.um_sigla)
+        self._e_um_descricao.set_text(dic.um_descricao)
+
+    def on_row_activated(self, path, column, user_data):
+        (model, node) = path.get_selection().get_selected()
+        if not node:
+            return
+        selected = int(model.get_value(node, TVUnidaMedida.um_id.value))
+        self._gr.meu_logger.info(f"id selecionado:{selected}")
+        registro = self._rum.select_one(id=selected)
+        self._gr.meu_logger.info(f"registro do id selecionado:{registro}")
+        self._eum = from_dict(data_class=EntityUnidaMedida, data=registro)
+
+        self._inserir_dados_na_tela(self._eum)
+        print(registro)
+
+    # def on_cursor_changed(self,widget):
+    #     campo = ""
+    #     selection = widget.get_selection()
+    #     modelX, iterX = selection.get_selected()
+    #     if not iterX:
+    #         return False
+    #     campo = modelX.get_value(iterX,1)
+    #     print(campo)
+    # self._e_entry.grab_focus()
 
     def _fields_entries(self):
         self._gr.meu_logger.info("inicio da montagem")
@@ -232,14 +234,14 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                                   xalign=0)
         vbox.append(child=self._l_label)
 
-        self._e_entry = Gtk.Entry(max_length=0,
-                                  text="",
-                                  tooltip_text="Descrição sigla da unidade de medida",
-                                  margin_start=10,
-                                  margin_end=10,
-                                  margin_top=0,
-                                  margin_bottom=10)
-        vbox.append(child=self._e_entry)
+        self._e_um_sigla = Gtk.Entry(max_length=0,
+                                     text="",
+                                     tooltip_text="Descrição sigla da unidade de medida",
+                                     margin_start=10,
+                                     margin_end=10,
+                                     margin_top=0,
+                                     margin_bottom=10)
+        vbox.append(child=self._e_um_sigla)
 
         self._l_label1 = Gtk.Label(label="Descricao da unidade  de medida",
                                    margin_top=10,
@@ -248,14 +250,14 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                                    xalign=0)
         vbox.append(child=self._l_label1)
 
-        self._e_entry1 = Gtk.Entry(max_length=0,
-                                   text="",
-                                   tooltip_text="Descrição da unidade de medida",
-                                   margin_start=10,
-                                   margin_end=10,
-                                   margin_top=0,
-                                   margin_bottom=10)
-        vbox.append(child=self._e_entry1)
+        self._e_um_descricao = Gtk.Entry(max_length=0,
+                                         text="",
+                                         tooltip_text="Descrição da unidade de medida",
+                                         margin_start=10,
+                                         margin_end=10,
+                                         margin_top=0,
+                                         margin_bottom=10)
+        vbox.append(child=self._e_um_descricao)
 
         return vbox
 
