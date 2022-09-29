@@ -38,9 +38,9 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         self._pai = pai
         self._gr = Geral()
 
-        self.__COL_UM_ID = 0
-        self.__COL_UM_SIGLA = 1
-        self.__COL_UM_DESCRICAO = 2
+        self._COL_UM_ID = 0
+        self._COL_UM_SIGLA = 1
+        self._COL_UM_DESCRICAO = 2
 
         self._eum = EntityUnidaMedida()
 

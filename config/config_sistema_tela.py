@@ -35,7 +35,6 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         self._dc = DataConfig()
 
-
         if 'log_no_terminal' in self._gr.log_dic.keys():
             self._cb_log_terminal.set_active(self._gr.log_dic['log_no_terminal'])
         else:
@@ -245,13 +244,35 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
 
         self.set_child(child=vbox)
 
-    def _log_handler(self):
-        vbox_lh = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+    def _montar_campos(self):
+        vbox_mc = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        vbox_mc.set_margin_top(margin=10)
+        vbox_mc.set_margin_end(margin=10)
+        vbox_mc.set_margin_bottom(margin=10)
+        vbox_mc.set_margin_start(margin=10)
 
-        listbox = Gtk.ListBox.new()
-        listbox.set_selection_mode(mode=Gtk.SelectionMode.NONE)
-        listbox.get_style_context().add_class(class_name='boxed-list')
-        vbox_lh.append(child=listbox)
+        vbox_mc.append(self._log_handler())
+        vbox_mc.append(child=self._log_options())
+        vbox_mc.append(child=self._log_entries())
+
+        return vbox_mc
+
+    def _log_handler(self):
+
+        listbox_log_handler = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL,
+                                          spacing=10
+                                          )
+        listbox_log_handler.get_style_context().add_class(class_name='card')
+
+        adwpw = Adw.PreferencesGroup(
+            title="Local de saida do Log",
+            description='Selecione os locais para saída do Log')
+        adwpw.set_margin_end(margin=10)
+        adwpw.set_margin_top(margin=10)
+        adwpw.set_margin_start(margin=10)
+        adwpw.set_margin_bottom(margin=10)
+
+        listbox_log_handler.append(child=adwpw)
 
         self._cb_log_terminal = Gtk.Switch.new()
         self._cb_log_terminal.set_valign(align=Gtk.Align.CENTER)
@@ -259,11 +280,13 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         # switch_01.connect('notify::active', self.on_switch_button_clicked)
 
         _cb_log_terminal = Adw.ActionRow.new()
+        _cb_log_terminal.set_activatable_widget(self._cb_log_terminal)
+        # adw_action_row_get_activatable_widget
         _cb_log_terminal.set_icon_name(icon_name='utilities-terminal-symbolic')
         _cb_log_terminal.set_title(title=self._dc.get_log_no_terminal_title())
         _cb_log_terminal.set_subtitle(subtitle=self._dc.get_log_no_terminal_description())
         _cb_log_terminal.add_suffix(widget=self._cb_log_terminal)
-        listbox.append(child=_cb_log_terminal)
+        adwpw.add(child=_cb_log_terminal)
 
         self._cb_log_arquivo = Gtk.Switch.new()
         self._cb_log_arquivo.set_valign(align=Gtk.Align.CENTER)
@@ -271,79 +294,97 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         # switch_02.connect('notify::active', self.on_switch_button_clicked)
 
         _cb_log_arquivo = Adw.ActionRow.new()
+        _cb_log_arquivo.set_activatable_widget(self._cb_log_arquivo)
         _cb_log_arquivo.set_icon_name(icon_name='text-x-generic-symbolic')
         _cb_log_arquivo.set_title(title=self._dc.get_log_no_arquivo_title())
         _cb_log_arquivo.set_subtitle(subtitle=self._dc.get_log_no_arquivo_description())
         _cb_log_arquivo.add_suffix(widget=self._cb_log_arquivo)
-        listbox.append(child=_cb_log_arquivo)
+        adwpw.add(child=_cb_log_arquivo)
 
-        return vbox_lh
+        return listbox_log_handler
 
     def _log_options(self):
-        vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        vbox.get_style_context().add_class(class_name='card')
+        vbox_log_options = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        vbox_log_options.get_style_context().add_class(class_name='card')
 
-        listbox = Gtk.ListBox.new()
-        listbox.set_selection_mode(mode=Gtk.SelectionMode.NONE)
-        listbox.get_style_context().add_class(class_name='boxed-list')
-        vbox.append(child=listbox)
+        adwpw_log_options = Adw.PreferencesGroup(
+            title="Opções de Log",
+            description='Selecione  uma opção de log')
+        adwpw_log_options.set_margin_end(margin=10)
+        adwpw_log_options.set_margin_top(margin=10)
+        adwpw_log_options.set_margin_start(margin=10)
+        adwpw_log_options.set_margin_bottom(margin=10)
+
+        vbox_log_options.append(child=adwpw_log_options)
+
+
+
+        # listbox = Gtk.ListBox.new()
+        # listbox.set_selection_mode(mode=Gtk.SelectionMode.NONE)
+        # listbox.get_style_context().add_class(class_name='boxed-list')
+        # vbox_log_options.append(child=listbox)
 
         self._tb_log_debug = Gtk.CheckButton()
         self._tb_log_debug.set_group(group=None)
         self._tb_log_debug.set_active(True)
 
         _tb_log_debug = Adw.ActionRow.new()
+        _tb_log_debug.set_activatable_widget(self._tb_log_debug)
         _tb_log_debug.set_icon_name(icon_name='computer-fail')
         _tb_log_debug.set_title(title="DEBUG")
         _tb_log_debug.set_subtitle(
             subtitle='Informações detalhadas, interece tipicamente somente quando for diagnosticar problemas')
         _tb_log_debug.add_suffix(widget=self._tb_log_debug)
-        listbox.append(child=_tb_log_debug)
+        adwpw_log_options.add(child=_tb_log_debug)
 
         self._tb_log_warning = Gtk.CheckButton()
         self._tb_log_warning.set_group(group=self._tb_log_debug)
 
         _tb_log_warning = Adw.ActionRow.new()
+        _tb_log_warning.set_activatable_widget(self._tb_log_warning)
         _tb_log_warning.set_icon_name(icon_name='dialog-warning-symbolic')
         _tb_log_warning.set_title(title="WARNING")
         _tb_log_warning.set_subtitle(
             subtitle='Uma indicação que alguma coisa inesperada aconteceu\n indicativo que de algum problema num furuto próximo')
         _tb_log_warning.add_suffix(widget=self._tb_log_warning)
-        listbox.append(child=_tb_log_warning)
+        adwpw_log_options.add(child=_tb_log_warning)
 
         self._tb_log_info = Gtk.CheckButton()
         self._tb_log_info.set_group(group=self._tb_log_debug)
 
         _tb_log_info = Adw.ActionRow.new()
+        _tb_log_info.set_activatable_widget(self._tb_log_info)
         _tb_log_info.set_icon_name(icon_name='dialog-information-symbolic')
         _tb_log_info.set_title(title="INFO")
         _tb_log_info.set_subtitle(subtitle='Confirmação que a coisas estão  trabalhando como esperado')
         _tb_log_info.add_suffix(widget=self._tb_log_info)
-        listbox.append(child=_tb_log_info)
+        adwpw_log_options.add(child=_tb_log_info)
 
         self._tb_log_error = Gtk.CheckButton()
         self._tb_log_error.set_group(group=self._tb_log_debug)
 
         _tb_log_error = Adw.ActionRow.new()
+        _tb_log_error.set_activatable_widget(self._tb_log_error)
         _tb_log_error.set_icon_name(icon_name='dialog-error-symbolic')
         _tb_log_error.set_title(title="ERROR")
         _tb_log_error.set_subtitle(
             subtitle='Por causa de problemas mais sérios, o software não é capas de executar algumas funções')
         _tb_log_error.add_suffix(widget=self._tb_log_error)
-        listbox.append(child=_tb_log_error)
+        adwpw_log_options.add(child=_tb_log_error)
 
         self._tb_log_critical = Gtk.CheckButton()
         self._tb_log_critical.set_group(group=self._tb_log_debug)
 
         _tb_log_critical = Adw.ActionRow.new()
+        _tb_log_critical.set_activatable_widget(self._tb_log_critical)
         _tb_log_critical.set_icon_name(icon_name='face-worried')
         _tb_log_critical.set_title(title="CRÍTICO")
         _tb_log_critical.set_subtitle(
             subtitle='Erro sério, indicando que o probrama poderá não conseguir continuar executando')
         _tb_log_critical.add_suffix(widget=self._tb_log_critical)
-        listbox.append(child=_tb_log_critical)
+        adwpw_log_options.add(child=_tb_log_critical)
 
-        return vbox
+        return vbox_log_options
 
     def _log_entries(self):
         vboxf1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -411,17 +452,6 @@ class ConfigSistemaScreen(Gtk.ApplicationWindow):
         else:
             caminho_selecionado = ""
         self._e_log_caminho_arquivo.set_text(caminho_selecionado)
-
-    def _montar_campos(self):
-        vbox1 = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-
-        vbox1.append(self._log_handler())
-        vbox1.append(child=self._log_options())
-        # vbox1.append(child=self._log_options_1())
-        vbox1.append(child=self._log_entries())
-
-        return vbox1
-        # vbox.append(child=vbox1)
 
 
 class ConfigSistemaMain(ConfigSistemaScreen):
