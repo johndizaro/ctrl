@@ -23,7 +23,7 @@ class RepositoryUnidaMedida:
         cnx = DBConnectionHandler()
         try:
             registros = cnx.execute(f"""
-            select  * from unidade_medida order by un_sigla;
+            select  * from unidade_medida order by um_sigla;
             """)
         except Exception as e:
             raise ValueError(f"{e}")

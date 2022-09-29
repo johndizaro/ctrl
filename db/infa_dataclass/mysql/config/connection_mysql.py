@@ -16,7 +16,6 @@ class DBConnectionHandler:
         #### engine = create_engine('mysql+pymysql://johndizaro:ao[D]t1snnMYSQL@localhost:3306/orca')
 
     def __open_connection(self):
-        print('faz connection')
 
         try:
             self.__conn = mysql.connector.connect(
