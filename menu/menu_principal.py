@@ -3,7 +3,6 @@ import sys
 
 import gi
 
-from db.infa_dataclass.mysql.entities.entity_unidade_medida import EntityUnidaMedida
 from menu.cadastros_auxiliares.unidade_medida import UnidadeMedida
 
 gi.require_version(namespace='Gtk', version='4.0')
@@ -14,47 +13,40 @@ from geral.geral import Geral
 from widgets.dialogs.dialog_informativ import DialogInformativ
 from widgets.sobre_sistema.sobre_sistema import SobreSistema
 
-
-# gi.require_version(namespace='Adw', version='1.0')
-# from gi.repository import  Adw
-
-
 class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.gr = Geral()
+        self._gr = Geral()
 
-        self.gr.meu_logger.info("inicio")
-        self.gr.meu_logger.info(f"Geral.log_dic:{self.gr.log_dic}")
+        self._gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info(f"Geral.log_dic:{self._gr.log_dic}")
 
         # # desenha a janela
         self.montagem_janela()
-        # # Criando headerbar.
 
     def on_dialog_question_response(self, widget, response_id):
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
         print("on_dialog_question_response->>" + str(response_id))
 
     def do_activate_default(self, *args, **kwargs):
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
         print("do_activate_default")
 
     def do_shutdown(self):
-        # self.ls.logger.info("saindo do sistema via do_shutdown")
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
         Gtk.Application.do_shutdown(self)
         Gtk.ApplicationWindow.register_window()
-        self.gr.meu_logger.info("finalizou")
+        self._gr.meu_logger.info("finalizou")
 
     def do_startup(self):
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
         print("blablabla")
         # Gtk.Application.do_startup(self)
 
     def montagem_janela(self):
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
 
         self.set_title(title='Montagem de Preço')
         self.maximize()
@@ -66,14 +58,12 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.present()
 
     def montagem_headerbar(self):
-        # self.a.info("Montagem do header do menu principal")
-        self.gr.meu_logger.info("inicio")
+
+        self._gr.meu_logger.info("inicio")
         headerbar = Gtk.HeaderBar.new()
         headerbar.set_show_title_buttons(setting=True)
 
-        # headerbar.get_style_context().add_class(class_name='windowtitle')
         self.set_titlebar(titlebar=headerbar)
-        # self.set_subtitle("AAAAA")
 
         menu_button = self.montagem_menu()
         headerbar.pack_start(child=menu_button)
@@ -81,9 +71,13 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         return headerbar
 
     def montagem_menu(self):
-        # Criando o menu principal.
+        """
+        Criando o menu principal.
+        Returns:  menu_button
 
-        self.gr.meu_logger.info("inicio")
+        """
+
+        self._gr.meu_logger.info("inicio")
         menu = Gio.Menu.new()
         menu.append(label='Cadastro de Produto', detailed_action='win.cadastroprodudo')
         menu.append(label='Cadastro de Itens do Produto', detailed_action='win.cadastrodeitensdoproduto')
@@ -138,10 +132,9 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         menu_button.set_menu_model(menu)
         # Adicionando o botão no headerbar.
         return menu_button
-        # headerbar.pack_start(child=menu_button)
 
     def on_configuracaosistema_clicked(self, widget, parameter):
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
         # ConfigSistemaScreen(pai=self)
         ConfigSistemaMain(pai=self)
 
@@ -149,26 +142,13 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         SobreSistema(parent=self)
 
     def on_menu_exitsistema_clicked(self, widget, parameter):
-        # close the full system
+        # fecha por completo o sistema
         sys.exit()
 
-    def on_menu_unidadedemedida_clicked(self,widget, parameter):
-
-        self.gr.meu_logger.info("inicio")
-        # ConfigSistemaScreen(pai=self)
-        # um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
-        # um1 = EntityUnidaMedida()
-        # print()
-        # print(um1.get_um_sigla_title())
-        # print(um1.get_um_sigla_description())
-        # print(um1.get_title('um_sigla'))
-        # print(um1.get_description('um_sigla'))
-        # print(um1.get_title('um_descricao'))
-        # print(um1.get_description('um_descricao'))
-
+    def on_menu_unidadedemedida_clicked(self, widget, parameter):
+        self._gr.meu_logger.info("inicio")
         UnidadeMedida(pai=self)
-
-
+        # print(f"self.get_title():{self.widget}")
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,
@@ -192,60 +172,35 @@ class MenuPrincipal(Gtk.Application):
         super().__init__(application_id='br.ctrl.johndizaro',
                          flags=Gio.ApplicationFlags.FLAGS_NONE)
 
-        # self.cf = ConfigSistema()
+        self._gr = Geral()
 
-        self.gr = Geral()
-        # self.gr.salva_dic_log(self.cf.dic_log)
-
-        # self._ls = LogSistema(dic_log=self.cf.dic_log)
-
-        # self.gr.salva_logger(meu_logger=self._ls.meu_logger(logger_name="ctrl.desktop"))
-
-        self.gr.meu_logger.info("inicio")
-        self.gr.meu_logger.info(f"dicionario gr.log_dic:{self.gr.log_dic}")
+        self._gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info(f"dicionario gr.log_dic:{self._gr.log_dic}")
 
     def do_activate(self):
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
 
         win = self.props.active_window
         if not win:
             win = MenuPrincipalScreen(application=self)
         win.present()
 
-        self.gr.meu_logger.info("executei")
+        self._gr.meu_logger.info("executei")
 
     def do_startup(self):
-        self.gr.meu_logger.info("inicio")
+        self._gr.meu_logger.info("inicio")
         Gtk.Application.do_startup(self)
-        self.gr.meu_logger.info("executei")
+        self._gr.meu_logger.info("executei")
 
     def do_shutdown(self):
-
         """
-                Handler for the "quit" signal.
-                Destroys all application windows.
-                In consequence, GTK will terminate the application.
-                """
+        Manipulador ára o signal de "quit"
+        destroi todas as janelas do aplicativo
+        como concequencia, o aplictivo GTK sera finalizado
+        Returns:
+        """
+
         for win in self.get_windows():
             win.emit("close-request")
 
         sys.exit()
-
-        # as proximas linhas são usada para fechar uma(1) tela
-        # close the window
-        # app = self.get_application()
-        # app.remove_window(self)
-
-        # """When shutdown, finalize database and logging systems."""
-        # self.logger.info('Shutting down database...')
-        # SQLSession.commit()
-        # SQLSession.close()
-        #
-        # self._daemon.terminate()
-        #
-        # self.logger.info('Application quit normally.')
-        # logging.shutdown()
-        # self.gr.meu_logger.info("inicio")
-        # Gtk.Application.do_shutdown(self)
-        # sys.exit()
-        # self.gr.meu_logger.error("executei após o sys.exit() e não deveria")

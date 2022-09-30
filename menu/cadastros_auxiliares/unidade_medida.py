@@ -6,6 +6,7 @@ from dacite import from_dict
 from db.infa_dataclass.mysql.entities.entity_unidade_medida import EntityUnidaMedida
 from db.infa_dataclass.mysql.repositories.repository_unidade_medida import RepositoryUnidaMedida
 from geral.geral import Geral
+from widgets.dialogs.dialog_error import DialogError
 
 gi.require_version(namespace='Gtk', version='4.0')
 gi.require_version(namespace='Adw', version='1')
@@ -50,6 +51,24 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             self._dict_eum = self._rum.select_all()
         except Exception as e:
             self._gr.meu_logger.error(f"{e}")
+            # GTK_DIALOG_DESTROY_WITH_PARENT
+
+            DialogError(parent=self._pai,titulo='Problema ao carregar Unidade de Medida',titulo_mensagem='Problemas ao executar select_all()',mensagem=f'{e}')
+
+            # dialog = Adw.MessageDialog.new(self._pai)
+
+            # g = Gtk.MessageDialog(
+            #     parent= self._pai,
+            #     # flags=Gtk.DialogFlags.MODAL,
+            #     transient_for=self._pai,
+            #     message_type=Gtk.MessageType.ERROR,
+            #     buttons=Gtk.ButtonsType.OK,
+            #     modal=True,
+            #     text=str(e),
+            #     secondary_text="johnn"
+            # )
+            # g.show()
+
             print(f'{e}')
             return
         self._montagem_janela()
@@ -216,6 +235,10 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         except Exception as e:
             self._gr.meu_logger.error(f"{e}")
             print(f'{e}')
+            DialogError(parent=self._pai,
+                        titulo="SQL",
+                        titulo_mensagem="Problemas na execução do select_one()",
+                        mensagem=f"mensagem de erro:\n{e}")
             return
         else:
             self._eum = from_dict(data_class=EntityUnidaMedida, data=registro)

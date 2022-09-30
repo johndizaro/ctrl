@@ -7,7 +7,7 @@ class RepositoryUnidaMedida:
         cnx = DBConnectionHandler()
         try:
             registro = cnx.execute(f"""
-            select  * from unidade_medida
+            select  * from unidade_medide
             where um_id = {id};
             """)
         except Exception as e:
@@ -19,6 +19,10 @@ class RepositoryUnidaMedida:
         return row
 
     def select_all(self):
+        """
+        traz todos os registros com todos os cmapos da tabela unidade_medida or ordem de um_sigla
+        Returns: Uma lista de tuplas
+        """
 
         cnx = DBConnectionHandler()
         try:
@@ -33,6 +37,14 @@ class RepositoryUnidaMedida:
         return rows
 
     def incluir(self, dicionario):
+        """
+
+        Args:
+            dicionario: (dicionario) dicionario com os dados para incluir na table do banco de dados
+
+        Returns:(int) quantidade de registros afetados
+
+        """
         key = ", ".join(dicionario.keys())
         dados = ' ,'.join(["'%s'" % (value) for (value) in dicionario.values()])
 

@@ -9,7 +9,9 @@ from menu.menu_principal import MenuPrincipal
 
 # Adw.init()
 #
+
 BASE_DIR = Path(__file__).resolve().parent
+ROOT_DIR = BASE_DIR.parent.parent
 FILENAME = str(BASE_DIR.joinpath('MainWindow.ui'))
 #
 

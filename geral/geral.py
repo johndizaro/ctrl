@@ -26,14 +26,17 @@ class Geral:
 
     @classmethod
     def monta_caminho_e_nome_config(cls):
+
         return PurePosixPath(cls.sistema_path).joinpath(cls.config_nome)
 
     @classmethod
     def salva_dic_log(cls, log_dic):
         """
-        Este methodo e um classmethod  e deverá recebero dicionario do log
-        :param log_dic: dicionario do log
-        :return:
+        Este methodo é um classmethod  e deverá receber o dicionario do log
+        Args:
+            param1 (cls): este deverá ser o primeiro parametro sempre pois é um classmethod
+            param2 (log_dic): dicionario do log
+        Return:
         """
 
         if len(cls.log_dic) == 0:
