@@ -8,12 +8,12 @@ class DialogFilechooser(Gtk.FileChooserDialog):
     def __init__(self, parent, titulo):
         super(DialogFilechooser, self).__init__(transient_for=parent, use_header_bar=True)
 
-        self.parent = parent
+        # self.parent = parent
 
-        print('secundario')
         # fcd = Gtk.FileChooserDialog()
         self.set_title(title="pasta para log")
         self.set_modal(modal=True)
+        self.set_deletable(False)
         # self.set_transient_for(parent=self)
         # self.set_current_folder(Gio.File.new_for_path(path=str(self.home)), )
         self.set_action(action=Gtk.FileChooserAction.SELECT_FOLDER)

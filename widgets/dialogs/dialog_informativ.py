@@ -10,7 +10,7 @@ class DialogInformativ(Gtk.Dialog):
     def __init__(self, parent, titulo, titulo_mensagem, mensagem):
         super(DialogInformativ, self).__init__(transient_for=parent, use_header_bar=True)
 
-        self.parent = parent
+        # self.parent = parent
 
         self.set_title(title=titulo)
         # self.use_header_bar = True
@@ -38,24 +38,41 @@ class DialogInformativ(Gtk.Dialog):
         content_area.set_margin_bottom(margin=12)
         content_area.set_margin_start(margin=12)
 
+        vbox = Gtk.Box.new(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        content_area.append(child=vbox)
+
+
+        # iconErro = Gtk.Image(icon_name="dialog-error", pixel_size=100)
+        iconErro = Gtk.Image(icon_name="dialog-information", icon_size= Gtk.IconSize.LARGE)
+
+        # iconErro.set_from_icon_name("dialog-error")
+        # iconErro.set_
+        vbox.append(child=iconErro)
+
+        hbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        vbox.append(child=hbox)
+
         lb1 = Gtk.Label.new()
         lb1.set_xalign(0)
-        lb1.get_style_context().add_class(class_name='caption-heading')
+        lb1.get_style_context().add_class(class_name='heading')
         lb1.set_markup(str=self.titulo_mensagem.upper())
         lb1.set_margin_top(20)
-
-        # lb1.set_margin_bottom(20)
-        # lb1.set_margin_start(20)
-
-        content_area.append(child=lb1)
+        hbox.append(child=lb1)
 
         lb2 = Gtk.Label.new()
+        lb2.set_wrap(True)
+        lb2.set_justify(Gtk.Justification.FILL)
+        lb2.set_max_width_chars(50)
+        lb2.set_wrap_mode(Gtk.WrapMode.WORD)
+
+        # lb2.set_justify(Gtk.Justification.FILL)
+        # lb2.set_wrap(True)
         lb2.set_xalign(0)
-        lb2.get_style_context().add_class(class_name='caption')
+        lb2.get_style_context().add_class(class_name='body')
         lb2.set_markup(str=self.mensagem)
         lb2.set_margin_top(20)
         lb2.set_margin_end(20)
-        content_area.append(child=lb2)
+        hbox.append(child=lb2)
 
         self.show()
 

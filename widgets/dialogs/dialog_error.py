@@ -16,7 +16,7 @@ class DialogError(Gtk.Dialog):
     def __init__(self, parent, titulo, titulo_mensagem, mensagem):
         super(DialogError, self).__init__(transient_for=parent, use_header_bar=True)
 
-        self.parent = parent
+        # self.parent = parent
         # self.set_transient_for(parent)
         # self.set_keep_above(True)
 
@@ -26,8 +26,8 @@ class DialogError(Gtk.Dialog):
         self.set_deletable(False)
         self.connect("response", self.dialog_response)
 
-        self.titulo_mensagem = titulo_mensagem
-        self.mensagem = mensagem
+        self._titulo_mensagem = titulo_mensagem
+        self._mensagem = mensagem
 
         self.add_buttons(
             '_OK', Gtk.ResponseType.OK)
@@ -63,7 +63,7 @@ class DialogError(Gtk.Dialog):
         lb1 = Gtk.Label.new()
         lb1.set_xalign(0)
         lb1.get_style_context().add_class(class_name='heading')
-        lb1.set_markup(str=self.titulo_mensagem.upper())
+        lb1.set_markup(str=self._titulo_mensagem.upper())
         lb1.set_margin_top(20)
         hbox.append(child=lb1)
 
@@ -77,7 +77,7 @@ class DialogError(Gtk.Dialog):
         # lb2.set_wrap(True)
         lb2.set_xalign(0)
         lb2.get_style_context().add_class(class_name='body')
-        lb2.set_markup(str=self.mensagem)
+        lb2.set_markup(str=self._mensagem)
         lb2.set_margin_top(20)
         lb2.set_margin_end(20)
         hbox.append(child=lb2)
