@@ -13,6 +13,7 @@ from geral.geral import Geral
 from widgets.dialogs.dialog_informativ import DialogInformativ
 from widgets.sobre_sistema.sobre_sistema import SobreSistema
 
+# class MenuPrincipalScreen(Gtk.ApplicationWindow):
 class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
     def __init__(self, **kwargs):
@@ -25,6 +26,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
         # # desenha a janela
         self.montagem_janela()
+
 
     def on_dialog_question_response(self, widget, response_id):
         self._gr.meu_logger.info("inicio")

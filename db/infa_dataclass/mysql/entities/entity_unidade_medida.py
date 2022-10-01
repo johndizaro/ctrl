@@ -8,11 +8,13 @@ from geral.geral import Geral
 class EntityUnidaMedida:
     """ classe para guardar unidades de medida"""
 
-    um_id: int = field(init=False)
+    um_id: int = field(init=False,default=0)
     um_sigla: str = field(init=False,
-        metadata={'default': None, 'title': 'Sigla', 'description': 'abreviatura da unidade de medida'})
+                          metadata={'default': None, 'title': 'Sigla',
+                                    'description': 'abreviatura da unidade de medida'})
     um_descricao: str = field(init=False,
-        metadata={'default': None, 'title': 'Descrição', 'description': 'Nome da unidade de medida'})
+                              metadata={'default': None, 'title': 'Descrição',
+                                        'description': 'Nome da unidade de medida'})
 
     # reg_valido: bool = field(init=False, default=False, metadata={'options': [True, False]})
     # tp_registro: bool = field(init=False, default='CONSULTAR',
@@ -42,6 +44,7 @@ class EntityUnidaMedida:
 
     def __setattr__(self, key, value):
         Geral.meu_logger.info(f"{key}:{value}")
+
         match key:
             case 'um_id':
                 self._validade_um_id(key, value)
@@ -55,10 +58,12 @@ class EntityUnidaMedida:
 
     def _validade_um_id(self, key, value):
         self.__dict__[key] = int(value)
-        if value == 0 or value is None:
+        if value is None or value == "":
+            self.__dict__[key] = 0
             TipoRegistro.INCLUIR
         #     todo: rotina de incluir novo registro
         if value > 0:
+            self.__dict__[key] = value
             TipoRegistro.ALTERAR
 
     #      todo: rotina para alretar um registro
@@ -69,10 +74,10 @@ class EntityUnidaMedida:
     def get_um_sigla_description(self):
         return self.__dataclass_fields__['um_sigla'].metadata['description']
 
-    def get_title(self,name_field):
+    def get_title(self, name_field):
         return self.__dataclass_fields__[name_field].metadata['title']
 
-    def get_description(self,name_field):
+    def get_description(self, name_field):
         return self.__dataclass_fields__[name_field].metadata['description']
 
     def _validade_um_sigla(self, key, value):
@@ -81,7 +86,7 @@ class EntityUnidaMedida:
             self.__dict__[key] = value
         else:
             # self.reg_valido = False
-            raise ValueError(f'{key}: {value} não é um arquivo válido')
+            raise ValueError(f'{self.get_title(key)}: {value} conteúdo inválido')
 
     def _validade_um_descricao(self, key, value):
         if len(value) > 0:
@@ -89,8 +94,10 @@ class EntityUnidaMedida:
             self.__dict__[key] = value
         else:
             # self.reg_valido = False
-            raise ValueError(f'{key}: {value} não é um arquivo válido')
+            raise ValueError(f'{self.get_title(key)}: {value} conteúdo inválido')
 
+    # def traz_dicionario(self):
+    #     return  asdict(EntityUnidaMedida)
 # um1 = EntityUnidaMedida(um_id=1, um_sigla='kg', um_descricao='kilograma')
 # print(um1)
 # um2 = EntityUnidaMedida(um_id=1)

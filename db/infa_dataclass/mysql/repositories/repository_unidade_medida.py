@@ -1,4 +1,5 @@
 from db.infa_dataclass.mysql.config.connection_mysql import DBConnectionHandler
+from db.infa_dataclass.mysql.entities.entity_unidade_medida import EntityUnidaMedida
 
 
 class RepositoryUnidaMedida:
@@ -7,7 +8,7 @@ class RepositoryUnidaMedida:
         cnx = DBConnectionHandler()
         try:
             registro = cnx.execute(f"""
-            select  * from unidade_medide
+            select  * from unidade_medida
             where um_id = {id};
             """)
         except Exception as e:
@@ -45,6 +46,9 @@ class RepositoryUnidaMedida:
         Returns:(int) quantidade de registros afetados
 
         """
+
+        dicionario.pop('um_id')
+
         key = ", ".join(dicionario.keys())
         dados = ' ,'.join(["'%s'" % (value) for (value) in dicionario.values()])
 
@@ -59,9 +63,9 @@ class RepositoryUnidaMedida:
         return qt_registros
 
     def alterar(self, dicionario):
-        id = dicionario["id"]
+        id = dicionario["um_id"]
         x = dicionario
-        x.pop('id')
+        x.pop('um_id')
 
         dados = ', '.join(["%s = '%s'" % (key, value) for (key, value) in dicionario.items()])
 
@@ -88,3 +92,5 @@ class RepositoryUnidaMedida:
             return
 
         return qt_registros
+
+
