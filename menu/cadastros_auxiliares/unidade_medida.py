@@ -78,17 +78,24 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
 
         bt_salvar = Gtk.Button.new_with_label(label='Salvar')
         bt_salvar.set_icon_name(icon_name='document-save-symbolic')
-        bt_salvar.get_style_context().add_class(class_name='destructive')
-        bt_salvar.set_tooltip_text(text="Salvar alterações")
+        bt_salvar.get_style_context().add_class(class_name='suggested-action')
+        bt_salvar.set_tooltip_text(text="Salvar alterações no banco de dados")
         bt_salvar.connect('clicked', self.on_bt_salvar_clicked)
         headerbar.pack_start(child=bt_salvar)
 
         bt_undor = Gtk.Button.new_with_label(label='Desfazer')
         bt_undor.set_icon_name(icon_name='edit-undo')
-        bt_undor.get_style_context().add_class(class_name='suggested-action')
-        bt_undor.set_tooltip_text(text="Restaurar tela")
+        bt_undor.get_style_context().add_class(class_name='')
+        bt_undor.set_tooltip_text(text="Restaurar apelas a tela")
         # bt_undor.connect('clicked', self.on_bt_undor_clicked)
         headerbar.pack_start(child=bt_undor)
+
+        bt_apagar = Gtk.Button.new_with_label(label='Apagar')
+        bt_apagar.set_icon_name(icon_name='edit-delete-symbolic')
+        bt_apagar.get_style_context().add_class(class_name='destructive-action')
+        bt_apagar.set_tooltip_text(text="Apagar unidade de medida do banco de dados")
+        bt_apagar.connect('clicked', self.on_bt_apagar_clicked)
+        headerbar.pack_start(child=bt_apagar)
 
         bt_ajudar = Gtk.Button.new_with_label(label='Ajudar')
         bt_ajudar.set_icon_name(icon_name='help-browser-symbolic')
@@ -158,6 +165,15 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         vbox_campos.append(child=self._e_um_descricao)
 
         return vbox_campos
+
+
+    def on_bt_apagar_clicked(self, widget):
+        if self._entity_unida_medida.um_id > 0:
+            self._repository_Unida_Medida.deletar(id=self._entity_unida_medida.um_id)
+            self.limpar_campos()
+            self._dic_registros = self._repository_Unida_Medida.select_all()
+            self._inserir_dados_treeview(tree_store=self._tree_store, dic_registros=self._dic_registros)
+
 
     def on_bt_salvar_clicked(self, widget):
         if self.validar_campos(dic_registro=self._entity_unida_medida):
