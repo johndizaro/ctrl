@@ -42,6 +42,7 @@ class EntityUnidaMedida:
     #             Geral.meu_logger.error(f"{self.tp_registro} Erro:Opção inválida")
     #             raise ValueError(f"Tipo de registro invalido:{self.tp_registro}")
 
+
     def __setattr__(self, key, value):
         Geral.meu_logger.info(f"{key}:{value}")
 
