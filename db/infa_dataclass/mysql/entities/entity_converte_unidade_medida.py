@@ -58,3 +58,11 @@ class EntityConverteUnidadeMedida:
 
         self.__dict__[key] = value
 
+    def get_title(self, name_field):
+        return self.__dataclass_fields__[name_field].metadata['title']
+
+    def get_description(self, name_field):
+        return self.__dataclass_fields__[name_field].metadata['description']
+
+    def get_max_size(self, name_field):
+        return self.__dataclass_fields__[name_field].metadata['max_size']
