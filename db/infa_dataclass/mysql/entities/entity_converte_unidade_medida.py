@@ -15,7 +15,7 @@ class EntityConverteUnidadeMedida:
         'options': {'max_size': 20, 'title': 'Calculo para converção', 'description': "exemplo x*1000"}})
 
     def __repr__(self):
-        return f"cum_id:{self.cum_id} cum_id_sigla_origem:{self.cum_id_sigla_origem} cum_id_sigla_destino:{self.cum_id_sigla_destino} cum_calculo: {self.cum_calculo}
+        return f"cum_id:{self.cum_id} cum_id_sigla_origem:{self.cum_id_sigla_origem} cum_id_sigla_destino:{self.cum_id_sigla_destino} cum_calculo: {self.cum_calculo}"
 
     def __setattr__(self, key, value):
         match key:
