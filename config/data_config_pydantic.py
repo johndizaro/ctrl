@@ -10,7 +10,7 @@ class DataConfig(pydantic.BaseModel):
     log_no_terminal: Optional[bool] = True
     log_no_arquivo: Optional[bool] = True
     log_caminho: Optional[str]
-    log_nome_arquivo: Optional[str]
+    log_nome_arquivo: Optional[str] = Field(title='Nome do arquivo',default='nome do arquivo config exemplo: config.conf, config.ini',)
     log_tipo: str  = Field('INFO',title='Tipo de log', description="escolha uma das opções",)
 
     @pydantic.validator("log_caminho")
@@ -53,6 +53,6 @@ dataconfig1 = DataConfig()
 dataconfig1.log_tipo = "ERR"
 print(f"dict:{dataconfig1.dict()}")
 print(f'log_tipo:{dataconfig1.log_tipo}')
-dataconfig1.dict()
+# dataconfig1.dict()
 print(f'log_no_arquivo:{dataconfig1.log_no_arquivo}')
 

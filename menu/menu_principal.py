@@ -3,6 +3,7 @@ import sys
 
 import gi
 
+from menu.cadastros_auxiliares.converte_unidade_medida import ConverteUnidadeMedida
 from menu.cadastros_auxiliares.unidade_medida import UnidadeMedida
 
 gi.require_version(namespace='Gtk', version='4.0')
@@ -12,6 +13,7 @@ from config.config_sistema_tela import ConfigSistemaMain
 from geral.geral import Geral
 from widgets.dialogs.dialog_informativ import DialogInformativ
 from widgets.sobre_sistema.sobre_sistema import SobreSistema
+
 
 # class MenuPrincipalScreen(Gtk.ApplicationWindow):
 class MenuPrincipalScreen(Gtk.ApplicationWindow):
@@ -26,7 +28,6 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
 
         # # desenha a janela
         self.montagem_janela()
-
 
     def on_dialog_question_response(self, widget, response_id):
         self._gr.meu_logger.info("inicio")
@@ -60,7 +61,6 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.present()
 
     def montagem_headerbar(self):
-
         self._gr.meu_logger.info("inicio")
         headerbar = Gtk.HeaderBar.new()
         headerbar.set_show_title_buttons(setting=True)
@@ -73,12 +73,6 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         return headerbar
 
     def montagem_menu(self):
-        """
-        Criando o menu principal.
-        Returns:  menu_button
-
-        """
-
         self._gr.meu_logger.info("inicio")
         menu = Gio.Menu.new()
         menu.append(label='Cadastro de Produto', detailed_action='win.cadastroprodudo')
@@ -111,7 +105,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self.add_action(action=action_unidadedemedida)
 
         action_convercaodeunidadedemedida = Gio.SimpleAction.new(name='convercaodeunidadedemedida', parameter_type=None)
-        action_convercaodeunidadedemedida.connect('activate', self.on_menu_item_clicked)
+        action_convercaodeunidadedemedida.connect('activate', self.on_menu_convercaodeunidadedemedida_clicked)
         self.add_action(action=action_convercaodeunidadedemedida)
 
         action_configuracaosistema = Gio.SimpleAction.new(name='configuracaosistema', parameter_type=None)
@@ -151,6 +145,10 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         self._gr.meu_logger.info("inicio")
         UnidadeMedida(pai=self)
         # print(f"self.get_title():{self.widget}")
+
+    def on_menu_convercaodeunidadedemedida_clicked(self, widget, parameter):
+        self._gr.meu_logger.info("inicio")
+        ConverteUnidadeMedida(pai=self)
 
     def on_menu_item_clicked(self, widget, parameter):
         DialogInformativ(parent=self,
@@ -206,3 +204,8 @@ class MenuPrincipal(Gtk.Application):
             win.emit("close-request")
 
         sys.exit()
+#
+# #
+# if __name__ == "__main__":
+#     import doctest
+#     doctest.testmod()

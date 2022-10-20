@@ -33,6 +33,7 @@ class DataConfig:
         default='%(levelname)-10s  logger:%(name)-15s %(asctime)s filename:%(filename)-20s \tmódulo:%(module)-20s função:%(funcName)-20s  linha:%(lineno)-20s mensagem:%(message)s')
 
     def get_log_no_terminal_title(self):
+
         return self.__dataclass_fields__['log_no_terminal'].metadata['title']
 
     def get_log_no_terminal_description(self):
@@ -168,6 +169,8 @@ class DataConfig:
 
     def traz_dicionario_log(self):
         return asdict(self)
+
+
 
 # dataconfig1 = DataConfig()
 #

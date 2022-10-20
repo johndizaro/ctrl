@@ -1,10 +1,10 @@
-from dataclasses import asdict
+# from dataclasses import asdict
 
 import gi
 from dacite import from_dict
 
-from db.infa_dataclass.mysql.entities.entity_unidade_medida import EntityUnidaMedida
-from db.infa_dataclass.mysql.repositories.repository_unidade_medida import RepositoryUnidaMedida
+from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
+from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
 from geral.geral import Geral
 from widgets.dialogs.dialog_message_error import DialogMessageError
 
@@ -33,24 +33,17 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         self._pai = pai
         self._gr = Geral()
 
-        self._COL_UM_ID = 0
-        self._COL_UM_SIGLA = 1
-        self._COL_UM_DESCRICAO = 2
+        self._COL_A01_ID = 0
+        self._COL_A01_SIGLA = 1
+        self._COL_A01_DESCRICAO = 2
 
-        self._entity_unida_medida = EntityUnidaMedida()
-        self._repository_Unida_Medida = RepositoryUnidaMedida()
+        self._model_unidade_medida = ModelUnidadeMedida()
+        self._engine_unidade_medida = EngineUnidadeMedida()
 
-        self._dic_registros = dict()
+        self._list_dic_registros = list()
+        self.ler_dados_para_treeview()
 
-        try:
-            self._dic_registros = self._repository_Unida_Medida.select_all()
-        except Exception as e:
-            self._gr.meu_logger.error(f"{e}")
-            DialogMessageError(parent=self._pai, titulo='Problema ao carregar Unidade de Medida',
-                               titulo_mensagem='Problemas ao executar select_all()',
-                               mensagem=f'{e}')
-        else:
-            self._criar_layout(layout_janela=self)
+        self._criar_layout(layout_janela=self)
 
     def _criar_layout(self, layout_janela):
         self._gr.meu_logger.info("Inicio da montagem da janela")
@@ -68,6 +61,8 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
 
         layout_janela.present()
 
+
+
     def _montagem_headerbar(self, layout_janela):
         self._gr.meu_logger.info("Montagem do header do menu principal")
 
@@ -83,11 +78,11 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         bt_salvar.connect('clicked', self.on_bt_salvar_clicked)
         headerbar.pack_start(child=bt_salvar)
 
-        bt_undor = Gtk.Button.new_with_label(label='Desfazer')
-        bt_undor.set_icon_name(icon_name='edit-undo')
+        bt_undor = Gtk.Button.new_with_label(label='Limpar Tela')
+        bt_undor.set_icon_name(icon_name='edit-clear-all-symbolic')
         bt_undor.get_style_context().add_class(class_name='')
         bt_undor.set_tooltip_text(text="Restaurar apelas a tela")
-        # bt_undor.connect('clicked', self.on_bt_undor_clicked)
+        bt_undor.connect('clicked', self.on_bt_undor_clicked)
         headerbar.pack_start(child=bt_undor)
 
         bt_apagar = Gtk.Button.new_with_label(label='Apagar')
@@ -116,19 +111,20 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         vbox_layout.set_valign(Gtk.Align.FILL)
         vbox_layout.set_halign(Gtk.Align.FILL)
 
-        vbox_layout.append(child=self._criar_campos_na_tela(dic_entity_unida_medida=self._entity_unida_medida))
+        vbox_layout.append(child=self._criar_campos_na_tela())
         # vbox_layout.append(child=self._criar_listview(dic_registros=self._dic_registros))
         # vbox_layout.append(child=self._criar_treeview(dic_registros=self._dic_registros))
         vbox_layout.append(child=self._desenhar_treeview())
 
         self.set_child(child=vbox_layout)
 
-    def _criar_campos_na_tela(self, dic_entity_unida_medida):
+    def _criar_campos_na_tela(self):
+
         self._gr.meu_logger.info("inicio da criação dos campos na tela")
         vbox_campos = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         vbox_campos.get_style_context().add_class(class_name='card')
 
-        self._l_label = Gtk.Label(label=dic_entity_unida_medida.get_title('um_sigla'),
+        self._l_label = Gtk.Label(label=self._model_unidade_medida.get_title('a01_sigla'),
                                   margin_top=10,
                                   margin_bottom=0,
                                   margin_start=10,
@@ -137,16 +133,17 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                                   yalign=0)
         vbox_campos.append(child=self._l_label)
 
-        self._e_um_sigla = Gtk.Entry(max_length=0,
-                                     text="",
-                                     tooltip_text=dic_entity_unida_medida.get_description('um_sigla'),
-                                     margin_top=0,
-                                     margin_end=10,
-                                     margin_start=10,
-                                     margin_bottom=0)
-        vbox_campos.append(child=self._e_um_sigla)
+        self._e_a01_sigla = Gtk.Entry(max_length=self._model_unidade_medida.get_size('a01_sigla'),
+                                      text="",
+                                      tooltip_text=self._model_unidade_medida.get_description('a01_sigla'),
+                                      margin_top=0,
+                                      margin_end=10,
+                                      margin_start=10,
+                                      margin_bottom=0)
+        self._e_a01_sigla.get_style_context().add_class(class_name='accent')
+        vbox_campos.append(child=self._e_a01_sigla)
 
-        self._l_label1 = Gtk.Label(label=dic_entity_unida_medida.get_title('um_descricao'),
+        self._l_label1 = Gtk.Label(label=self._model_unidade_medida.get_title('a01_descricao'),
                                    margin_top=10,
                                    margin_bottom=0,
                                    margin_start=10,
@@ -155,77 +152,99 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                                    yalign=0)
         vbox_campos.append(child=self._l_label1)
 
-        self._e_um_descricao = Gtk.Entry(max_length=0,
-                                         text="",
-                                         tooltip_text=dic_entity_unida_medida.get_description('um_descricao'),
-                                         margin_start=10,
-                                         margin_end=10,
-                                         margin_top=0,
-                                         margin_bottom=10)
-        vbox_campos.append(child=self._e_um_descricao)
+        self._e_a01_descricao = Gtk.Entry(max_length=self._model_unidade_medida.get_size('a01_descricao'),
+                                          text="",
+                                          tooltip_text=self._model_unidade_medida.get_description('a01_descricao'),
+                                          margin_start=10,
+                                          margin_end=10,
+                                          margin_top=0,
+                                          margin_bottom=10)
+        self._e_a01_descricao.get_style_context().add_class(class_name='accent')
+        vbox_campos.append(child=self._e_a01_descricao)
 
         return vbox_campos
 
-
-    def on_bt_apagar_clicked(self, widget):
-        if self._entity_unida_medida.um_id > 0:
-            self._repository_Unida_Medida.deletar(id=self._entity_unida_medida.um_id)
-            self.limpar_campos()
-            self._dic_registros = self._repository_Unida_Medida.select_all()
-            self._inserir_dados_treeview(tree_store=self._tree_store, dic_registros=self._dic_registros)
-
-
-    def on_bt_salvar_clicked(self, widget):
-        if self.validar_campos(dic_registro=self._entity_unida_medida):
-            self._gr.meu_logger.info(f"Dados para salvar {self._entity_unida_medida}")
-            if self._entity_unida_medida.um_id == 0:
-                self._repository_Unida_Medida.incluir(dicionario=asdict(self._entity_unida_medida))
-            else:
-                self._repository_Unida_Medida.alterar(dicionario=asdict(self._entity_unida_medida))
-
+    def on_bt_undor_clicked(self, widet):
         self.limpar_campos()
 
+    def on_bt_apagar_clicked(self, widget):
+
+        if self._model_unidade_medida.a01_id > 0:
+            self._engine_unidade_medida.deletar(id=self._model_unidade_medida.a01_id)
+            self.limpar_campos()
+            self.ler_dados_para_treeview()
+
+            self._inserir_dados_treeview(tree_store=self._tree_store, list_dic_registros=self._list_dic_registros)
+
+    def ler_dados_para_treeview(self):
         try:
-            self._dic_registros = self._repository_Unida_Medida.select_all()
+            self._list_dic_registros = self._engine_unidade_medida.select_all()
             self._gr.meu_logger.info(f"executado select_all(")
         except Exception as e:
             self._gr.meu_logger.error(f"{e}")
             DialogMessageError(parent=self._pai, titulo='Problema ao carregar Unidade de Medida',
                                titulo_mensagem='Problemas ao executar select_all()',
                                mensagem=f'{e}')
-        else:
-            self._gr.meu_logger.info(f"Dados salvos {self._dic_registros}")
-            self._gr.meu_logger.info(f"vou executar treeview")
-            # self._criar_listview(dic_registros=self._dic_registros)
-            # self._criar_treeview(dic_registros=self._dic_registros)
-            self._inserir_dados_treeview(tree_store=self._tree_store, dic_registros=self._dic_registros)
-            self._gr.meu_logger.info(f"executei treeview")
+        # else:
+        #     self._gr.meu_logger.info(f"Dados salvos {self._list_dic_registros}")
+        #     self._gr.meu_logger.info(f"vou executar treeview")
+        #     self._inserir_dados_treeview(tree_store=self._tree_store, list_dic_registros=self._list_dic_registros)
+        #     self._gr.meu_logger.info(f"executei treeview")
+
+    def on_bt_salvar_clicked(self, widget):
+        if self.validar_campos():
+            self._gr.meu_logger.info(f"Dados para salvar {self._model_unidade_medida}")
+            try:
+                if self._model_unidade_medida.a01_id == 0:
+                    self._engine_unidade_medida.incluir(dicionario=self._model_unidade_medida.dic_UnidadeMedida())
+                else:
+                    self._engine_unidade_medida.alterar(dicionario=self._model_unidade_medida.dic_UnidadeMedida())
+            except Exception as e:
+                self._gr.meu_logger.error(f"incluir/alterar: {e}")
+                DialogMessageError(parent=self._pai, titulo='Problema ao executar incluir/alterar na Unidade de Medida',
+                                   titulo_mensagem='Problemas ao executar select_all()',
+                                   mensagem=f'{e}')
+                return
+            else:
+                self.limpar_campos()
+                self.ler_dados_para_treeview()
+                self._inserir_dados_treeview(tree_store=self._tree_store, list_dic_registros=self._list_dic_registros)
 
     def limpar_campos(self):
 
-        self._dic_registro = {}
+        self._model_unidade_medida = ModelUnidadeMedida()
         self._dic_registros = {}
+        self._e_a01_sigla.get_style_context().remove_class(class_name='error')
+        self._e_a01_descricao.get_style_context().remove_class(class_name='error')
 
-        self._e_um_sigla.set_text("")
-        self._e_um_descricao.set_text("")
+        self._e_a01_sigla.set_text("")
+        self._e_a01_descricao.set_text("")
 
-    def validar_campos(self, dic_registro):
-
-        campos_validos = False
+    def validar_campos(self):
 
         try:
-            self._entity_unida_medida.um_sigla = self._e_um_sigla.get_text()
-            self._entity_unida_medida.um_descricao = self._e_um_descricao.get_text()
-        except Exception as error:
+            # self._e_a01_sigla.get_style_context().remove_class(class_name='error')
+            # self._e_a01_sigla.get_style_context().add_class(class_name='accent')
+            # self._e_a01_descricao.get_style_context().remove_class(class_name='error')
+            # self._e_a01_descricao.get_style_context().add_class(class_name='accent')
 
+            if str(self._e_a01_sigla.get_text()) != "":
+                self._model_unidade_medida.a01_sigla = self._e_a01_sigla.get_text()
+            else:
+                self._model_unidade_medida.a01_sigla = ""
+
+            if str(self._e_a01_descricao.get_text()) != "":
+                self._model_unidade_medida.a01_descricao = self._e_a01_descricao.get_text()
+            else:
+                self._model_unidade_medida.a01_descricao = ""
+
+        except (Exception) as error:
             DialogMessageError(parent=self,
                                titulo="Erro",
                                titulo_mensagem="Campo com conteúdo inválido",
-                               mensagem=error)
-            campos_validos = False
-        else:
-            campos_validos = True
-        return campos_validos
+                               mensagem=str(error))
+
+        return self._model_unidade_medida.verifica_status_final()
 
     def _desenhar_treeview(self):
 
@@ -254,22 +273,22 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         scrolledwindow.set_child(child=treeview)
 
         self._desenha_colunas(treeview=treeview)
-        self._inserir_dados_treeview(tree_store=self._tree_store, dic_registros=self._dic_registros)
+        self._inserir_dados_treeview(tree_store=self._tree_store, list_dic_registros=self._list_dic_registros)
 
         return vbox_treeview
 
     def _desenha_colunas(self, treeview):
 
         cols = ('ID',
-                self._entity_unida_medida.get_title("um_sigla"),
-                self._entity_unida_medida.get_title("um_descricao")
+                self._model_unidade_medida.get_title("a01_sigla"),
+                self._model_unidade_medida.get_title("a01_descricao")
                 )
 
         for column_index, title in enumerate(cols):
             # Criando um rederizador do tipo texto.
             cell_render = Gtk.CellRendererText.new()
 
-            if column_index == self._COL_UM_SIGLA:
+            if column_index == self._COL_A01_SIGLA:
                 cell_render.set_property('weight', Pango.Weight.BOLD)
 
             # Criando a coluna.
@@ -280,7 +299,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             )
 
             # tornando a coluna invisivel
-            if column_index == self._COL_UM_ID:
+            if column_index == self._COL_A01_ID:
                 tree_view_column.set_visible(visible=False)
 
             # Definindo que a coluna pode ordenar o conteúdo.
@@ -288,13 +307,13 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             # Adicionando a coluna no `Gtk.TreeView()`.
             treeview.append_column(column=tree_view_column)
 
-    def _inserir_dados_treeview(self, dic_registros, tree_store):
+    def _inserir_dados_treeview(self, list_dic_registros, tree_store):
         treestore = tree_store
         treestore.clear()
-        for registro in dic_registros:
-            treestore.append(None, [registro['um_id'], registro['um_sigla'], registro['um_descricao']])
+        for registro in list_dic_registros:
+            treestore.append(None, [registro['a01_id'], registro['a01_sigla'], registro['a01_descricao']])
 
-    def _criar_treeview(self, dic_registros):
+    def _criar_treeview(self, list_dic_registros):
         self._gr.meu_logger.info("inicio da montagem")
 
         vbox_treeview = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -310,8 +329,8 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         # tree_store = Gtk.TreeStore(types=[GObject.TYPE_INT, GObject.TYPE_STRING, GObject.TYPE_STRING])
         tree_store.clear()
 
-        for registro in dic_registros:
-            tree_store.append(None, [registro['um_id'], registro['um_sigla'], registro['um_descricao']])
+        for registro in list_dic_registros:
+            tree_store.append(None, [registro['a01_id'], registro['a01_sigla'], registro['a01_descricao']])
 
         # tree_store.clear()
 
@@ -341,15 +360,15 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         scrolledwindow.set_child(child=treeview)
 
         cols = ('ID',
-                self._entity_unida_medida.get_title("um_sigla"),
-                self._entity_unida_medida.get_title("um_descricao")
+                self._model_unidade_medida.get_title("a01_sigla"),
+                self._model_unidade_medida.get_title("a01_descricao")
                 )
 
         for column_index, title in enumerate(cols):
             # Criando um rederizador do tipo texto.
             cell_render = Gtk.CellRendererText.new()
 
-            if column_index == self._COL_UM_SIGLA:
+            if column_index == self._COL_A01_SIGLA:
                 cell_render.set_property('weight', Pango.Weight.BOLD)
 
             # Criando a coluna.
@@ -360,7 +379,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             )
 
             # tornando a coluna invisivel
-            if column_index == self._COL_UM_ID:
+            if column_index == self._COL_A01_ID:
                 tree_view_column.set_visible(visible=False)
 
             # Definindo que a coluna pode ordenar o conteúdo.
@@ -370,7 +389,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
 
         return vbox_treeview
 
-    def _criar_listview(self, dic_registros):
+    def _criar_listview(self, list_dic_registros):
         self._gr.meu_logger.info("inicio da montagem")
 
         vbox_listview = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -387,13 +406,13 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         #     list_store.clear()
         # list_store.clear()
 
-        self._gr.meu_logger.info(f"dados a serem colocados no treeview: {dic_registros}")
+        self._gr.meu_logger.info(f"dados a serem colocados no treeview: {list_dic_registros}")
         # list_store.append(None)
         # tree_view = Gtk.TreeView.new()
         # tree_view.set_model()
 
-        for registro in dic_registros:
-            list_store.append([registro['um_id'], registro['um_sigla'], registro['um_descricao']])
+        for registro in list_dic_registros:
+            list_store.append([registro['a01_id'], registro['a01_sigla'], registro['a01_descricao']])
 
         # tree_view.set_model(model=list_store)
         # tree_view.new_with_model(model=list_store)
@@ -426,15 +445,15 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         scrolledwindow.set_child(child=tree_view)
 
         cols = ('ID',
-                self._entity_unida_medida.get_title("um_sigla"),
-                self._entity_unida_medida.get_title("um_descricao")
+                self._model_unidade_medida.get_title("a01_sigla"),
+                self._model_unidade_medida.get_title("a01_descricao")
                 )
 
         for column_index, title in enumerate(cols):
             # Criando um rederizador do tipo texto.
             cell_render = Gtk.CellRendererText.new()
 
-            if column_index == self._COL_UM_SIGLA:
+            if column_index == self._COL_A01_SIGLA:
                 cell_render.set_property('weight', Pango.Weight.BOLD)
 
             # Criando a coluna.
@@ -447,7 +466,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             # tree_view_column.clear()
 
             # tornando a coluna invisivel
-            if column_index == self._COL_UM_ID:
+            if column_index == self._COL_A01_ID:
                 tree_view_column.set_visible(visible=False)
 
             # Definindo que a coluna pode ordenar o conteúdo.
@@ -458,20 +477,20 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
 
         return vbox_listview
 
-    def _inserir_dados_na_tela(self, dic_entity_unida_medida):
+    def _inserir_dados_na_tela(self, dic_model_unida_medida):
 
-        self._e_um_sigla.set_text(dic_entity_unida_medida.um_sigla)
-        self._e_um_descricao.set_text(dic_entity_unida_medida.um_descricao)
+        self._e_a01_sigla.set_text(dic_model_unida_medida.a01_sigla)
+        self._e_a01_descricao.set_text(dic_model_unida_medida.a01_descricao)
 
     def on_row_activated(self, path, column, user_data):
         (model, node) = path.get_selection().get_selected()
         if not node:
             return
-        selected = int(model.get_value(node, self._COL_UM_ID))
+        selected = int(model.get_value(node, self._COL_A01_ID))
         self._gr.meu_logger.info(f"id selecionado:{selected}")
 
         try:
-            registro = self._repository_Unida_Medida.select_one(id=selected)
+            self.registro = self._engine_unidade_medida.select_one(id=selected)
         except Exception as e:
             self._gr.meu_logger.error(f"{e}")
             print(f'{e}')
@@ -481,10 +500,10 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                                mensagem=f"mensagem de erro:\n{e}")
             return
         else:
-            self._entity_unida_medida = from_dict(data_class=EntityUnidaMedida, data=registro)
-            self._inserir_dados_na_tela(dic_entity_unida_medida=self._entity_unida_medida)
+            self._model_unidade_medida = from_dict(ModelUnidadeMedida, self.registro)
+            self._inserir_dados_na_tela(dic_model_unida_medida=self._model_unidade_medida)
 
-        self._gr.meu_logger.info(f"registro do id selecionado:{registro}")
+        self._gr.meu_logger.info(f"registro do id selecionado:{self._model_unidade_medida}")
 
     # def on_cursor_changed(self,widget):
     #     campo = ""
