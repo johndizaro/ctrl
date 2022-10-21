@@ -1,5 +1,5 @@
 import gi
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 
 gi.require_version(namespace='Gtk', version='4.0')
 
@@ -18,11 +18,12 @@ class DialogQuestionYesNo(Gtk.Dialog):
         # self.use_header_bar = True
         self.set_modal(modal=True)
         self.set_deletable(False)
+        self.set_resizable(False)
         self.connect("response", self.dialog_response)
 
         self._titulo_mensagem = titulo_mensagem
         self._mensagem = mensagem
-        self.resposta1 = 0
+        self.resposta = 0
 
         self.add_buttons(
             '_YES', Gtk.ResponseType.YES,
@@ -38,33 +39,36 @@ class DialogQuestionYesNo(Gtk.Dialog):
 
         # Acessando o box do dialogo.
         content_area = self.get_content_area()
-        content_area.set_orientation(orientation=Gtk.Orientation.VERTICAL)
-        content_area.set_spacing(spacing=12)
-        content_area.set_margin_top(margin=12)
-        content_area.set_margin_end(margin=12)
-        content_area.set_margin_bottom(margin=12)
-        content_area.set_margin_start(margin=12)
+        content_area.set_orientation(orientation=Gtk.Orientation.HORIZONTAL)
+        content_area.set_valign(Gtk.Align.FILL)
+        content_area.set_vexpand(True)
+        content_area.set_spacing(spacing=10)
+        content_area.set_margin_top(margin=10)
+        content_area.set_margin_end(margin=10)
+        content_area.set_margin_bottom(margin=10)
+        content_area.set_margin_start(margin=10)
+        content_area.set_halign(Gtk.Align.FILL)
 
-        vbox = Gtk.Box.new(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        content_area.append(child=vbox)
+        # vbox = Gtk.Box.new(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        # content_area.append(child=vbox)
 
-
-        # iconErro = Gtk.Image(icon_name="dialog-error", pixel_size=100)
         iconErro = Gtk.Image(icon_name="dialog-question", icon_size= Gtk.IconSize.LARGE)
+        content_area.append(child=iconErro)
 
         # iconErro.set_from_icon_name("dialog-error")
         # iconErro.set_
-        vbox.append(child=iconErro)
+        content_area.append(child=iconErro)
 
-        hbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        vbox.append(child=hbox)
+        vbox = Gtk.Box.new(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        vbox.set_valign(Gtk.Align.CENTER)
+        content_area.append(child=vbox)
 
         lb1 = Gtk.Label.new()
         lb1.set_xalign(0)
         lb1.get_style_context().add_class(class_name='heading')
         lb1.set_markup(str=self._titulo_mensagem.upper())
-        lb1.set_margin_top(20)
-        hbox.append(child=lb1)
+        # lb1.set_margin_top(20)
+        vbox.append(child=lb1)
 
         lb2 = Gtk.Label.new()
         lb2.set_wrap(True)
@@ -77,34 +81,38 @@ class DialogQuestionYesNo(Gtk.Dialog):
         lb2.set_xalign(0)
         lb2.get_style_context().add_class(class_name='body')
         lb2.set_markup(str=self._mensagem)
-        lb2.set_margin_top(20)
-        lb2.set_margin_end(20)
-        hbox.append(child=lb2)
+        vbox.append(child=lb2)
 
         self.show()
 
+        self.loop = GLib.MainLoop.new(None, False)
+        self.loop.run()
+
         # self.present()
 
-    def get_resposta1(self, valor):
-        print('dentro do get:' + str(valor))
-        self.resposta1 = valor
+    def get_resposta(self, valor):
+        # print('dentro do get:' + str(valor))
+        self.resposta = valor
         return valor
 
     def dialog_response(self, widget, response):
 
         if response == Gtk.ResponseType.YES:
-            self.get_resposta1(valor=Gtk.ResponseType.YES)
-            self.resposta1 = Gtk.ResponseType.YES
+            self.get_resposta(valor=Gtk.ResponseType.YES)
+            self.resposta = Gtk.ResponseType.YES
             # print('Botão YES pressionado')
             # print("response:" + str(response))
         elif response == Gtk.ResponseType.NO:
-            self.resposta1 = Gtk.ResponseType.NO
-            self.get_resposta1(valor=Gtk.ResponseType.NO)
+            self.resposta = Gtk.ResponseType.NO
+            self.get_resposta(valor=Gtk.ResponseType.NO)
             # print('Botão NO pressionado')
             # print("dialog_response -response:" + str(response))
 
+
         # widget.close()
         self.destroy()
-        # return  self.get_resposta1(valor=self.resposta1)
+        self.loop.quit()
+
+        # return  self.get_resposta(valor=self.resposta)
 
         # print("oi")

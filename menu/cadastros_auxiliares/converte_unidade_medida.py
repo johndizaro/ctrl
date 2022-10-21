@@ -6,13 +6,17 @@ from db.infa_dataclass.mysql.extras.operacao_aritimetica import lst_dic_operacao
 from db.infa_dataclass.mysql.models.model_converte_unidade_medida import ModelConverteUnidadeMedida
 from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
 from geral.geral import Geral
+from widgets.dialogs.dialog_error import DialogError
 from widgets.dialogs.dialog_message_error import DialogMessageError
+from widgets.dialogs.dialog_question_yesno import DialogQuestionYesNo
 from widgets.widgets_compostos.label_dropdown import LabelDropdown
 from widgets.widgets_compostos.label_entry import LabelEntry
 
 gi.require_version(namespace='Gtk', version='4.0')
 gi.require_version(namespace='Adw', version='1')
 from gi.repository import Gtk, Adw
+
+
 
 Adw.init()
 
@@ -82,7 +86,7 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
         bt_undor.set_icon_name(icon_name='edit-clear-all-symbolic')
         bt_undor.get_style_context().add_class(class_name='plain')
         bt_undor.set_tooltip_text(text="Restaurar apelas a tela")
-        # bt_undor.connect('clicked', self.on_bt_undor_clicked)
+        bt_undor.connect('clicked', self.on_bt_undor_clicked)
         headerbar.pack_start(child=bt_undor)
 
         bt_apagar = Gtk.Button.new_with_label(label='Apagar')
@@ -190,14 +194,14 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
         self.bt_calcular.connect('clicked', self.on_bt_calcular_clicked)
         vbox_campos2.append(child=self.bt_calcular)
 
-        self.l_label1 = Gtk.Label(label='100')
-        self.l_label1.get_style_context().add_class(class_name='title-4')
-        self.l_label1.get_style_context().add_class(class_name='accent')
-        self.l_label1.set_margin_bottom(10)
-        self.l_label1.set_margin_start(10)
-        self.l_label1.set_hexpand(True)
-        self.l_label1.set_valign(Gtk.Align.END)
-        vbox_campos2.append(child=self.l_label1)
+        self.l_valor_convertido = Gtk.Label(label='Aqui aparecerá o valor convertido')
+        self.l_valor_convertido.get_style_context().add_class(class_name='title-3')
+        self.l_valor_convertido.get_style_context().add_class(class_name='accent')
+        self.l_valor_convertido.set_margin_bottom(10)
+        self.l_valor_convertido.set_margin_start(10)
+        self.l_valor_convertido.set_hexpand(True)
+        self.l_valor_convertido.set_valign(Gtk.Align.END)
+        vbox_campos2.append(child=self.l_valor_convertido)
 
         return vbox_campos
 
@@ -206,11 +210,52 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
 
         print('liliana')
 
+    def on_bt_undor_clicked(self, widget):
+        DialogError(parent=self,titulo="Título",titulo_mensagem="Mensagem de titulo",mensagem="Mensagem de error")
+
+        # e = "Mensagem de error"
+        # DialogMessageError(parent=self._pai, titulo='Problema com seu dados para calculo',
+        #                    titulo_mensagem='Problemas ao Calcular',
+        #                    mensagem=f'{e}')
+
     def on_bt_apagar_clicked(self, widget):
-        pass
+
+
+
+        # DialogError(parent=self,titulo="Título",titulo_mensagem="Mensagem de titulo",mensagem="Mensagem de error")
+        e = "Mensagem de error"
+
+        a = DialogQuestionYesNo(parent=self._pai, titulo='Problema com seu dados para calculo',
+                           titulo_mensagem='Problemas ao Calcular',
+                           mensagem=f'{e}')
+
+
+
+        if  a.resposta == Gtk.ResponseType.YES:
+            print("yes")
+        elif a.resposta == Gtk.ResponseType.NO:
+            print('NO')
+        else:
+            print('NAO SEI')
+
+
+
 
     def on_bt_calcular_clicked(self, widget):
-        pass
+
+        try:
+            vlr_convertido = self._m_a02.calculo_canvercao(
+                valor_para_converter=self._le_valor_para_convercao.get_e_entry_text(),
+                operacao=self._ld_a02_tp_operacao.return_selected_data('simbolo'),
+                razao=self._le_a02_razao.get_e_entry_text())
+        except Exception as e:
+            self._gr.meu_logger.error(f"{e}")
+            DialogMessageError(parent=self._pai, titulo='Problema com seu dados para calculo',
+                               titulo_mensagem='Problemas ao Calcular',
+                               mensagem=f'{e}')
+        else:
+            self.l_valor_convertido.set_text(str(vlr_convertido))
+
 
     def on_bt_salvar_clicked(self, widget):
 
@@ -225,6 +270,7 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
             print('problemas')
 
     def limpar_campos(self):
+
 
         self._le_a02_razao.set_e_entry_text("")
 

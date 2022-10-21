@@ -16,6 +16,10 @@ import gi
 
 gi.require_version(namespace='Gtk', version='4.0')
 from gi.repository import Gtk
+gi.require_version(namespace='Adw', version='1')
+from gi.repository import Adw
+
+Adw.init()
 
 
 class DialogMessageError():
@@ -33,14 +37,18 @@ class DialogMessageError():
             title=titulo,
             text=titulo_mensagem,
             secondary_text=mensagem
+
+
         )
+        self.resposta =  Gtk.ResponseType.OK
+
 
         self.md.add_buttons(
             '_OK', Gtk.ResponseType.OK)
 
         btn_ok = self.md.get_widget_for_response(response_id=Gtk.ResponseType.OK)
-        # btn_ok.get_style_context().add_class(class_name='suggested-action')
-        Gtk.StyleContext.add_class(btn_ok.get_style_context(), "suggested-action")
+        Gtk.StyleContext.add_class(btn_ok.get_style_context(), "destructive-action")
+
 
 
         self.md.show()
@@ -51,5 +59,9 @@ class DialogMessageError():
         # Verificando qual botão foi pressionado.
         # if response == Gtk.ResponseType.OK:
         #     print('Botão OK pressionado')
-        # self.resposta = response
+        self.resposta = response
+
         widget.close()
+
+    def retorna_resposta(self):
+        return  self.resposta

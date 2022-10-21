@@ -169,12 +169,17 @@ class ModelConverteUnidadeMedida:
             return None
         return self.__dataclass_fields__[name_field].metadata['options']['size']
 
-    def calculo_canvercao(self, valor_para_converter):
-        operacao = self.__dict__['a02_tp_operacao']
-        razao = self.__dict__['a02_razao']
-        montagem_operacao = f"{valor_para_converter}{operacao}{razao}"
-        resultado = eval(montagem_operacao)
-        return f'{resultado}'
+    def calculo_canvercao(self, valor_para_converter,operacao, razao):
+
+        try:
+            novo_valor_para_converter = float(valor_para_converter)
+            novo_razao =  float(razao)
+        except:
+            raise ValueError(f"Os campos deverão ser numéricos")
+        else:
+            montagem_operacao = f"{valor_para_converter}{operacao}{razao}"
+            resultado = eval(montagem_operacao)
+            return f'{resultado}'
 
     def verifica_status_final(self):
         status = True

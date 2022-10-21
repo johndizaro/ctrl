@@ -87,6 +87,7 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         # Criando  Utilitários
         utilitarios = Gio.Menu.new()
         utilitarios.append('Configuração do Sistema', 'win.configuracaosistema')
+        utilitarios.append('Executar inspector', 'win.executarinspector')
         utilitarios.append('Sobre o Sistema', 'win.sobreosistema')
         utilitarios.append('Exit', 'win.exitsistema')
         menu.append_section(label='Utilitários', section=utilitarios)
@@ -111,6 +112,10 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
         action_configuracaosistema = Gio.SimpleAction.new(name='configuracaosistema', parameter_type=None)
         action_configuracaosistema.connect('activate', self.on_configuracaosistema_clicked)
         self.add_action(action=action_configuracaosistema)
+
+        action_inspector = Gio.SimpleAction.new(name='executarinspector', parameter_type=None)
+        action_inspector.connect('activate', self.on_menu_executarinspector_clicked)
+        self.add_action(action=action_inspector)
 
         action_sobreosistema = Gio.SimpleAction.new(name='sobreosistema', parameter_type=None)
         action_sobreosistema.connect('activate', self.on_menu_sobreosistema_clicked)
@@ -140,6 +145,14 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
     def on_menu_exitsistema_clicked(self, widget, parameter):
         # fecha por completo o sistema
         sys.exit()
+
+    def on_menu_executarinspector_clicked(self, widget, parameter):
+        import subprocess
+
+
+        result = subprocess.run(args=['gsettings', 'set', 'org.gtk.Settings.Debug', 'org.gtk.Settings.Debug', 'true'], returncode=1, stdout=b'', stderr=b'Nenhuma chave \xe2\x80\x9corg.gtk.Settings.Debug\xe2\x80\x9d\n')
+
+
 
     def on_menu_unidadedemedida_clicked(self, widget, parameter):
         self._gr.meu_logger.info("inicio")
