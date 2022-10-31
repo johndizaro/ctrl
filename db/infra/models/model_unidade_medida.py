@@ -43,7 +43,7 @@ class ModelUnidadeMedida:
     #     if self.a01_id > 0:
     #         self._tp_register = "ALTERAR"
 
-    def __setattr__(self, key: Any, value: Any):
+    def __setattr__(self, key: str, value: Any):
         """
         Verifica se os campos referenciados estão  no dataclass
         se o campo constar na dfataclass o valor será guardfado no mesmo

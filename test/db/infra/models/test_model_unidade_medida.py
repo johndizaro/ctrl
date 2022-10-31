@@ -23,7 +23,7 @@ class TestModelUnidadeMedida(unittest.TestCase):
         self.assertEqual(MUM.__annotations__['a01_id'], int)
         self.assertEqual(MUM.__annotations__['a01_sigla'], str)
         self.assertEqual(MUM.__annotations__['a01_descricao'], str)
-        # self.assertEqual(MUM.__annotations__['_tp_register'], dataclasses.InitVar[str])
+        self.assertEqual(type(MUM.__annotations__['_tp_register']), type(dataclasses.InitVar[str]))
 
     def test__validate_a01_id_numero_positivo(self):
         aaa = ModelUnidadeMedida(a01_id=1)
