@@ -5,6 +5,8 @@ from dacite import from_dict
 
 from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
 from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
+# from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
+# from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
 from geral.geral import Geral
 from widgets.dialogs.dialog_message_error import DialogMessageError
 
@@ -60,8 +62,6 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         layout_janela._desenhar_layout()
 
         layout_janela.present()
-
-
 
     def _montagem_headerbar(self, layout_janela):
         self._gr.meu_logger.info("Montagem do header do menu principal")
@@ -140,6 +140,10 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
                                       margin_end=10,
                                       margin_start=10,
                                       margin_bottom=0)
+        # self._e_a01_sigla.set_input_hints(hints=Gtk.InputHints.UPPERCASE_CHARS)
+        # self._e_a01_sigla.set_input_purpose(purpose=Gtk.InputPurpose.ALPHA)
+        # self._e_a01_sigla.set_placeholder_text("sigla da unidade de medida exe: Kg")
+
         self._e_a01_sigla.get_style_context().add_class(class_name='accent')
         vbox_campos.append(child=self._e_a01_sigla)
 
@@ -163,6 +167,16 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
         vbox_campos.append(child=self._e_a01_descricao)
 
         return vbox_campos
+
+    def on_key_pressed(self, keyval, keycode, state, user_data):
+        print("oi")
+
+    # def editing_done(self, user_data):
+    #     print("editing_done")
+    #     # texto = self.get_text()
+    #     # if not texto:
+    #     #     texto = "nd"
+    #     # self.emit('edited', self, texto)
 
     def on_bt_undor_clicked(self, widet):
         self.limpar_campos()

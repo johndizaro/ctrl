@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field, asdict
 
 from db.infa_dataclass.mysql.extras.operacao_aritimetica import dic_operacao_aritimetica
-from db.infa_dataclass.mysql.extras.tipo_registro import TipoRegistro
 
 
 @dataclass()
@@ -83,13 +82,6 @@ class ModelConverteUnidadeMedida:
 
         self.__dataclass_fields__[key].metadata['options']['valid'] = True
 
-        if vlr_convertido == 0:
-            self.__dict__[key] = 0
-            TipoRegistro.INCLUIR
-        if vlr_convertido > 0:
-            self.__dict__[key] = vlr_convertido
-            TipoRegistro.ALTERAR
-
     def _validade_a02_id_sigla_origem(self, key, value: int):
 
         try:
@@ -169,24 +161,15 @@ class ModelConverteUnidadeMedida:
             return None
         return self.__dataclass_fields__[name_field].metadata['options']['size']
 
-    def calculo_canvercao(self, valor_para_converter,operacao, razao):
-
-        try:
-            novo_valor_para_converter = float(valor_para_converter)
-            novo_razao =  float(razao)
-        except:
-            raise ValueError(f"Os campos deverão ser numéricos")
-        else:
-            montagem_operacao = f"{valor_para_converter}{operacao}{razao}"
-            resultado = eval(montagem_operacao)
-            return f'{resultado}'
-
     def verifica_status_final(self):
         status = True
         for campo in asdict(self):
             if self.__dataclass_fields__[campo].metadata['options']['valid'] == False:
                 status = False
         return status
+
+    def dic_ConverteUnidadeMedida(self):
+        return asdict(self)
 
 
 @dataclass()

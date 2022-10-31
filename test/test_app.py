@@ -1,6 +1,8 @@
 import unittest
 from pathlib import PosixPath
+
 import main
+
 
 class TestApp(unittest.TestCase):
 
@@ -13,6 +15,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(main.ROOT_DIR, PosixPath('/home/john/Documentos/sistemas/python/desktop'))
         self.assertEqual(main.ROOT_DIR, PosixPath('/home/john/Documentos/sistemas/python/desktop/'))
         self.assertNotEqual(main.ROOT_DIR, PosixPath('/home/john/Documentos/sistemas/python/'))
+
 
 if __name__ == '__main__':
     unittest.main()

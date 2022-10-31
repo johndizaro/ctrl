@@ -3,7 +3,7 @@ import sys
 
 import gi
 
-from menu.cadastros_auxiliares.converte_unidade_medida import ConverteUnidadeMedida
+from menu.cadastros_auxiliares.converte_unidade_medida.converte_unidade_medida import ConverteUnidadeMedida
 from menu.cadastros_auxiliares.unidade_medida import UnidadeMedida
 
 gi.require_version(namespace='Gtk', version='4.0')
@@ -149,10 +149,9 @@ class MenuPrincipalScreen(Gtk.ApplicationWindow):
     def on_menu_executarinspector_clicked(self, widget, parameter):
         import subprocess
 
-
-        result = subprocess.run(args=['gsettings', 'set', 'org.gtk.Settings.Debug', 'org.gtk.Settings.Debug', 'true'], returncode=1, stdout=b'', stderr=b'Nenhuma chave \xe2\x80\x9corg.gtk.Settings.Debug\xe2\x80\x9d\n')
-
-
+        result = subprocess.run(args=['gsettings', 'set', 'org.gtk.Settings.Debug', 'org.gtk.Settings.Debug', 'true'],
+                                returncode=1, stdout=b'',
+                                stderr=b'Nenhuma chave \xe2\x80\x9corg.gtk.Settings.Debug\xe2\x80\x9d\n')
 
     def on_menu_unidadedemedida_clicked(self, widget, parameter):
         self._gr.meu_logger.info("inicio")

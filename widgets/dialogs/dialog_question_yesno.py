@@ -8,6 +8,23 @@ gi.require_version(namespace='Gtk', version='4.0')
 #     return valor
 
 class DialogQuestionYesNo(Gtk.Dialog):
+    """
+
+        e = "Mensagem de error"
+
+        a = DialogQuestionYesNo(parent=self._pai, titulo='Problema com seu dados para calculo',
+                           titulo_mensagem='Problemas ao Calcular',
+                           mensagem=f'{e}')
+
+        if  a.resposta == Gtk.ResponseType.YES:
+            print("yes")
+        elif a.resposta == Gtk.ResponseType.NO:
+            print('NO')
+        else:
+            print('NAO SEI')
+
+
+    """
 
     def __init__(self, parent, titulo, titulo_mensagem, mensagem):
         super().__init__(transient_for=parent, use_header_bar=True)

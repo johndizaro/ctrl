@@ -1,12 +1,13 @@
 import gi
 
-from db.infa_dataclass.mysql.engines.engine_converte_unidade_medida import EngineConverteUnidadeMedida
-from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
-from db.infa_dataclass.mysql.extras.operacao_aritimetica import lst_dic_operacao_aritimetica
-from db.infa_dataclass.mysql.models.model_converte_unidade_medida import ModelConverteUnidadeMedida
-from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
+# from db.infa_dataclass.mysql.engines.engine_converte_unidade_medida import EngineConverteUnidadeMedida
+# from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
+# from db.infa_dataclass.mysql.extras.operacao_aritimetica import lst_dic_operacao_aritimetica
+# from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
+from db.infa_dataclass.mysql.works.work_converte_unidade_medida import WorkConverteUnidadeMedida
 from geral.geral import Geral
-from widgets.dialogs.dialog_error import DialogError
+from menu.cadastros_auxiliares.converte_unidade_medida.converte_unidade_medida_listbox import \
+    ConverteUnidadeMedidaListBox
 from widgets.dialogs.dialog_message_error import DialogMessageError
 from widgets.dialogs.dialog_question_yesno import DialogQuestionYesNo
 from widgets.widgets_compostos.label_dropdown import LabelDropdown
@@ -14,9 +15,8 @@ from widgets.widgets_compostos.label_entry import LabelEntry
 
 gi.require_version(namespace='Gtk', version='4.0')
 gi.require_version(namespace='Adw', version='1')
-from gi.repository import Gtk, Adw
-
-
+from gi.repository import Gtk
+from gi.repository import Adw
 
 Adw.init()
 
@@ -28,12 +28,14 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
         self._pai = pai
         self._gr = Geral()
 
-        self._m_a01 = ModelUnidadeMedida()
-        self._e_a01 = EngineUnidadeMedida()
-        self._m_a02 = ModelConverteUnidadeMedida()
-        self._e_a02 = EngineConverteUnidadeMedida()
+        # self._m_a01 = ModelUnidadeMedida()
+        # self._e_a01 = EngineUnidadeMedida()
+        # self._m_a02 = ModelConverteUnidadeMedida()
+        # self._e_a02 = EngineConverteUnidadeMedida()
+        self._w_a02 = WorkConverteUnidadeMedida()
+        self.x = ConverteUnidadeMedidaListBox()
 
-        self._lst_dic_unidade_medida = self._e_a01.select_all()
+        # self._lst_dic_unidade_medida = self._e_a01.select_all()
 
         self._criar_layout_janela(layout_janela=self)
         # self.ler_dados_para_treeview()
@@ -57,7 +59,7 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
     def _criar_layout_janela(self, layout_janela):
 
         layout_janela.set_title(title="Conversão de Medidas")
-        layout_janela.set_default_size(width=-1, height=400)
+        layout_janela.set_default_size(width=-1, height=600)
         layout_janela._montagem_headerbar(layout_janela=layout_janela)
 
         layout_janela.set_destroy_with_parent(setting=True)
@@ -66,7 +68,6 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
         layout_janela.set_resizable(resizable=True)
 
         layout_janela.set_child(self._distribuir_layout())
-
         layout_janela.present()
 
     def _montagem_headerbar(self, layout_janela):
@@ -86,7 +87,7 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
         bt_undor.set_icon_name(icon_name='edit-clear-all-symbolic')
         bt_undor.get_style_context().add_class(class_name='plain')
         bt_undor.set_tooltip_text(text="Restaurar apelas a tela")
-        bt_undor.connect('clicked', self.on_bt_undor_clicked)
+        bt_undor.connect('clicked', self.on_bt_limpar_tela_clicked)
         headerbar.pack_start(child=bt_undor)
 
         bt_apagar = Gtk.Button.new_with_label(label='Apagar')
@@ -116,6 +117,9 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
         vbox_layout.set_halign(Gtk.Align.FILL)
 
         vbox_layout.append(child=self._desenhar_campos())
+
+        vbox_layout.append(child=self.x.desenhar_listbox())
+
         return vbox_layout
 
     def _desenhar_campos(self):
@@ -124,16 +128,18 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
 
         self._ld_a02_id_sigla_origem = LabelDropdown(campo_para_incluir='a01_descricao',
                                                      campo_chave='a01_id',
-                                                     lst_dic_registros=self._lst_dic_unidade_medida,
-                                                     title=self._m_a02.get_title('a02_id_sigla_origem'),
-                                                     tooltip_text=self._m_a02.get_description('a02_id_sigla_origem'))
+                                                     lst_dic_registros=self._w_a02.lst_dic_unidade_medida,
+                                                     title=self._w_a02.m_a02.get_title('a02_id_sigla_origem'),
+                                                     tooltip_text=self._w_a02.m_a02.get_description(
+                                                         'a02_id_sigla_origem'))
         vbox_campos.append(child=self._ld_a02_id_sigla_origem.label_dropdown)
 
         self._ld_a02_id_sigla_destino = LabelDropdown(campo_para_incluir='a01_descricao',
                                                       campo_chave='a1_id',
-                                                      lst_dic_registros=self._lst_dic_unidade_medida,
-                                                      title=self._m_a02.get_title('a02_id_sigla_destino'),
-                                                      tooltip_text=self._m_a02.get_description('a02_id_sigla_destino'))
+                                                      lst_dic_registros=self._w_a02.lst_dic_unidade_medida,
+                                                      title=self._w_a02.m_a02.get_title('a02_id_sigla_destino'),
+                                                      tooltip_text=self._w_a02.m_a02.get_description(
+                                                          'a02_id_sigla_destino'))
         vbox_campos.append(child=self._ld_a02_id_sigla_destino.label_dropdown)
 
         vbox_campos1 = Gtk.Box.new(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -142,14 +148,14 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
 
         self._ld_a02_tp_operacao = LabelDropdown(campo_para_incluir='operacao',
                                                  campo_chave='simbolo',
-                                                 lst_dic_registros=lst_dic_operacao_aritimetica,
-                                                 title=self._m_a02.get_title('a02_tp_operacao'),
-                                                 tooltip_text=self._m_a02.get_description('a02_tp_operacao'))
+                                                 lst_dic_registros=self._w_a02.lst_dic_operacao_aritimetica,
+                                                 title=self._w_a02.m_a02.get_title('a02_tp_operacao'),
+                                                 tooltip_text=self._w_a02.m_a02.get_description('a02_tp_operacao'))
         vbox_campos1.append(child=self._ld_a02_tp_operacao.label_dropdown)
 
-        self._le_a02_razao = LabelEntry(label_title=self._m_a02.get_title('a02_razao'),
-                                        tooltip_text=self._m_a02.get_description('a02_razao'),
-                                        e_max_length=self._m_a02.get_size('a02_razao'),
+        self._le_a02_razao = LabelEntry(label_title=self._w_a02.m_a02.get_title('a02_razao'),
+                                        tooltip_text=self._w_a02.m_a02.get_description('a02_razao'),
+                                        e_max_length=self._w_a02.m_a02.get_size('a02_razao'),
                                         e_hexpand=False,
                                         margin_top=10,
                                         margin_bottom=10,
@@ -183,6 +189,7 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
                                                    margin_start=10,
                                                    margin_end=10
                                                    )
+
         vbox_campos2.append(child=self._le_valor_para_convercao.label_entry)
 
         self.bt_calcular = Gtk.Button.new()
@@ -210,8 +217,18 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
 
         print('liliana')
 
-    def on_bt_undor_clicked(self, widget):
-        DialogError(parent=self,titulo="Título",titulo_mensagem="Mensagem de titulo",mensagem="Mensagem de error")
+    def on_bt_limpar_tela_clicked(self, widget):
+
+        a = DialogQuestionYesNo(parent=self._pai, titulo='Converte Unidade de Medida',
+                                titulo_mensagem='Limpar campos da tela',
+                                mensagem="Deseja realmente limpar a tela?")
+
+        if a.resposta == Gtk.ResponseType.YES:
+            self.limpar_campos()
+        elif a.resposta == Gtk.ResponseType.NO:
+            print('NO')
+
+        # DialogError(parent=self, titulo="Título", titulo_mensagem="Mensagem de titulo", mensagem="Mensagem de error")
 
         # e = "Mensagem de error"
         # DialogMessageError(parent=self._pai, titulo='Problema com seu dados para calculo',
@@ -220,31 +237,17 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
 
     def on_bt_apagar_clicked(self, widget):
 
+        a = DialogQuestionYesNo(parent=self._pai, titulo='Converte Unidade de Medida',
+                                titulo_mensagem='Apagar informações no Banco de dados',
+                                mensagem="Deseja realmente Apagar as informações no banco de dados?")
 
-
-        # DialogError(parent=self,titulo="Título",titulo_mensagem="Mensagem de titulo",mensagem="Mensagem de error")
-        e = "Mensagem de error"
-
-        a = DialogQuestionYesNo(parent=self._pai, titulo='Problema com seu dados para calculo',
-                           titulo_mensagem='Problemas ao Calcular',
-                           mensagem=f'{e}')
-
-
-
-        if  a.resposta == Gtk.ResponseType.YES:
-            print("yes")
-        elif a.resposta == Gtk.ResponseType.NO:
-            print('NO')
-        else:
-            print('NAO SEI')
-
-
-
+        if a.resposta == Gtk.ResponseType.YES:
+            self.limpar_campos(self)
 
     def on_bt_calcular_clicked(self, widget):
 
         try:
-            vlr_convertido = self._m_a02.calculo_canvercao(
+            vlr_convertido = self._w_a02.calculo_canvercao(
                 valor_para_converter=self._le_valor_para_convercao.get_e_entry_text(),
                 operacao=self._ld_a02_tp_operacao.return_selected_data('simbolo'),
                 razao=self._le_a02_razao.get_e_entry_text())
@@ -256,34 +259,35 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
         else:
             self.l_valor_convertido.set_text(str(vlr_convertido))
 
-
     def on_bt_salvar_clicked(self, widget):
 
         if self.validar_campos():
-            if self._m_a02.a02_id == 0:
-                print("incluir")
-                # self._e_a02.incluir(dicionario=asdict(self._m_a02))
+            try:
+                self._w_a02.salvar_dados()
+            except (Exception) as e:
+                self._gr.meu_logger.error(f"{e}")
+                DialogMessageError(parent=self._pai, titulo='Problema com seu dados para para salvar',
+                                   titulo_mensagem='Problemas ao Salvar',
+                                   mensagem=f'{e}')
+                return
             else:
-                print('alteração')
-            self.limpar_campos()
-        else:
-            print('problemas')
+                self.limpar_campos()
 
     def limpar_campos(self):
 
-
         self._le_a02_razao.set_e_entry_text("")
+        self._le_valor_para_convercao.set_e_entry_text("")
+        self.l_valor_convertido.set_text("")
 
     def validar_campos(self):
 
         try:
-
-            self._m_a02.a02_id_sigla_origem = self._ld_a02_id_sigla_origem.return_selected_data(field_name='a01_id')
-            self._m_a02.a02_id_sigla_destino = self._ld_a02_id_sigla_destino.return_selected_data(field_name='a01_id')
-            self._m_a02.a02_tp_operacao = self._ld_a02_tp_operacao.return_selected_data(field_name='simbolo')
-            self._m_a02.a02_razao = self._le_a02_razao.get_e_entry_text()
-
-
+            self._w_a02.m_a02.a02_id_sigla_origem = self._ld_a02_id_sigla_origem.return_selected_data(
+                field_name='a01_id')
+            self._w_a02.m_a02.a02_id_sigla_destino = self._ld_a02_id_sigla_destino.return_selected_data(
+                field_name='a01_id')
+            self._w_a02.m_a02.a02_tp_operacao = self._ld_a02_tp_operacao.return_selected_data(field_name='simbolo')
+            self._w_a02.m_a02.a02_razao = self._le_a02_razao.get_e_entry_text()
         except Exception as error:
 
             DialogMessageError(parent=self,
@@ -291,7 +295,7 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
                                titulo_mensagem="Campo com conteúdo inválido",
                                mensagem=error)
 
-        return self._m_a02.verifica_status_final()
+        return self._w_a02.m_a02.verifica_status_final()
 
 
 class ConverteUnidadeMedida(ConverteUnidadeMedidaScreen):

@@ -3,9 +3,12 @@ Ambiente virtual
 python3 -m venv nome-do-ambiente
 source nome-do-ambiente/bin/activate
 
-pip install --upgrade
+pip install --upgrade pip
 
-pip setuptools wheel
+
+pip install setuptools wheel
+pip install pycairo
+
 pip install pygobject PyGObject-stubs
 pip install vext
 pip install vext.gi
@@ -24,7 +27,7 @@ como instalar  mysql
 PASSO 1
 INTALAÇÃO
 
-udo mysql
+sudo mysql
 sudo apt install mysql-server
 sudo systemctl start mysql.service
 

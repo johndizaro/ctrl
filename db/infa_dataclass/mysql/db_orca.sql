@@ -18,7 +18,7 @@ CREATE TABLE  IF NOT EXISTS a02_converte_unidade_medida (
   a02_id_sigla_origem int NOT NULL COMMENT 'sigla da unidade de mendida origem',
   a02_id_sigla_destino int NOT NULL COMMENT 'sigla da unidade de mendida destino',
   a02_tp_operacao char(1) NOT NULL COMMENT 'operação a ser relizada para converter a unidade de medida [*, /, +, -]',
-  a02_calculo float NOT NULL COMMENT 'razão para calculo da converção',
+  a02_razao float NOT NULL COMMENT 'razão para calculo da converção',
   PRIMARY KEY (a02_id),
   UNIQUE KEY a02_1_uk (a02_id_sigla_origem,a02_id_sigla_destino),
   CONSTRAINT a02_1_fk FOREIGN KEY (a02_id_sigla_origem) REFERENCES a01_unidade_medida (a01_id) ON DELETE CASCADE,
