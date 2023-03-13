@@ -1,7 +1,9 @@
-mysql-connector-python==8.0.31
-protobuf==3.20.1
-pycairo==1.21.0
-PyGObject-stubs==1.0.0
+dacite==1.8.0
+mysql-connector-python==8.0.32
+protobuf==4.22.1
+pycairo==1.23.0
+PyGObject==3.42.2
+PyGObject-stubs==2.4.0
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.7
 vext==0.7.6

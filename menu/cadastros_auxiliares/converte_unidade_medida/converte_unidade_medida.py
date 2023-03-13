@@ -257,7 +257,14 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
                                titulo_mensagem='Problemas ao Calcular',
                                mensagem=f'{e}')
         else:
-            self.l_valor_convertido.set_text(str(vlr_convertido))
+
+            self.l_valor_convertido.set_text(
+                "{} {} = {} {}".format(str(self._le_valor_para_convercao.get_e_entry_text()),
+                                  str(self._ld_a02_id_sigla_origem.return_selected_data(field_name="a01_descricao")),
+                                  # str(LabelDropdown.return_selected_data(field_name="a01_descricao")),
+                                  str(int(vlr_convertido)),
+                                str(self._ld_a02_id_sigla_destino.return_selected_data(field_name="a01_descricao"))),
+            )
 
     def on_bt_salvar_clicked(self, widget):
 

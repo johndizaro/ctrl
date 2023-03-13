@@ -34,7 +34,7 @@ sudo systemctl start mysql.service
 PASSO 2
 CONFIGURANDO MYSQL
 
-mysql -u root -p---->root@localhost psw aoDt1snnMYSQL
+mysql -u root -p ---->root@localhost psw aoDt1snnMYSQL
 select user from mysql.user;
 CREATE USER 'johndizaro'@'localhost' IDENTIFIED BY 'ao[D]t1snnMYSQL';
 DROP USER 'johndizaro'@'localhost';

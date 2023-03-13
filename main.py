@@ -5,6 +5,7 @@ from config.config_sistema import ConfigSistema
 from geral.geral import Geral
 from log.log_sistema import LogSistema
 from menu.menu_principal import MenuPrincipal
+
 # from config.data_config_novo import DataConfig
 
 # Adw.init()
@@ -13,6 +14,8 @@ from menu.menu_principal import MenuPrincipal
 BASE_DIR = Path(__file__).resolve().parent
 ROOT_DIR = BASE_DIR.parent.parent
 FILENAME = str(BASE_DIR.joinpath('MainWindow.ui'))
+
+
 #
 
 class Ctrl:
@@ -32,7 +35,6 @@ class Ctrl:
         self._g.meu_logger.info(f"base-dir:{BASE_DIR} --- FILENAME: {FILENAME}")
         self._g.meu_logger.info(f"root-dir:{ROOT_DIR} --- FILENAME: {FILENAME}")
         self._g.meu_logger.info(f"Caminho config:{self._g.monta_caminho_e_nome_config()}")
-
 
         app = MenuPrincipal()
         app.run(sys.argv)
