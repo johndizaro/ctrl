@@ -6,7 +6,7 @@ from db.infa_dataclass.mysql.models.model_converte_unidade_medida import ModelCo
 from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
 
 
-class WorkConverteUnidadeMedida():
+class WorkConverteUnidadeMedida:
     def __init__(self):
 
         super(WorkConverteUnidadeMedida, self).__init__()

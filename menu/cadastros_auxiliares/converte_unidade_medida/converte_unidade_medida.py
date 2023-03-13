@@ -1,4 +1,6 @@
 import gi
+from gi.repository import Gtk
+from gi.repository import Adw
 
 # from db.infa_dataclass.mysql.engines.engine_converte_unidade_medida import EngineConverteUnidadeMedida
 # from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
@@ -15,8 +17,6 @@ from widgets.widgets_compostos.label_entry import LabelEntry
 
 gi.require_version(namespace='Gtk', version='4.0')
 gi.require_version(namespace='Adw', version='1')
-from gi.repository import Gtk
-from gi.repository import Adw
 
 Adw.init()
 
@@ -260,10 +260,12 @@ class ConverteUnidadeMedidaScreen(Gtk.ApplicationWindow):
 
             self.l_valor_convertido.set_text(
                 "{} {} = {} {}".format(str(self._le_valor_para_convercao.get_e_entry_text()),
-                                  str(self._ld_a02_id_sigla_origem.return_selected_data(field_name="a01_descricao")),
-                                  # str(LabelDropdown.return_selected_data(field_name="a01_descricao")),
-                                  str(int(vlr_convertido)),
-                                str(self._ld_a02_id_sigla_destino.return_selected_data(field_name="a01_descricao"))),
+                                       str(self._ld_a02_id_sigla_origem.return_selected_data(
+                                           field_name="a01_descricao")),
+                                       # str(LabelDropdown.return_selected_data(field_name="a01_descricao")),
+                                       str(vlr_convertido),
+                                       str(self._ld_a02_id_sigla_destino.return_selected_data(
+                                           field_name="a01_descricao"))),
             )
 
     def on_bt_salvar_clicked(self, widget):
