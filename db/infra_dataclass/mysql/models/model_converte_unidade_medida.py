@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field, asdict
 
-from db.infa_dataclass.mysql.extras.operacao_aritimetica import dic_operacao_aritimetica
+from db.infra_dataclass.mysql.extras.operacao_aritimetica import dic_operacao_aritimetica
 
 
 @dataclass()
@@ -8,10 +8,10 @@ class ModelConverteUnidadeMedida:
     """
     classe para converter uma unidade de medida em outra
     """
-
-    a02_id: int = field(init=False, repr=True, default=0, metadata={'options': {'valid': True,
-                                                                                'error': ''}
-                                                                    }
+    a02_id: int = field(default=0,
+                        metadata={'options': {'valid': False,
+                                              'error': ''}
+                                  }
                         )
 
     a02_id_sigla_origem: int = field(init=False,
@@ -32,6 +32,7 @@ class ModelConverteUnidadeMedida:
                                                             'error': ''}
                                                 }
                                       )
+
     a02_tp_operacao: str = field(init=False,
                                  repr=False,
                                  default=None,
@@ -179,14 +180,14 @@ class Listclass:
 #
 # print(TipoRegistro.INCLUIR)
 #
-# a = [{'a02_id': 1, 'a02_id_sigla_origem': 2, 'a02_id_sigla_destino': 3, 'a02_tp_operacao': '*','a02_razao': 1000},
+# lst_a02 = [{'a02_id': 1, 'a02_id_sigla_origem': 2, 'a02_id_sigla_destino': 3, 'a02_tp_operacao': '*','a02_razao': 1000},
 #      {'a02_id': 2, 'a02_id_sigla_origem': 3, 'a02_id_sigla_destino': 4, 'a02_tp_operacao': '/', 'a02_razao': 1.5}]
-# b = Listclass(my_array=a)
-# print(a)
-# print(b)
-# for registro in b.my_array:
+# b_converte_unidade_medida = Listclass(my_array=lst_a02)
+# print(lst_a02)
+# print(b_converte_unidade_medida)
+# for registro in b_converte_unidade_medida.my_array:
 #     print(registro)
-#
+# #
 # cum1 = ModelConverteUnidadeMedida()
 # cum1.a02_id = 1
 # cum1.a02_id_sigla_destino = 10

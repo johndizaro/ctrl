@@ -1,13 +1,13 @@
 import os
 import sys
-
 import gi
+gi.require_version(namespace='Gtk', version='4.0')
+from gi.repository import Gio, Gtk
+
 
 from menu.cadastros_auxiliares.converte_unidade_medida.converte_unidade_medida import ConverteUnidadeMedida
 from menu.cadastros_auxiliares.unidade_medida import UnidadeMedida
 
-gi.require_version(namespace='Gtk', version='4.0')
-from gi.repository import Gio, Gtk
 
 from config.config_sistema_tela import ConfigSistemaMain
 from geral.geral import Geral

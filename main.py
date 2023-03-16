@@ -20,8 +20,8 @@ FILENAME = str(BASE_DIR.joinpath('MainWindow.ui'))
 
 class Ctrl:
     def __init__(self):
-        print(f"base-dir:{BASE_DIR}")
-        print(f"ROOT_DIR:{ROOT_DIR}")
+        # print(f"base-dir:{BASE_DIR}")
+        # print(f"ROOT_DIR:{ROOT_DIR}")
         self._g = Geral()
 
         # self._g.salvar_sistema_path(self, caminho=os.path.abspath(os.curdir))

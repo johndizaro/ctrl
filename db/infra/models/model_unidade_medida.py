@@ -34,6 +34,9 @@ class ModelUnidadeMedida:
     #
     #     print("executou exit")
 
+    def lixo(self):
+        return "AAA"
+
     def __repr__(self):
         return f"a01_id:{self.a01_id} a01_sigla:{self.a01_sigla} a01_descricao:{self.a01_descricao} tp_register:{self._tp_register}"
 

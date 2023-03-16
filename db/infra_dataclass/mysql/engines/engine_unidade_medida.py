@@ -1,5 +1,5 @@
 
-from db.infa_dataclass.mysql.connections.connection_mysql import DBConnectionHandler
+from db.infra_dataclass.mysql.connections.connection_mysql import DBConnectionHandler
 from geral.geral import Geral
 
 
@@ -35,7 +35,7 @@ class EngineUnidadeMedida:
             registros = cnx.execute(f"""
             select  * from a01_unidade_medida order by a01_sigla;
             """)
-        except (Exception) as e:
+        except Exception as e:
             self._gr.meu_logger.error(f"{e}")
             raise ValueError(f"{e}")
             return
@@ -64,7 +64,7 @@ class EngineUnidadeMedida:
             cnx = DBConnectionHandler()
             qt_registros = cnx.execute(sqli)
 
-        except (Exception) as e:
+        except Exception as e:
             self._gr.meu_logger.error(f"{e}")
             raise ValueError(f"{e}")
             return

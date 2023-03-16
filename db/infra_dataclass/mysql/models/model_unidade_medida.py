@@ -3,16 +3,22 @@ from dataclasses import dataclass, field, InitVar, asdict
 
 @dataclass
 class ModelUnidadeMedida:
-    a01_id: int = field(default=0, metadata={'options': {'valid': False, 'error': ''}}
+    a01_id: int = field(default=0,
+                        metadata={'options': {'valid': False,
+                                              'error': ''
+                                              }
+                                  }
                         )
+
     # a01_exemplo: str | None
     a01_sigla: str = field(default=None,
-                           metadata={
-                               'options': {'title': 'Sigla',
-                                           'description': 'Sigla da unidade de medida',
-                                           'size': 2,
-                                           'valid': False,
-                                           'error': ''}}
+                           metadata={'options': {'title': 'Sigla',
+                                                 'description': 'Sigla da unidade de medida',
+                                                 'size': 2,
+                                                 'valid': False,
+                                                 'error': ''
+                                                 }
+                                     }
                            )
     a01_descricao: str = field(default=None,
                                metadata={
@@ -56,11 +62,11 @@ class ModelUnidadeMedida:
     def _validate_a01_id(self, key, value):
         if type(value) is not int:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
-            raise ValueError(f"campo:{key} valor:{value} deverá ser numerico")
+            raise ValueError(f"campo:{key} valor:{value} deverá ser numérico")
 
         if value < 0:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
-            raise ValueError(f'campo:{key} valor:{value}  deverá um número positivo')
+            raise ValueError(f'campo:{key} valor:{value} deverá um número positivo')
 
         self.__dataclass_fields__[key].metadata['options']['valid'] = True
 
@@ -137,11 +143,26 @@ class ModelUnidadeMedida:
 class LstModelUnidadeMedida:
     lst_unidade_medida: list[ModelUnidadeMedida]
 
-
-# lst_a = [{'a01_id': 1, 'a01_sigla': 'kg', 'a01_descricao': 'kilograma'},
+# lst_a01 = [{'a01_id': -1, 'a01_sigla': 'kg', 'a01_descricao': 'kilograma'},
 #          {'a01_id': 2, 'a01_sigla': 'g', 'a01_descricao': 'grama'}, ]
-# b_unidade_medida = LstModelUnidadeMedida(lst_unidade_medida=lst_a)
-# pprint(b_unidade_medida)
+# b_unidade_medida = LstModelUnidadeMedida(lst_unidade_medida=lst_a01)
+# print(b_unidade_medida)
+
+# try:
+#     a = ModelUnidadeMedida()
+#     # a = ModelUnidadeMedida(a01_id=1)
+#     a = ModelUnidadeMedida(a01_sigla=1)
+#     print(f"a={a}")
+#
+# except (ValueError, TypeError) as erro:
+#     print(f"erro=>{erro}")
+
+
+
+# lst_a01 = [{'a01_id': 1, 'a01_sigla': 'kg', 'a01_descricao': 'kilograma'},
+#          {'a01_id': 2, 'a01_sigla': 'g', 'a01_descricao': 'grama'}, ]
+# b_unidade_medida = LstModelUnidadeMedida(lst_unidade_medida=lst_a01)
+# print(b_unidade_medida)
 #
 # try:
 #     a = ModelUnidadeMedida()

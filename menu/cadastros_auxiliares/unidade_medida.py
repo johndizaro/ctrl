@@ -1,18 +1,18 @@
-from dataclasses import asdict
-
+# from dataclasses import asdict
 import gi
-from dacite import from_dict
-
-from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
-from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
-# from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
-# from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
-from geral.geral import Geral
-from widgets.dialogs.dialog_message_error import DialogMessageError
-
 gi.require_version(namespace='Gtk', version='4.0')
 gi.require_version(namespace='Adw', version='1')
 from gi.repository import Gtk, Adw, GObject, Pango
+
+from dacite import from_dict
+
+from db.infra_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
+from db.infra_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
+# from db.infra_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
+# from db.infra_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
+from geral.geral import Geral
+from widgets.dialogs.dialog_message_error import DialogMessageError
+
 
 Adw.init()
 
@@ -252,7 +252,7 @@ class UnidadeMediaScreen(Gtk.ApplicationWindow):
             else:
                 self._model_unidade_medida.a01_descricao = ""
 
-        except (Exception) as error:
+        except Exception as error:
             DialogMessageError(parent=self,
                                titulo="Erro",
                                titulo_mensagem="Campo com conteúdo inválido",

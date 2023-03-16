@@ -1,12 +1,16 @@
 import gi
+gi.require_version(namespace='Gtk', version='4.0')
+gi.require_version(namespace='Adw', version='1')
+
 from gi.repository import Gtk
 from gi.repository import Adw
 
-# from db.infa_dataclass.mysql.engines.engine_converte_unidade_medida import EngineConverteUnidadeMedida
-# from db.infa_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
-# from db.infa_dataclass.mysql.extras.operacao_aritimetica import lst_dic_operacao_aritimetica
-# from db.infa_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
-from db.infa_dataclass.mysql.works.work_converte_unidade_medida import WorkConverteUnidadeMedida
+# from db.infra_dataclass.mysql.engines.engine_converte_unidade_medida import EngineConverteUnidadeMedida
+# from db.infra_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
+# from db.infra_dataclass.mysql.extras.operacao_aritimetica import lst_dic_operacao_aritimetica
+# from db.infra_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
+
+from db.infra_dataclass.mysql.works.work_converte_unidade_medida import WorkConverteUnidadeMedida
 from geral.geral import Geral
 from menu.cadastros_auxiliares.converte_unidade_medida.converte_unidade_medida_listbox import \
     ConverteUnidadeMedidaListBox
@@ -15,8 +19,7 @@ from widgets.dialogs.dialog_question_yesno import DialogQuestionYesNo
 from widgets.widgets_compostos.label_dropdown import LabelDropdown
 from widgets.widgets_compostos.label_entry import LabelEntry
 
-gi.require_version(namespace='Gtk', version='4.0')
-gi.require_version(namespace='Adw', version='1')
+
 
 Adw.init()
 

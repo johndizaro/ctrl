@@ -1,6 +1,6 @@
-
-from db.infa_dataclass.mysql.connections.connection_mysql import DBConnectionHandler
+from db.infra_dataclass.mysql.connections.connection_mysql import DBConnectionHandler
 from geral.geral import Geral
+
 
 class EngineConverteUnidadeMedida:
     def __init__(self):
@@ -22,7 +22,6 @@ class EngineConverteUnidadeMedida:
 
         return row
 
-
     def select_all(self):
         """
         traz todos os registros com todos os cmapos da tabela unidade_medida or ordem de um_sigla
@@ -34,14 +33,16 @@ class EngineConverteUnidadeMedida:
             registros = cnx.execute(f"""
             select  * from a02_converte_unidade_medida order by a02_id;
             """)
-        except (Exception) as e:
+        except Exception as e:
             self._gr.meu_logger.error(f"{e}")
             raise ValueError(f"{e}")
             return
         else:
             rows = registros.fetchall()
         return rows
-   def select_all_a01_a02(self):
+
+
+    def select_all_a01_a02(self):
         """
         traz todos os registros das tabelas  a01_unidade_medida a02_converte_unidade_medida
         Returns: Uma lista de dicionarios
@@ -50,13 +51,13 @@ class EngineConverteUnidadeMedida:
         cnx = DBConnectionHandler()
         try:
             registros = cnx.execute(f"""
-        select  a02_id,
-                (select a01_descricao from a01_unidade_medida
-                where a01_id = a02_converte_unidade_medida.a02_id_sigla_origem) as origem,
-                (select a01_descricao from a01_unidade_medida
-                where a01_id = a02_converte_unidade_medida.a02_id_sigla_destino) as destino
-             from a02_converte_unidade_medida  order by origem;
-            """)
+            select  a02_id,
+                    (select a01_descricao from a01_unidade_medida
+                    where a01_id = a02_converte_unidade_medida.a02_id_sigla_origem) as origem,
+                    (select a01_descricao from a01_unidade_medida
+                    where a01_id = a02_converte_unidade_medida.a02_id_sigla_destino) as destino
+                 from a02_converte_unidade_medida  order by origem;
+                """)
         except (Exception) as e:
             self._gr.meu_logger.error(f"{e}")
             raise ValueError(f"{e}")
@@ -64,7 +65,6 @@ class EngineConverteUnidadeMedida:
         else:
             rows = registros.fetchall()
         return rows
-
 
 
     def incluir(self, dicionario):
@@ -80,10 +80,10 @@ class EngineConverteUnidadeMedida:
         dados = ' ,'.join(["'%s'" % (value) for (value) in dicionario.values()])
         try:
             sqli = """
-                INSERT INTO a02_converte_unidade_medida
-                      ({key})
-                      VALUES ({dados});
-                 """.format(key=key, dados=dados)
+                    INSERT INTO a02_converte_unidade_medida
+                          ({key})
+                          VALUES ({dados});
+                     """.format(key=key, dados=dados)
 
             cnx = DBConnectionHandler()
             qt_registros = cnx.execute(sqli)
@@ -94,4 +94,3 @@ class EngineConverteUnidadeMedida:
             return
 
         return qt_registros
-
