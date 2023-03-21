@@ -72,31 +72,33 @@ class ModelConverteUnidadeMedida:
 
     def _validade_a02_id(self, key, value: int):
 
-        try:
-            vlr_convertido = int(value)
-        except:
-            raise ValueError(f"O campo {self.get_title(key)} deverá ser numérico")
-
-        if vlr_convertido < 0:
+        if type(value) is not int:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
-            raise ValueError(f'O campo {self.get_title(key)} deverá ser um número positivo')
+            raise ValueError(f"campo:{key} valor:{value} deverá ser numérico")
+
+        if value < 0:
+            self.__dataclass_fields__[key].metadata['options']['valid'] = False
+
+            raise ValueError(f'campo:{key} valor:{value} deverá um número positivo')
 
         self.__dataclass_fields__[key].metadata['options']['valid'] = True
+        self.__dict__[key] = value
+
 
     def _validade_a02_id_sigla_origem(self, key, value: int):
 
-        try:
-            vlr_convertido = int(value)
-        except:
-            raise ValueError(f"O campo {self.get_title(key)}  deverá ser numérico")
+        if type(value) is not int:
+            self.__dataclass_fields__[key].metadata['options']['valid'] = False
+            raise ValueError(f"campo:{key} valor:{value} deverá ser numérico")
 
-        # if not isinstance(value, int):
-        #     self.__dataclass_fields__[key].metadata['options']['valid'] = False
-        #     raise ValueError(f"O campo {self.get_title(key)} tem valor {value} e deverá ser numérico")
+        if value < 0:
+            self.__dataclass_fields__[key].metadata['options']['valid'] = False
+            raise ValueError(f'campo:{key} valor:{value} deverá um número positivo')
 
         if value == 0:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
             raise ValueError(f'Não poderá ser 0 (ZERO)')
+
         if value == self.a02_id_sigla_destino:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
             raise ValueError(f'Não é possivel converte para a mesma unidade de medida ')
@@ -106,29 +108,34 @@ class ModelConverteUnidadeMedida:
 
     def _validade_a02_id_sigla_destino(self, key, value: int):
 
-        try:
-            vlr_convertido = int(value)
-        except:
-            raise ValueError(f"O campo {self.get_title(key)} deverá ser numérico")
-
-        if vlr_convertido == 0:
+        if type(value) is not int:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
-            raise ValueError(f"O campo {self.get_title(key)} não pode ser zero")
+            raise ValueError(f"campo:{key} valor:{value} deverá ser numérico")
 
-        if vlr_convertido == self.a02_id_sigla_origem:
+        if value < 0:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
-            raise ValueError(f'Não é possivel converte para a mesma unidade de medida')
+            raise ValueError(f'campo:{key} valor:{value} deverá um número positivo')
+
+        if value == 0:
+            self.__dataclass_fields__[key].metadata['options']['valid'] = False
+            raise ValueError(f'Não poderá ser 0 (ZERO)')
+
+        if value == self.a02_id_sigla_destino:
+            self.__dataclass_fields__[key].metadata['options']['valid'] = False
+            raise ValueError(f'Não é possivel converte para a mesma unidade de medida ')
 
         self.__dataclass_fields__[key].metadata['options']['valid'] = True
-        self.__dict__[key] = vlr_convertido
+        self.__dict__[key] = value
 
     def _validade_a02_tp_operacao(self, key, value):
-        if value == None:
+
+        # if value == None:
+        #     self.__dataclass_fields__[key].metadata['options']['valid'] = False
+        #     raise ValueError(f"O campo {self.get_title(key)} deverá ser especificado")
+
+        if (value not in dic_operacao_aritimetica.values()):
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
-            return
-        if value not in dic_operacao_aritimetica.values():
-            self.__dataclass_fields__[key].metadata['options']['valid'] = False
-            raise ValueError(f"O campo {self.get_title(key)} deverá ser selecionado")
+            raise ValueError(f"Campo tipo operação key com conteúdo inválido")
 
         self.__dataclass_fields__[key].metadata['options']['valid'] = True
         self.__dict__[key] = value
@@ -192,11 +199,13 @@ class Listclass:
 # cum1.a02_id = 1
 # cum1.a02_id_sigla_destino = 10
 # cum1.a02_id_sigla_origem = 11
-# cum1.a02_tp_operacao = "/"
+# cum1.a02_tp_operacao = "p"
 # cum1.a02_razao = 2.5
 # print(f"valor calculado {cum1.calculo_canvercao(10)}")
 # print(cum1)
-#
+# cum1 = None
+# print(cum1)
+
 # cum3 = ModelConverteUnidadeMedida()
 # cum3.a02_id = 3
 # cum3.a02_id_sigla_destino = 10

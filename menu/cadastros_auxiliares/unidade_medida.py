@@ -8,8 +8,7 @@ from dacite import from_dict
 
 from db.infra_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
 from db.infra_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
-# from db.infra_dataclass.mysql.engines.engine_unidade_medida import EngineUnidadeMedida
-# from db.infra_dataclass.mysql.models.model_unidade_medida import ModelUnidadeMedida
+
 from geral.geral import Geral
 from widgets.dialogs.dialog_message_error import DialogMessageError
 

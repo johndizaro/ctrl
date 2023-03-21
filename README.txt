@@ -18,8 +18,12 @@ pip install vext.gi
 
 para testar
 python3 -c "import gi"
-
+para criar o requiments.txt apartir do  anbiente virtual
 pip freeze > requirements.txt
+
+para instalar as dependencias do requiments.txt
+pip install -r requirements.txt
+
 
 
 

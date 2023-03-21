@@ -21,6 +21,8 @@ class WorkConverteUnidadeMedida:
         self.m_a02 = ModelConverteUnidadeMedida()
         self.e_a02 = EngineConverteUnidadeMedida()
 
+        self.lst_dic_converte_medida = self.e_a02.select_all()
+
         self.lst_dic_operacao_aritimetica = lst_dic_operacao_aritimetica
 
     def calculo_canvercao(self, valor_para_converter, operacao, razao):

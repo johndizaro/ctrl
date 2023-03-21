@@ -1,6 +1,6 @@
 dacite==1.8.0
 mysql-connector-python==8.0.32
-protobuf==4.22.1
+protobuf==3.20.3
 pycairo==1.23.0
 PyGObject==3.42.2
 PyGObject-stubs==2.4.0

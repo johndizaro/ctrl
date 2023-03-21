@@ -12,7 +12,7 @@ class EngineUnidadeMedida:
         cnx = DBConnectionHandler()
         try:
             registro = cnx.execute(f"""
-            select  * from a01_unidade_medida
+            select * from a01_unidade_medida
             where a01_id = {id};
             """)
         except Exception as e:

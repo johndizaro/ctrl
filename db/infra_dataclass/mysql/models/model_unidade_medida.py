@@ -60,6 +60,7 @@ class ModelUnidadeMedida:
                 raise ValueError(f"campo:{key} valor:{value} Não definido")
 
     def _validate_a01_id(self, key, value):
+
         if type(value) is not int:
             self.__dataclass_fields__[key].metadata['options']['valid'] = False
             raise ValueError(f"campo:{key} valor:{value} deverá ser numérico")
@@ -138,7 +139,6 @@ class ModelUnidadeMedida:
         return status
         # return self.__dataclass_fields__[name_field].metadata['options']['valid']
 
-
 @dataclass()
 class LstModelUnidadeMedida:
     lst_unidade_medida: list[ModelUnidadeMedida]
@@ -148,15 +148,46 @@ class LstModelUnidadeMedida:
 # b_unidade_medida = LstModelUnidadeMedida(lst_unidade_medida=lst_a01)
 # print(b_unidade_medida)
 
+
+
+
+
 # try:
 #     a = ModelUnidadeMedida()
-#     # a = ModelUnidadeMedida(a01_id=1)
-#     a = ModelUnidadeMedida(a01_sigla=1)
-#     print(f"a={a}")
-#
+#     a.a01_sigla = "kg"
+#     a.a01_descricao = "kilogtama"
+#     print(a)
+#     print(
+#         f"a01_id:{a.verifica_status_campo('a01_id')} - a01_sigla:{a.verifica_status_campo('a01_sigla')} - a01_descricao:{a.verifica_status_campo('a01_descricao')}")
+#     print(a.verifica_status_final())
 # except (ValueError, TypeError) as erro:
-#     print(f"erro=>{erro}")
+#     print(f"{erro}")
+#
+#
 
+# try:
+#     a = ModelUnidadeMedida()
+#     a.a01_sigla = "g"
+#     # a.a01_descricao = "kilogtama"
+#     # print(a)
+#     print(
+#         f"a01_id:{a.verifica_status_campo('a01_id')} - a01_sigla:{a.verifica_status_campo('a01_sigla')} - a01_descricao:{a.verifica_status_campo('a01_descricao')}")
+#     print(a.verifica_status_final())
+# except (ValueError, TypeError) as erro:
+#     print(f"{erro}")
+#
+
+
+# try:
+#     a = ModelUnidadeMedida()
+#
+#     a.a01_descricao = "AAAAAA"
+#     print(a)
+#     print(
+#         f"a01_id:{a.verifica_status_campo('a01_id')} - a01_sigla:{a.verifica_status_campo('a01_sigla')} - a01_descricao:{a.verifica_status_campo('a01_descricao')}")
+#     print(a.verifica_status_final())
+# except (ValueError, TypeError) as erro:
+#     print(f"{erro}")
 
 
 # lst_a01 = [{'a01_id': 1, 'a01_sigla': 'kg', 'a01_descricao': 'kilograma'},
